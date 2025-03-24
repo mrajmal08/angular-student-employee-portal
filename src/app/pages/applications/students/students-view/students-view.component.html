@@ -1,0 +1,197 @@
+<div class="profile-block pb-3 mx-2">
+  <div class="row">
+    <div class="profile-header col-12">
+      <div class="image-holder">
+        <img src="assets/images/profile.jpeg" />
+      </div>
+      <div class="text-hold">
+        <div
+          class="d-flex flex-wrap align-items-center justify-content-between">
+          <h2 class="mt-0 mb-2 mb-lg-0">
+            {{
+              (studentInformation.first_name
+                ? studentInformation.first_name
+                : 'N/A'
+              ) | titlecase
+            }}
+            {{ studentInformation.middle_name | titlecase }}
+            {{ studentInformation.last_name | titlecase }}
+            <small>
+              ( {{ age }} Years |
+              {{
+                studentInformation.date_of_birth | date : 'MM/DD/YYYY'
+              }}
+              | {{ studentGender }} )
+            </small>
+          </h2>
+        </div>
+        <div class="row mt-3 mt-lg-2 padd-lr">
+          <div class="col-12 patient-info-box px-0">
+            <ul class="list-unstyled">
+              <li>
+                <label class="mb-0">Street Address:</label>
+                <span>{{
+                  extractStreetAddress(studentInformation.address) || 'N/A'
+                }}</span>
+                <!-- <span>{{studentInformation.address ? studentInformation.address : 'N/A'}}</span> -->
+              </li>
+              <li>
+                <label class="mb-0">Suite / Floor:</label>
+                <span>{{
+                  studentInformation.suite_no
+                    ? studentInformation.suite_no
+                    : 'N/A'
+                }}</span>
+              </li>
+              <li>
+                <label class="mb-0">SSN:</label>
+                <span>
+                  {{ studentInformation.ssn ? studentInformation.ssn : 'N/A' }}
+                </span>
+              </li>
+              <li>
+                <label class="mb-0">Home Phone No:</label>
+                <span>
+                  <ng-container
+                    *ngIf="
+                      studentInformation.home_phone_no;
+                      else naBlock
+                    ">
+                    {{ studentInformation.home_phone_no }}
+                  </ng-container>
+                </span>
+                <ng-template #naBlock>N/A</ng-template>
+              </li>
+              <li>
+                <label class="mb-0">City:</label>
+                <span>{{
+                  studentInformation.city ? studentInformation.city : 'N/A'
+                }}</span>
+              </li>
+              <li>
+                <label class="mb-0">State:</label>
+                <span>{{
+                  studentInformation.state ? studentInformation.state : 'N/A'
+                }}</span>
+              </li>
+              <li>
+                <label class="mb-0">Zip Code:</label>
+                <span>{{
+                  studentInformation.zip ? studentInformation.zip : 'N/A'
+                }}</span>
+              </li>
+              <li>
+                <label class="mb-0">Cell No:</label>
+                <span>
+                  <ng-container
+                    *ngIf="
+                      studentInformation.cell_phone_no ;
+                      else naBlock
+                    ">
+                    {{ studentInformation.cell_phone_no  }}
+                  </ng-container>
+                </span>
+                <ng-template #naBlock>N/A</ng-template>
+              </li>
+              <li>
+                <label class="mb-0">Work No:</label>
+                <span>
+                  <ng-container
+                    *ngIf="
+                      studentInformation.work_phone_no ;
+                      else naBlock
+                    ">
+                    {{ studentInformation.work_phone_no  }}
+                  </ng-container>
+                </span>
+                <ng-template #naBlock>N/A</ng-template>
+              </li>
+              <li>
+                <label class="mb-0">Extension:</label>
+                <span>{{
+                  studentInformation.phone_extension
+                    ? studentInformation.phone_extension
+                    : 'N/A'
+                }}</span>
+              </li>
+              <li>
+                <label class="mb-0">Email:</label>
+                <span>{{
+                  studentInformation.email ? studentInformation.email : 'N/A'
+                }}</span>
+              </li>
+              <li><label class="mb-0"></label><span></span></li>
+              <li>
+                <label class="mb-0">Emergency Contact No:</label>
+                <span>
+                  <ng-container
+                    *ngIf="
+                      studentInformation.emergency_contact ;
+                      else naBlock
+                    ">
+                    {{ studentInformation.emergency_contact  }}
+                  </ng-container>
+                </span>
+                <ng-template #naBlock>N/A</ng-template>
+              </li>
+
+              <!-- <li class="delivery-address">
+                <label class="mb-0" style="width: 17%;" >
+                  Delivery Address:
+                </label>
+                <span style="width: 83%;">{{getAddress()}}</span>
+              </li> -->
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-3 mb-3">
+    <div>
+      <button type="button" class="btn btn-secondary" (click)="addNewCase()">+ Add new case</button>
+    </div>
+
+  </div>
+
+
+  <ngx-datatable
+  class="bootstrap custom-table"
+  [rows]="rows"
+  [columns]="columns"
+  [columnMode]="'force'"
+  [headerHeight]="50"
+  [footerHeight]="50"
+  [rowHeight]="'auto'"
+  [scrollbarH]="true"
+  [limit]="page.perPage"
+  [count]="page.total"
+  [offset]="page.page - 1"
+  [externalPaging]="true"
+  (page)="setPage($event)"
+>
+
+<ngx-datatable-column
+*ngFor="let col of columns"
+[name]="col.name"
+[prop]="col.prop"
+[sortable]="false"
+>
+<ng-template ngx-datatable-header-template let-column="column">
+  <div class="mgx-header">{{ column.name }}</div>
+</ng-template>
+
+<ng-template ngx-datatable-cell-template let-value="value" let-row="row" let-column="column">
+  <div *ngIf="column.name === 'Student Id'; else normalCell" class="clickable-text"
+  (click)="onEditCaseClick(row.studentId)">
+
+      {{ value }}
+  </div>
+  <ng-template #normalCell>
+    <div class="text-center">{{ value }}</div>
+  </ng-template>
+</ng-template>
+
+</ngx-datatable-column>
+
+</ngx-datatable>
