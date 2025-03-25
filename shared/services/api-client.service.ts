@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ApiClientService {
-  private baseUrl='https://base_url';                 //      need to add base url i.e  mavenmind.something.com
+  private baseUrl='https://mavenmindconsultants.net/api';                 //      need to add base url i.e  mavenmind.something.com
   constructor(private http:HttpClient) {}
 
   private getHeaders(customHeaders?:{[key:string]:string}):HttpHeaders{
@@ -25,6 +25,14 @@ export class ApiClientService {
       params:new HttpParams({fromObject:params}),
     })
   }
+
+
+  login<T>(endPoint:string,body?:any,customHeaders?:{[key:string]:string}):Observable<T>{
+    return this.http.post<T>(`${this.baseUrl}/${endPoint}`,body,{
+      headers:this.getHeaders(customHeaders)
+    })
+  }
+
 
   post<T>(endPoint:string,body?:any,customHeaders?:{[key:string]:string}):Observable<T>{
     return this.http.post<T>(`${this.baseUrl}/${endPoint}`,body,{
