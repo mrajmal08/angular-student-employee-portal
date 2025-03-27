@@ -1,0 +1,13 @@
+<div class="dialog-container" @popInAnimation>
+    <div class="dialog-content">
+        <div class="dialog-icon">
+            <span class="exclamation">!</span>
+        </div>
+        <p class="dialog-message">{{ data.message }}</p>
+        <div class="dialog-actions">
+            <button mat-button (click)="onCancel()" class="cancel-btn">Cancel</button>
+            <button mat-button (click)="onConfirm()" class="confirm-btn">OK</button>
+        </div>
+
+    </div>
+</div>

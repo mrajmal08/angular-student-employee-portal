@@ -1,0 +1,64 @@
+.dialog-container {
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
+    // padding: 20px;
+    text-align: center;
+    // animation: fadeIn 0.3s ease-in-out;
+    // text-align: center;
+    padding: 25px;
+    min-height: 250px;
+    min-width: 350px;
+    align-items: center;
+    justify-content: center;
+    // position: fixed;
+    // top: 50%;
+    // left: 50%;
+    // transform: translate(-50%, -50%);
+  }
+
+  .dialog-content{
+    align-items: center;
+    justify-content: center;
+    padding-top: 15px;
+  }
+  
+  .dialog-icon {
+    font-size: 50px;
+    color: orange;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 70px;  /* Adjust size as needed */
+    height: 70px;
+    border-radius: 50%;
+    border: 3px solid orange;
+  }
+  
+  .exclamation {
+    font-size: 40px;
+    font-weight: bold;
+
+
+  }
+  
+  .dialog-message {
+    font-size: 18px;
+    margin: 10px 0;
+  }
+  
+  .dialog-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .cancel-btn {
+    background: #e0e0e0;
+  }
+  
+  .confirm-btn {
+    background: #d32f2f;
+    color: white;
+  }
+  

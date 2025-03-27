@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
+import { LoginInfo } from 'shared/models/login-info-model';
 @Injectable({
   providedIn: 'root',
 })
 export class ApiClientService {
   private baseUrl = 'https://mavenmindconsultants.net/api'; //      need to add base url i.e  mavenmind.something.com
+  loginInfo: LoginInfo | undefined;
   constructor(private http: HttpClient) {}
 
   private getHeaders(customHeaders?: { [key: string]: string }): HttpHeaders {
@@ -52,6 +54,7 @@ export class ApiClientService {
         tap((response: any) => {
           if (response.token) {
             localStorage.setItem('accessToken', response.token); // Store the token
+            this.loginInfo = response;
           }
         })
       );
@@ -85,6 +88,7 @@ export class ApiClientService {
       .pipe(
         tap(() => {
           localStorage.removeItem('accessToken'); // Remove token on logout
+          this.loginInfo = undefined;
         })
       );
   }
