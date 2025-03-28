@@ -1,7 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
+import { ApiClientService } from 'shared/services/api-client.service';
+import { getUKFormatedDate } from 'shared/helpers/common-helper';
 
 @Component({
   selector: 'app-courses-list',
@@ -9,49 +17,44 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
   styleUrls: ['./courses-list.component.scss'],
   animations: [
     trigger('collapseAnimation', [
-      state('collapsed', style({
-        height: '0',
-        overflow: 'hidden',
-        opacity: '0',
-        margin: '0',
-      })),
-      state('expanded', style({
-        height: '*',
-        opacity: '1',
-        margin: '*',
-      })),
-      transition('collapsed <=> expanded', [
-        animate('300ms ease-out')
-      ]),
-    ])
-  ]
+      state(
+        'collapsed',
+        style({
+          height: '0',
+          overflow: 'hidden',
+          opacity: '0',
+          margin: '0',
+        })
+      ),
+      state(
+        'expanded',
+        style({
+          height: '*',
+          opacity: '1',
+          margin: '*',
+        })
+      ),
+      transition('collapsed <=> expanded', [animate('300ms ease-out')]),
+    ]),
+  ],
 })
 export class CoursesListComponent implements OnInit {
-
-  page ={
-    perPage:25,
-    page:1,
-    total:100
-  }
+  page = {
+    perPage: 25,
+    page: 1,
+    total: 100,
+  };
   perPageOptions = [10, 25, 50, 100];
 
   isCollapsed = true;
   filterForm!: FormGroup;
 
-
   columns = [
-    { name: 'Agent ID', prop: 'id' },
-    { name: 'Agent Name', prop: 'name' },
-    { name: 'Company', prop: 'company' },
-    { name: 'Mobile', prop: 'mobile' },
-    { name: 'VAT registration number', prop: 'registerationNumber' },
-    { name: 'Uk Address', prop: 'UkAddress' },
-    { name: 'Non UK Company Address', prop: 'NonUkAddress' },
-    { name: 'Email', prop: 'email' },
-    { name: 'Compliance check / referral', prop: 'complianceCheck' },
-    { name: 'Restricted Countries', prop: 'restrictedCountries' },
-    { name: 'Created By', prop: 'createdBy' },
-    { name: 'Updated By', prop: 'updatedBy' },
+    { name: 'Course ID', prop: 'id' },
+    { name: 'Course Name', prop: 'name' },
+    { name: 'Created At', prop: 'created_at' },
+    { name: 'Created By', prop: 'created_by' },
+    { name: 'Updated By', prop: 'updated_by' },
   ];
 
   rows = [
@@ -112,32 +115,49 @@ export class CoursesListComponent implements OnInit {
       updatedBy: 'Admin 2024-01-22',
     },
   ];
-  constructor(private fb: FormBuilder,
-    private router: Router
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private apiClient: ApiClientService
   ) {
-    this.buildForm()
+    this.buildForm();
   }
 
   ngOnInit(): void {
-
+    this.filterForm.controls['name'].valueChanges.subscribe((value) => {
+      this.getCourses(value);
+    });
+    this.getCourses();
   }
 
-  buildForm(){
+  getCourses(search: string = '') {
+    this.apiClient
+      .get('courses', { name: search ? search : '' })
+      .subscribe((resp: any) => {
+        this.rows = resp.result.map(
+          (row: { created_at: string; updated_at: string }) => ({
+            ...row,
+            created_at: getUKFormatedDate(row.created_at),
+          })
+        );
+      });
+  }
+
+  buildForm() {
     this.filterForm = this.fb.group({
-      ssn: [''],
-      agent_name: [''],
-      date_of_birth: [''],
-      created_at: [''],
-      updated_at: [''],
-      created_by: [''],
-      updated_by: [''],
-      agent_id: [''],
-      email: [''],
-      cell_phone_no: [''],
-      address: [''],
-      ssn3: ['', [Validators.minLength(3), Validators.maxLength(3)]],
-      ssn2: ['', [Validators.minLength(2), Validators.maxLength(2)]],
-      ssn4: ['', [Validators.minLength(4), Validators.maxLength(4)]],
+      name: [''],
+      // date_of_birth: [''],
+      // created_at: [''],
+      // updated_at: [''],
+      // created_by: [''],
+      // updated_by: [''],
+      // agent_id: [''],
+      // email: [''],
+      // cell_phone_no: [''],
+      // address: [''],
+      // ssn3: ['', [Validators.minLength(3), Validators.maxLength(3)]],
+      // ssn2: ['', [Validators.minLength(2), Validators.maxLength(2)]],
+      // ssn4: ['', [Validators.minLength(4), Validators.maxLength(4)]],
     });
   }
 
@@ -153,24 +173,23 @@ export class CoursesListComponent implements OnInit {
     return Math.ceil(this.page.total / this.page.perPage);
   }
 
-  onSelectFilters(): void {
-  }
+  onSelectFilters(): void {}
 
-  resetForm(){}
+  resetForm() {}
 
-  onResetFilters(){}
+  onResetFilters() {}
 
-  onAgentNameClick(agentId:any){
+  onAgentNameClick(agentId: any) {
     this.router.navigateByUrl(`/courses/${agentId}`);
   }
 
-  addNewAgent(){
+  addNewAgent() {
     this.router.navigateByUrl(`/courses/add`);
   }
 
   editAgent(row: any): void {
     console.log('Edit Agent:', row);
-    this.router.navigateByUrl(`/courses/edit/${row.id}`);
+    this.router.navigateByUrl(`/courses/edit/${row.id}`, { state: { row } });
     // Implement edit logic (e.g., open a modal, navigate to edit page)
   }
 

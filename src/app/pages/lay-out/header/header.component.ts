@@ -22,7 +22,7 @@ export class HeaderComponent {
       width: '400px',
       panelClass: 'custom-dialog-container',
       position: { top: '50%', left: '50%' },
-      data: { message: 'Are you sure you want to logout?' },
+      data: { message: 'Are you sure you want to logout?', type: 'warning' },
     });
 
     dialogRef.afterClosed().subscribe((result) => {

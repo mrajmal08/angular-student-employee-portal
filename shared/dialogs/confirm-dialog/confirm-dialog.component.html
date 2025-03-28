@@ -1,4 +1,4 @@
-<div class="dialog-container" @popInAnimation>
+<!-- <div class="dialog-container" @popInAnimation>
     <div class="dialog-content">
         <div class="dialog-icon">
             <span class="exclamation">!</span>
@@ -9,5 +9,23 @@
             <button mat-button (click)="onConfirm()" class="confirm-btn">OK</button>
         </div>
 
+    </div>
+</div> -->
+
+
+<div class="dialog-container" @popInAnimation>
+    <div class="dialog-content">
+        <div class="dialog-icon"
+            [ngClass]="{'warning-icon': data.type === 'warning', 'error-icon': data.type === 'error'}">
+            <span class="exclamation">!</span>
+        </div>
+        <p class="dialog-message">{{ data.message }}</p>
+        <div class="dialog-actions">
+            <button *ngIf="data.type === 'warning'" mat-button (click)="onCancel()" class="cancel-btn">Cancel</button>
+            <button *ngIf="data.type === 'warning'" mat-button (click)="onConfirm()" class="confirm-btn">OK</button>
+            <button *ngIf="data.type === 'error'" style="background-color: #00b5e9; color: #ffffff" mat-button
+                (click)="onCancel()">OK</button>
+
+        </div>
     </div>
 </div>

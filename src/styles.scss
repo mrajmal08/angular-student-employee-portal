@@ -209,3 +209,39 @@ input:focus {
     text-decoration: none;
   }
 }
+
+
+
+
+
+
+.toast-top-center .ngx-toastr{
+  background-color: white !important;
+  color: black !important;
+  border-radius: 8px !important;
+  width: 300 !important;
+  height: 75px !important;
+  padding: 10px !important;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2) !important;
+}
+
+
+
+.toast-top-center .ngx-toastr .toast-progress {
+  background-color: rgb(44, 87, 44) !important;
+  height: 8px !important;
+}
+
+
+
+
+.custom-dialog-container .mat-dialog-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  transform: translate(-50%, -50%) !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+}

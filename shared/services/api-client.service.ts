@@ -6,7 +6,7 @@ import { LoginInfo } from 'shared/models/login-info-model';
   providedIn: 'root',
 })
 export class ApiClientService {
-  private baseUrl = 'https://mavenmindconsultants.net/api'; //      need to add base url i.e  mavenmind.something.com
+  private baseUrl = 'https://mavenmindconsultants.net/api';
   loginInfo: LoginInfo | undefined;
   constructor(private http: HttpClient) {}
 
@@ -25,21 +25,17 @@ export class ApiClientService {
     params?: any,
     customHeaders?: { [key: string]: string }
   ): Observable<T> {
+    const token = localStorage.getItem('accessToken');
+    const authHeader = token ? { Authorization: `Bearer ${token}` } : {};
+
     return this.http.get<T>(`${this.baseUrl}/${endPoint}`, {
-      headers: this.getHeaders(customHeaders),
+      headers: this.getHeaders({
+        ...customHeaders,
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      }),
       params: new HttpParams({ fromObject: params }),
     });
   }
-
-  // login<T>(
-  //   endPoint: string,
-  //   body?: any,
-  //   customHeaders?: { [key: string]: string }
-  // ): Observable<T> {
-  //   return this.http.post<T>(`${this.baseUrl}/${endPoint}`, body, {
-  //     headers: this.getHeaders(customHeaders),
-  //   });
-  // }
 
   login<T>(
     endPoint: string,
@@ -59,16 +55,6 @@ export class ApiClientService {
         })
       );
   }
-
-  // logout<T>(
-  //   endPoint: string,
-  //   body?: any,
-  //   customHeaders?: { [key: string]: string }
-  // ): Observable<T> {
-  //   return this.http.post<T>(`${this.baseUrl}/${endPoint}`, body, {
-  //     headers: this.getHeaders(customHeaders),
-  //   });
-  // }
 
   logout<T>(
     endPoint: string,
@@ -98,8 +84,14 @@ export class ApiClientService {
     body?: any,
     customHeaders?: { [key: string]: string }
   ): Observable<T> {
+    const token = localStorage.getItem('accessToken');
+    const authHeader = token ? { Authorization: `Bearer ${token}` } : {};
+
     return this.http.post<T>(`${this.baseUrl}/${endPoint}`, body, {
-      headers: this.getHeaders(customHeaders),
+      headers: this.getHeaders({
+        ...customHeaders,
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      }),
     });
   }
 
