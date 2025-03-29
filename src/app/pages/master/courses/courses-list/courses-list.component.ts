@@ -10,6 +10,9 @@ import {
 } from '@angular/animations';
 import { ApiClientService } from 'shared/services/api-client.service';
 import { getUKFormatedDate } from 'shared/helpers/common-helper';
+import { ToastrService } from 'ngx-toastr';
+import { ConfirmDialogComponent } from 'shared/dialogs/confirm-dialog/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-courses-list',
@@ -118,7 +121,9 @@ export class CoursesListComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private apiClient: ApiClientService
+    private apiClient: ApiClientService,
+    private toastr: ToastrService,
+    private dialog: MatDialog
   ) {
     this.buildForm();
   }
@@ -132,9 +137,13 @@ export class CoursesListComponent implements OnInit {
 
   getCourses(search: string = '') {
     this.apiClient
-      .get('courses', { name: search ? search : '' })
+      .get('courses', {
+        pagination: this.page.page,
+        per_page: this.page.perPage,
+        name: search ? search : '',
+      })
       .subscribe((resp: any) => {
-        this.rows = resp.result.map(
+        this.rows = resp.result.data.map(
           (row: { created_at: string; updated_at: string }) => ({
             ...row,
             created_at: getUKFormatedDate(row.created_at),
@@ -163,10 +172,12 @@ export class CoursesListComponent implements OnInit {
 
   setPage(pageInfo: any) {
     this.page.page = pageInfo.offset + 1;
+    this.getCourses();
   }
 
   updatePerPage(event: any) {
     this.page.perPage = event.target.value;
+    this.getCourses();
   }
 
   getTotalPages(): number {
@@ -194,9 +205,32 @@ export class CoursesListComponent implements OnInit {
   }
 
   deleteAgent(row: any): void {
-    if (confirm('Are you sure you want to delete this agent?')) {
-      console.log('Delete Agent:', row);
-      // Implement delete logic (e.g., call API to remove the agent)
+    if (confirm('Are you sure you want to delete this course?')) {
+      this.deleteCourse(row.id);
     }
+  }
+
+  showAlert(type: string, message: string) {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '400px',
+      panelClass: 'custom-dialog-container',
+      position: { top: '50%', left: '50%' },
+      data: { message: message, type: type },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {});
+  }
+
+  deleteCourse(id: number) {
+    this.apiClient
+      .get(`course/delete/${id}`)
+      .toPromise()
+      .then((resp) => {
+        this.toastr.success('Course Deleted successfully!', 'Success');
+        this.getCourses();
+      })
+      .catch((err) => {
+        this.showAlert('error', err.error.message);
+      });
   }
 }

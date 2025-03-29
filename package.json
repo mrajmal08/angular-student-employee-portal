@@ -10,7 +10,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^14.0.0",
+    "@angular/animations": "^14.3.0",
     "@angular/cdk": "^14.2.7",
     "@angular/common": "^14.0.0",
     "@angular/compiler": "^14.0.0",
@@ -32,6 +32,7 @@
     "ngx-bootstrap": "9.0.0",
     "ngx-perfect-scrollbar": "^10.1.1",
     "ngx-tabset": "^2.2.0",
+    "ngx-toastr": "^14.0.0",
     "popper": "^1.0.1",
     "primeicons": "^7.0.0",
     "primeng": "^14.2.3",
