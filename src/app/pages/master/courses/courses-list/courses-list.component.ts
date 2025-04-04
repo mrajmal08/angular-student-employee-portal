@@ -43,9 +43,9 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class CoursesListComponent implements OnInit {
   page = {
-    perPage: 25,
+    perPage: 10,
     page: 1,
-    total: 100,
+    total: 0,
   };
   perPageOptions = [10, 25, 50, 100];
 
@@ -143,6 +143,7 @@ export class CoursesListComponent implements OnInit {
         name: search ? search : '',
       })
       .subscribe((resp: any) => {
+        this.page.total = resp.result.total;
         this.rows = resp.result.data.map(
           (row: { created_at: string; updated_at: string }) => ({
             ...row,
