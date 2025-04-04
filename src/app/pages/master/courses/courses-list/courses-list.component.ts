@@ -130,7 +130,9 @@ export class CoursesListComponent implements OnInit {
 
   ngOnInit(): void {
     this.filterForm.controls['name'].valueChanges.subscribe((value) => {
-      this.getCourses(value);
+      if (value === '') {
+        this.getCourses();
+      }
     });
     this.getCourses();
   }
@@ -138,7 +140,8 @@ export class CoursesListComponent implements OnInit {
   getCourses(search: string = '') {
     this.apiClient
       .get('courses', {
-        pagination: this.page.page,
+        pagination: 1,
+        page: this.page.page,
         per_page: this.page.perPage,
         name: search ? search : '',
       })
@@ -189,7 +192,15 @@ export class CoursesListComponent implements OnInit {
 
   resetForm() {}
 
-  onResetFilters() {}
+  onResetFilters() {
+    this.filterForm.controls['name'].setValue(null);
+    this.getCourses();
+  }
+  onApplyFilters() {
+    // this.filterForm.controls['name'].valueChanges.subscribe((value) => {
+    this.getCourses(this.filterForm.controls['name'].value);
+    // });
+  }
 
   onAgentNameClick(agentId: any) {
     this.router.navigateByUrl(`/courses/${agentId}`);

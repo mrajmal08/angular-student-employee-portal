@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from 'shared/guards/auth.guard';
 
 const routes: Routes = [
   // { path: '', redirectTo: 'auth', pathMatch: 'full' },
@@ -12,6 +13,7 @@ const routes: Routes = [
     path: '',
     loadChildren: () =>
       import('./pages/pages.module').then((m) => m.PagesModule),
+    canLoad: [AuthGuard],
   },
   { path: '**', redirectTo: 'auth', pathMatch: 'full' },
   // { path: '**', redirectTo: 'dashboard', pathMatch: 'full' } // Default fallback

@@ -2,7 +2,7 @@
   <button type="button" class="btn btn-secondary" (click)="addNewAgent()">+ Add new course</button>
 </div>
 
-<form class="form w-100" style="margin: 20px 0px;" [formGroup]="filterForm" (ngSubmit)="onSelectFilters()"
+<form class="form w-100" style="margin: 20px 0px;" [formGroup]="filterForm" (ngSubmit)="onApplyFilters()"
   autocomplete="off" novalidate>
 
   <!-- Search Agent Title -->
@@ -10,13 +10,26 @@
     <strong class="sub-title search-agent-title">Search Course</strong>
 
     <!-- Toggle Button (Top Right) -->
-    <button class="btn plus-btn position-absolute"
+    <!-- <button class="btn plus-btn position-absolute"
       style="max-width: 42px; top: 42px; right: 20px; min-width: unset; background-color: #05a853; border: #05a853;"
       (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic"
       [class.btn-dark]="!isCollapsed" [class.btn-primary]="isCollapsed" type="button">
-      <i class="bi bi-plus" *ngIf="isCollapsed"></i> <!-- Plus icon -->
-      <i class="bi bi-dash" *ngIf="!isCollapsed"></i> <!-- Minus icon -->
-    </button>
+      <i class="bi bi-plus" *ngIf="isCollapsed"></i>
+      <i class="bi bi-dash" *ngIf="!isCollapsed"></i>
+    </button> -->
+
+    <div class="position-absolute d-flex" style="top: 42px; right: 20px;">
+      <button type="submit" class="btn btn-primary mx-1" style="background-color: #05a853; border: #05a853;"
+        (click)="onApplyFilters()" [disabled]="!filterForm.controls['name'].value">
+        Filter
+      </button>
+
+      <button type="button" class="btn btn-default mx-1" (click)="onResetFilters()"
+        [disabled]="!filterForm.controls['name'].value">
+        Reset
+      </button>
+    </div>
+
 
     <div class="row">
       <div class="field-block w-100">
@@ -26,8 +39,8 @@
 
             <div class="col-12 col-sm-6 col-md-3">
               <div class="form-group">
-                <label for="agent_id">Name</label>
-                <input type="text" class="form-control" id="agent_id" formControlName="name" />
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" formControlName="name" />
               </div>
             </div>
 
@@ -35,12 +48,12 @@
 
 
           <!-- Filter & Reset Buttons (Centered) -->
-          <div class="d-flex justify-content-center mt-3">
-            <button type="submit" class="btn btn-primary mx-2"
-              style="background-color: #05a853; border: #05a853;">Filter</button>
+          <!-- <div class="d-flex justify-content-center mt-3">
+            <button type="submit" class="btn btn-primary mx-2" style="background-color: #05a853; border: #05a853;"
+              (click)="onApplyFilters()" [disabled]="!filterForm.controls['name'].value">Filter</button>
             <button type="button" class="btn btn-default mx-2" (click)="onResetFilters()"
-              [disabled]="true">Reset</button>
-          </div>
+              [disabled]="!filterForm.controls['name'].value">Reset</button>
+          </div> -->
         </div>
       </div>
     </div>
@@ -86,12 +99,14 @@
 
     <ng-template ngx-datatable-cell-template let-row="row">
       <div class="d-flex justify-content-center gap-2">
-        <button class="btn btn-sm btn-primary" style="min-width: 60px; padding: 5px 10px;" (click)="editAgent(row)">
-          <i class="bi bi-pencil"></i>
-        </button>
-        <button class="btn btn-sm btn-danger" style="min-width: 60px; padding: 5px 10px;" (click)="deleteAgent(row)">
-          <i class="bi bi-trash"></i>
-        </button>
+        <!-- <button class="btn btn-sm btn-primary" style="min-width: 60px; padding: 5px 10px;" (click)="editAgent(row)"> -->
+        <i class="bi bi-pencil fs-5 pt-1" style="color: green; cursor: pointer;" (click)="editAgent(row)">
+        </i>
+        <!-- </button> -->
+        <!-- <button class="btn btn-sm btn-danger" style="min-width: 60px; padding: 5px 10px;" (click)="deleteAgent(row)"> -->
+        <i class="bi bi-x fs-2" style="color: red; cursor: pointer;" title="Remove" (click)="deleteAgent(row)">
+        </i>
+        <!-- </button> -->
       </div>
     </ng-template>
   </ngx-datatable-column>
