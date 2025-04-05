@@ -1,5 +1,5 @@
 <div class="d-flex mt-3 mb-3 justify-content-end">
-  <button type="button" class="btn btn-secondary" (click)="addNewAgent()">+ Add new course</button>
+  <button type="button" class="btn btn-secondary" (click)="addNewCourse()">+ Add new course</button>
 </div>
 
 <form class="form w-100" style="margin: 20px 0px;" [formGroup]="filterForm" (ngSubmit)="onApplyFilters()"
@@ -71,9 +71,9 @@
     </select>
     <label for="perPageSelect" class="me-2">entries</label>
   </div>
-  <!-- <div>
+  <div>
     <span>Page {{ page.page }} of {{ getTotalPages() }}</span>
-  </div> -->
+  </div>
 </div>
 <ngx-datatable class="bootstrap custom-table" [rows]="rows" [columns]="columns" [columnMode]="'force'"
   [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [scrollbarH]="true" [limit]="page.perPage"
@@ -100,11 +100,11 @@
     <ng-template ngx-datatable-cell-template let-row="row">
       <div class="d-flex justify-content-center gap-2">
         <!-- <button class="btn btn-sm btn-primary" style="min-width: 60px; padding: 5px 10px;" (click)="editAgent(row)"> -->
-        <i class="bi bi-pencil fs-5 pt-1" style="color: green; cursor: pointer;" (click)="editAgent(row)">
+        <i class="bi bi-pencil fs-5 pt-1" style="color: green; cursor: pointer;" (click)="editCourse(row)">
         </i>
         <!-- </button> -->
         <!-- <button class="btn btn-sm btn-danger" style="min-width: 60px; padding: 5px 10px;" (click)="deleteAgent(row)"> -->
-        <i class="bi bi-x fs-2" style="color: red; cursor: pointer;" title="Remove" (click)="deleteAgent(row)">
+        <i class="bi bi-x fs-2" style="color: red; cursor: pointer;" title="Remove" (click)="onDeleteCourse(row)">
         </i>
         <!-- </button> -->
       </div>
