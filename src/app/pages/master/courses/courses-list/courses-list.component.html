@@ -5,9 +5,9 @@
 <form class="form w-100" style="margin: 20px 0px;" [formGroup]="filterForm" (ngSubmit)="onApplyFilters()"
   autocomplete="off" novalidate>
 
-  <!-- Search Agent Title -->
+  <!-- Search Course Title -->
   <div class="form-content search-filter-block position-relative ">
-    <strong class="sub-title search-agent-title">Search Course</strong>
+    <strong class="sub-title search-course-title">Search Course</strong>
 
     <!-- Toggle Button (Top Right) -->
     <!-- <button class="btn plus-btn position-absolute"
@@ -99,11 +99,11 @@
 
     <ng-template ngx-datatable-cell-template let-row="row">
       <div class="d-flex justify-content-center gap-2">
-        <!-- <button class="btn btn-sm btn-primary" style="min-width: 60px; padding: 5px 10px;" (click)="editAgent(row)"> -->
+        <!-- <button class="btn btn-sm btn-primary" style="min-width: 60px; padding: 5px 10px;" (click)="editCourse(row)"> -->
         <i class="bi bi-pencil fs-5 pt-1" style="color: green; cursor: pointer;" (click)="editCourse(row)">
         </i>
         <!-- </button> -->
-        <!-- <button class="btn btn-sm btn-danger" style="min-width: 60px; padding: 5px 10px;" (click)="deleteAgent(row)"> -->
+        <!-- <button class="btn btn-sm btn-danger" style="min-width: 60px; padding: 5px 10px;" (click)="onDeleteCourse(row)"> -->
         <i class="bi bi-x fs-2" style="color: red; cursor: pointer;" title="Remove" (click)="onDeleteCourse(row)">
         </i>
         <!-- </button> -->

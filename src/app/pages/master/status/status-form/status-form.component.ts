@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiClientService } from 'shared/services/api-client.service';
 
 @Component({
@@ -13,27 +13,6 @@ export class StatusFormComponent implements OnInit {
   dataForEdit: any;
 
   displayValidation = true;
-
-  ukInstitutions = [
-    { id: 1, name: 'University of London' },
-    { id: 2, name: 'Oxford University' },
-    { id: 3, name: 'Imperial College London' },
-    // Add more UK institutions here
-  ];
-
-  // List of institutions outside the UK
-  outsideUkInstitutions = [
-    { id: 1, name: 'Harvard University' },
-    { id: 2, name: 'Stanford University' },
-    { id: 3, name: 'University of Sydney' },
-    // Add more outside UK institutions here
-  ];
-
-  // Selected values for UK institutions
-  selectedUkInstitutions: number[] = [];
-
-  // Selected values for institutions outside the UK
-  selectedOutsideUkInstitutions: number[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -48,8 +27,6 @@ export class StatusFormComponent implements OnInit {
     });
 
     this.dataForEdit = history.state;
-    console.log('data', this.dataForEdit);
-
     if (!!this.dataForEdit.row) {
       this.agentForm.patchValue({
         name: this.dataForEdit.row.name,
@@ -66,7 +43,6 @@ export class StatusFormComponent implements OnInit {
 
   onSubmit() {
     if (this.agentForm.valid) {
-      console.log('Form Submitted:', this.agentForm.value);
       if (!!this.dataForEdit.row) {
         this.apiClient
           .post(
@@ -89,7 +65,6 @@ export class StatusFormComponent implements OnInit {
           });
       }
     } else {
-      console.log('Form is invalid');
     }
   }
 
