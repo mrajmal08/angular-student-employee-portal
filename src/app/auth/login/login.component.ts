@@ -38,10 +38,6 @@ export class LoginComponent implements OnInit {
     }
   }
   login() {
-    let payload = {
-      email: this.loginForm.controls['email'],
-      password: this.loginForm.controls['password'],
-    };
     this.apiClient
       .login('login', JSON.stringify(this.loginForm.value))
       .toPromise()

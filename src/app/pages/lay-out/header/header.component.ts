@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiClientService } from 'shared/services/api-client.service';
 import { ConfirmDialogComponent } from 'shared/dialogs/confirm-dialog/confirm-dialog.component';
@@ -33,7 +33,6 @@ export class HeaderComponent {
           });
         });
       } else {
-        console.log('Cancelled');
       }
     });
   }
