@@ -13,7 +13,7 @@
 </div> -->
 
 
-<div class="dialog-container" @popInAnimation>
+<!-- <div *ngIf="data.type !== 'delete'" class="dialog-container" @popInAnimation>
     <div class="dialog-content">
         <div class="dialog-icon"
             [ngClass]="{'warning-icon': data.type === 'warning', 'error-icon': data.type === 'error'}">
@@ -28,4 +28,30 @@
 
         </div>
     </div>
+</div> -->
+
+
+
+
+<div *ngIf="data.type === 'warning'" class="dialog-container" @popInAnimation>
+    <div class="dialog-content">
+        <div class="title">{{data.title}}</div>
+        <div class="msg">{{data.message}}</div>
+        <div class="modal-footer">
+            <button (click)="onNo()">NO</button>
+            <button (click)="onYes()">YES</button>
+        </div>
+        <!-- <div class="modal">
+        <div>Delete Doctor?</div>
+        <p>Do you really want to delete this doctor.</p>
+        <div class="modal-footer">
+            <button>NO</button>
+            <button>YES</button>
+        </div>
+    </div> -->
+
+    </div>
+
+
+
 </div>

@@ -1,5 +1,5 @@
 <div class="d-flex mt-3 mb-3 justify-content-end">
-  <button type="button" class="btn btn-secondary" (click)="addNewCourse()">+ Add new course</button>
+  <button type="button" class="btn btn-secondary add-button" (click)="addNewCourse()">+ Add New Course</button>
 </div>
 
 <form class="form w-100" style="margin: 20px 0px;" [formGroup]="filterForm" (ngSubmit)="onApplyFilters()"
@@ -19,12 +19,12 @@
     </button> -->
 
     <div class="position-absolute d-flex" style="top: 42px; right: 20px;">
-      <button type="submit" class="btn btn-primary mx-1" style="background-color: #05a853; border: #05a853;"
-        (click)="onApplyFilters()" [disabled]="!filterForm.controls['name'].value">
+      <button type="submit" class="btn btn-primary mx-1 filter-button" (click)="onApplyFilters()"
+        [disabled]="!filterForm.controls['name'].value">
         Filter
       </button>
 
-      <button type="button" class="btn btn-outline-secondary mx-1" (click)="onResetFilters()"
+      <button type="button" class="btn btn-outline-secondary mx-1 reset-button" (click)="onResetFilters()"
         [disabled]="!filterForm.controls['name'].value">
         Reset
       </button>
@@ -71,12 +71,12 @@
     </select>
     <label for="perPageSelect" class="me-2">entries</label>
   </div>
-  <div>
+  <!-- <div>
     <span>Page {{ page.page }} of {{ getTotalPages() }}</span>
-  </div>
+  </div> -->
 </div>
 <ngx-datatable class="bootstrap custom-table" [rows]="rows" [columns]="columns" [columnMode]="'force'"
-  [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [scrollbarH]="true" [limit]="page.perPage"
+  [headerHeight]="30" [footerHeight]="30" [rowHeight]="'auto'" [scrollbarH]="true" [limit]="page.perPage"
   [count]="page.total" [offset]="page.page - 1" [externalPaging]="true" (page)="setPage($event)">
 
   <ngx-datatable-column *ngFor="let col of columns" [name]="col.name" [prop]="col.prop" [sortable]="false">

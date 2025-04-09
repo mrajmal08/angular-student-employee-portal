@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ApiClientService } from 'shared/services/api-client.service';
 import { ConfirmDialogComponent } from 'shared/dialogs/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { title } from 'process';
 
 @Component({
   selector: 'app-header',
@@ -22,7 +23,11 @@ export class HeaderComponent {
       width: '400px',
       panelClass: 'custom-dialog-container',
       position: { top: '50%', left: '50%' },
-      data: { message: 'Are you sure you want to logout?', type: 'warning' },
+      data: {
+        type: 'warning',
+        title: 'Logout?',
+        message: 'Are you sure you want to logout?',
+      },
     });
 
     dialogRef.afterClosed().subscribe((result) => {

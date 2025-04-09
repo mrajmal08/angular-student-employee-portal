@@ -42,11 +42,12 @@ export class LoginComponent implements OnInit {
       .login('login', JSON.stringify(this.loginForm.value))
       .toPromise()
       .then((resp) => {
-        this.toastr.success('User Logged In successfully!', 'Success');
+        this.toastr.success('User Logged In Successfully', 'Success');
+
         this.router.navigate(['/dashboard']);
       })
       .catch((err) => {
-        this.showError(err.error.message);
+        this.toastr.error(err.error.message, 'Error');
       });
   }
 

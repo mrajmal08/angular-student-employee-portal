@@ -25,6 +25,7 @@ import { ToastrModule } from 'ngx-toastr';
       progressBar: true, // Enable progress bar
       progressAnimation: 'decreasing', // Decreasing progress
       timeOut: 5000, // Auto close after 5s
+      preventDuplicates: true,
     }),
   ],
   providers: [],

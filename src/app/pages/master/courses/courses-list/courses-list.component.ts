@@ -139,20 +139,28 @@ export class CoursesListComponent implements OnInit {
   }
 
   onDeleteCourse(row: any): void {
-    if (confirm('Are you sure you want to delete this course?')) {
-      this.deleteCourse(row.id);
-    }
+    this.showAlert(
+      'warning',
+      'Delete Course?',
+      'Do you really want to delete this course.',
+      row.id
+    );
   }
 
-  showAlert(type: string, message: string) {
+  showAlert(type: string, title: string, message: string, id: number) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '400px',
       panelClass: 'custom-dialog-container',
+      backdropClass: 'custom-dialog-backdrop',
       position: { top: '50%', left: '50%' },
-      data: { message: message, type: type },
+      data: { type: type, title: title, message: message },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.deleteCourse(id);
+      }
+    });
   }
 
   deleteCourse(id: number) {
@@ -164,7 +172,7 @@ export class CoursesListComponent implements OnInit {
         this.getCourses();
       })
       .catch((err) => {
-        this.showAlert('error', err.error.message);
+        this.toastr.error(err.error.message, 'Error');
       });
   }
 }

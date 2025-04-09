@@ -141,9 +141,12 @@ export class StatusListComponent implements OnInit {
   }
 
   onDeleteStatus(row: any): void {
-    if (confirm('Are you sure you want to delete this status?')) {
-      this.deleteStatus(row.id);
-    }
+    this.showAlert(
+      'warning',
+      'Delete Status?',
+      'Do you really want to delete this status.',
+      row.id
+    );
   }
 
   deleteStatus(id: number) {
@@ -155,18 +158,23 @@ export class StatusListComponent implements OnInit {
         this.getStatuses();
       })
       .catch((err) => {
-        this.showAlert('error', err.error.message);
+        this.toastr.error(err.error.message, 'Error');
       });
   }
 
-  showAlert(type: string, message: string) {
+  showAlert(type: string, title: string, message: string, id: number) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '400px',
       panelClass: 'custom-dialog-container',
+      backdropClass: 'custom-dialog-backdrop',
       position: { top: '50%', left: '50%' },
-      data: { message: message, type: type },
+      data: { type: type, title: title, message: message },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.deleteStatus(id);
+      }
+    });
   }
 }

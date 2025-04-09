@@ -41,3 +41,45 @@ button.btn-default {
   text-align: center;
   // text-decoration: underline;
 }
+
+
+.filter-button {
+  background-color: #05a853;
+  color: #ffffff;
+  border: #05a853;
+  width: 110px;
+}
+
+.filter-button:hover {
+  background-color: #08783e;
+  border: #08783e;
+}
+
+
+
+.reset-button {
+  background-color:#00b5e9;
+  color: #ffffff;
+  border: #00b5e9;
+  width: 110px;
+}
+
+.reset-button:hover {
+  background-color: #0681a2;
+  border: #0681a2;
+}
+
+
+.add-button {
+  background-color: #05a853;
+  color: #ffffff;
+  border: #05a853;
+}
+
+.add-button:hover {
+  background-color: #08783e;
+  border: #08783e;
+}
+
+
+

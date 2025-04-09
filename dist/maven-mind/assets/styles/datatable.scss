@@ -105,6 +105,8 @@ vertical-align: $align;
 									width: 100% !important;
 									.datatable-header-inner {
 										width: 100% !important;
+				height: 30px !important;
+										
 										.datatable-row-center {
 											width: 100% !important;
 										}
@@ -317,6 +319,7 @@ vertical-align: $align;
 
   .ngx-datatable.bootstrap .datatable-header .datatable-header-cell div.datatable-header-cell-template-wrap {
 	height: auto;
+
 
   }
 

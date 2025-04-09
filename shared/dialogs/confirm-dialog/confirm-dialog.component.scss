@@ -6,8 +6,8 @@
     text-align: center;
     // animation: fadeIn 0.3s ease-in-out;
     // text-align: center;
-    padding: 25px;
-    min-height: 250px;
+    // padding: 25px;
+    // min-height: 250px;
     min-width: 350px;
     align-items: center;
     justify-content: center;
@@ -21,6 +21,29 @@
     align-items: center;
     justify-content: center;
     padding-top: 15px;
+
+
+    .title {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #333;
+      padding: 10px 20px;
+    }
+
+
+    .msg{
+      font-size: 22px;
+      padding: 10px 20px;
+
+    }
+
+
+    .modal-footer {
+      display: flex;
+      border: 3px solid #ddd;
+      margin-top: 50px;
+    }
   }
   
   .dialog-icon {
@@ -73,3 +96,75 @@
     color: white;
   }
   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  .modal {
+    background: white;
+    border-radius: 10px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    overflow: hidden;
+  }
+
+  .modal h2 {
+    font-size: 18px;
+    margin: 20px 0 10px;
+    color: black;
+  }
+
+  .modal p {
+    font-size: 15px;
+    margin: 0 20px 20px;
+  }
+
+  .modal-footer {
+    display: flex;
+    border-top: 1px solid #ddd;
+  }
+
+  .modal-footer button {
+    flex: 1;
+    padding: 15px 0;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    background: white;
+  }
+
+  .modal-footer button:first-child {
+    color: #555;
+    border-right: 1px solid #ddd;
+  }
+  .modal-footer button:first-child:hover {
+    background-color: #555;
+    color: white;
+  }
+
+  .modal-footer button:last-child {
+    color: red;
+  }
+
+  .modal-footer button:last-child:hover {
+    background-color: red;
+    color: white;
+  }
