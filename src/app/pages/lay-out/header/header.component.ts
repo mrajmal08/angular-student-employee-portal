@@ -26,7 +26,7 @@ export class HeaderComponent {
       data: {
         type: 'warning',
         title: 'Logout?',
-        message: 'Are you sure you want to logout?',
+        message: 'Are you sure you want to logout.',
       },
     });
 

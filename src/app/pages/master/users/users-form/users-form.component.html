@@ -1,103 +1,56 @@
 <div class="row">
   <div class="col-sm-12">
-    <div class="card" >
-      <div class="card-header" >
-        <span>Add User</span>
-        <span
-          class="position-absolute"
-          style="top: 2px; right: 10px; cursor: pointer; color: white">
+    <div class="card">
+      <div class="card-header">
+        <span>{{!!this.dataForEdit.row?'Edit':'Add' }} User</span>
+        <span class="position-absolute" style="top: 2px; right: 10px; cursor: pointer; color: white">
           <i class="fa fa-times" (click)="closeForm()"></i>
         </span>
       </div>
-      <div
-        class="card-body">
+      <div class="card-body">
 
-        <form [formGroup]="agentForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
 
           <div class="row mt-3">
             <div class="col-md-4">
               <div class="form-group">
-                <label for="firstName"
-                  >Name:<sup *ngIf="displayValidation">*</sup></label
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  name="name"
-                  formControlName="name"
-                  alphaOnly />
-                <small
-                  class="form-text text-muted danger"
-                  *ngIf="
-                      agentForm.get('name')?.errors?.['required'] &&
-                      (agentForm.get('name')?.dirty || agentForm.get('name')?.touched)"
-                  >Please enter your name!</small
-                >
-                <small
-                  class="form-text text-muted danger"
-                  *ngIf="
-                        agentForm.get('name')?.errors?.['maxlength'] &&
-                        agentForm.get('name')?.dirty"
-                  >Maximum characters should be 25!</small
-                >
+                <label for="firstName">Name:<sup *ngIf="displayValidation">*</sup></label>
+                <input type="text" class="form-control" name="name" formControlName="name" alphaOnly />
+                <small class="form-text text-muted danger" *ngIf="
+                      userForm.get('name')?.errors?.['required'] &&
+                      (userForm.get('name')?.dirty || userForm.get('name')?.touched)">Please enter your name!</small>
+                <small class="form-text text-muted danger" *ngIf="
+                        userForm.get('name')?.errors?.['maxlength'] &&
+                        userForm.get('name')?.dirty">Maximum characters should be 25!</small>
               </div>
             </div>
 
             <div class="col-md-4">
               <div class="form-group">
-                <label for="lastName"
-                  >Email:<sup *ngIf="displayValidation">*</sup></label
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  formControlName="email"
-                  id="email"
-                   />
-                <small
-                  class="form-text text-muted danger"
-                  *ngIf="
-                    agentForm.get('email')?.errors?.['required'] &&
-                    (agentForm.get('email')?.dirty || agentForm.get('email')?.touched)
-                  "
-                  >Please enter your email!</small
-                >
-                <small
-                  class="form-text text-muted danger"
-                  *ngIf="
-                    agentForm.get('email')?.errors?.['maxlength'] &&
-                    agentForm.get('email')?.dirty
-                  "
-                  >Maximum characters should be 25!</small
-                >
+                <label for="lastName">Email:<sup *ngIf="displayValidation">*</sup></label>
+                <input type="text" class="form-control" formControlName="email" id="email" autocomplete="false" />
+                <small class="form-text text-muted danger" *ngIf="
+                    userForm.get('email')?.errors?.['required'] &&
+                    (userForm.get('email')?.dirty || userForm.get('email')?.touched)
+                  ">Please enter your email!</small>
+                <small class="form-text text-muted danger" *ngIf="
+                    userForm.get('email')?.errors?.['maxlength'] &&
+                    userForm.get('email')?.dirty
+                  ">Maximum characters should be 25!</small>
               </div>
             </div>
 
             <div class="col-md-4">
               <div class="form-group">
-                <label for="email"
-                  >Phone Number:<sup *ngIf="displayValidation">*</sup></label
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  name="phoneNumber"
-                  formControlName="phoneNumber"
-                  />
-                <small
-                  class="form-text text-muted danger"
-                  *ngIf="
-                      agentForm.get('phoneNumber')?.errors?.['required'] &&
-                      (agentForm.get('phoneNumber')?.dirty || agentForm.get('phoneNumber')?.touched)"
-                  >Please enter your phone nummber!</small
-                >
-                <small
-                  class="form-text text-muted danger"
-                  *ngIf="
-                        agentForm.get('phoneNumber')?.errors?.['maxlength'] &&
-                        agentForm.get('phoneNumber')?.dirty"
-                  >Maximum characters should be 25!</small
-                >
+                <label for="email">Phone Number:<sup *ngIf="displayValidation">*</sup></label>
+                <input type="text" class="form-control" name="phone_no" formControlName="phone_no" />
+                <small class="form-text text-muted danger" *ngIf="
+                      userForm.get('phone_no')?.errors?.['required'] &&
+                      (userForm.get('phone_no')?.dirty || userForm.get('phone_no')?.touched)">Please enter your
+                  phone nummber!</small>
+                <small class="form-text text-muted danger" *ngIf="
+                        userForm.get('phone_no')?.errors?.['maxlength'] &&
+                        userForm.get('phone_no')?.dirty">Maximum characters should be 25!</small>
               </div>
             </div>
 
@@ -106,64 +59,39 @@
           <div class="row mt-3">
             <div class="col-md-4">
               <div class="form-group">
-                <label for="password"
-                  >Password:<sup *ngIf="displayValidation">*</sup></label
-                >
-                <input
-                  type="password"
-                  class="form-control"
-                  name="password"
-                  formControlName="password"
-                  alphaOnly />
-                <small
-                  class="form-text text-muted danger"
-                  *ngIf="
-                      agentForm.get('password')?.errors?.['required'] &&
-                      (agentForm.get('password')?.dirty || agentForm.get('password')?.touched)"
-                  >Please enter password!</small
-                >
-                <small
-                  class="form-text text-muted danger"
-                  *ngIf="
-                        agentForm.get('password')?.errors?.['maxlength'] &&
-                        agentForm.get('password')?.dirty"
-                  >Maximum characters should be 25!</small
-                >
+                <label for="password">Password:<sup *ngIf="displayValidation">*</sup></label>
+                <input type="password" class="form-control" name="password" formControlName="password" alphaOnly />
+                <small class="form-text text-muted danger" *ngIf="
+                      userForm.get('password')?.errors?.['required'] &&
+                      (userForm.get('password')?.dirty || userForm.get('password')?.touched)">Please enter
+                  password!</small>
+                <small class="form-text text-muted danger" *ngIf="
+                        userForm.get('password')?.errors?.['maxlength'] &&
+                        userForm.get('password')?.dirty">Maximum characters should be 25!</small>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4" *ngIf="!this.dataForEdit.row">
               <div class="form-group">
-                <label for="confirmPassword"
-                  >Confirm Password:<sup *ngIf="displayValidation">*</sup></label
-                >
-                <input
-                  type="password"
-                  class="form-control"
-                  name="confirmPassword"
-                  formControlName="confirmPassword"
-                  />
-                <small
-                  class="form-text text-muted danger"
+                <label for="password_confirmation">Confirm Password:<sup *ngIf="displayValidation">*</sup></label>
+                <input type="password" class="form-control" name="password_confirmation"
+                  formControlName="password_confirmation" />
+                <small class="form-text text-muted danger"
                   *ngIf="
-                      agentForm.get('confirmPassword')?.errors?.['required'] &&
-                      (agentForm.get('confirmPassword')?.dirty || agentForm.get('confirmPassword')?.touched)"
-                  >Please confirm password!</small
-                >
-                <small
-                  class="form-text text-muted danger"
-                  *ngIf="
-                        agentForm.get('confirmPassword')?.errors?.['maxlength'] &&
-                        agentForm.get('confirmPassword')?.dirty"
-                  >Maximum characters should be 25!</small
-                >
+                      userForm.get('password_confirmation')?.errors?.['required'] &&
+                      (userForm.get('password_confirmation')?.dirty || userForm.get('password_confirmation')?.touched)">Please
+                  confirm password!</small>
+                <small class="form-text text-muted danger" *ngIf="
+                        userForm.get('password_confirmation')?.errors?.['maxlength'] &&
+                        userForm.get('password_confirmation')?.dirty">Maximum characters should be 25!</small>
               </div>
             </div>
-            </div>
+          </div>
         </form>
 
         <div class="form-buttons gap-2">
-          <button type="submit" class="btn btn-primary" [disabled]="!agentForm.valid">Submit</button>
-          <button type="button" class="btn btn-secondary">Cancel</button>
+          <button type="submit" class="btn btn-primary submit-button" [disabled]="!userForm.valid"
+            (click)="onSubmit()">Submit</button>
+          <button type="button" class="btn btn-secondary cancel-button" (click)="closeForm()">Cancel</button>
         </div>
 
       </div>

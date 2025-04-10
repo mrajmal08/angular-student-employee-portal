@@ -1,7 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
+import { ApiClientService } from 'shared/services/api-client.service';
+import { User } from 'shared/models/user-model';
+import { getUKFormatedDate } from 'shared/helpers/common-helper';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from 'shared/dialogs/confirm-dialog/confirm-dialog.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-users-list',
@@ -9,135 +21,145 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
   styleUrls: ['./users-list.component.scss'],
   animations: [
     trigger('collapseAnimation', [
-      state('collapsed', style({
-        height: '0',
-        overflow: 'hidden',
-        opacity: '0',
-        margin: '0',
-      })),
-      state('expanded', style({
-        height: '*',
-        opacity: '1',
-        margin: '*',
-      })),
-      transition('collapsed <=> expanded', [
-        animate('300ms ease-out')
-      ]),
-    ])
-  ]
+      state(
+        'collapsed',
+        style({
+          height: '0',
+          overflow: 'hidden',
+          opacity: '0',
+          margin: '0',
+        })
+      ),
+      state(
+        'expanded',
+        style({
+          height: '*',
+          opacity: '1',
+          margin: '*',
+        })
+      ),
+      transition('collapsed <=> expanded', [animate('300ms ease-out')]),
+    ]),
+  ],
 })
 export class UsersListComponent implements OnInit {
-
-  page ={
-    perPage:25,
-    page:1,
-    total:100
-  }
+  page = {
+    perPage: 25,
+    page: 1,
+    total: 100,
+  };
   perPageOptions = [10, 25, 50, 100];
 
   isCollapsed = true;
   filterForm!: FormGroup;
 
+  name: string = '';
+  email: string = '';
+  phone_no: string = '';
 
   columns = [
-    { name: 'Agent ID', prop: 'id' },
-    { name: 'Agent Name', prop: 'name' },
-    { name: 'Company', prop: 'company' },
-    { name: 'Mobile', prop: 'mobile' },
-    { name: 'VAT registration number', prop: 'registerationNumber' },
-    { name: 'Uk Address', prop: 'UkAddress' },
-    { name: 'Non UK Company Address', prop: 'NonUkAddress' },
-    { name: 'Email', prop: 'email' },
-    { name: 'Compliance check / referral', prop: 'complianceCheck' },
-    { name: 'Restricted Countries', prop: 'restrictedCountries' },
+    { name: 'User ID', prop: 'id' },
+    { name: 'User Name', prop: 'name' },
+    { name: 'User Mobile', prop: 'phone_no' },
+    { name: 'User Email', prop: 'email' },
+    { name: 'Created At', prop: 'created_at' },
     { name: 'Created By', prop: 'createdBy' },
     { name: 'Updated By', prop: 'updatedBy' },
+    { name: 'Status', prop: 'status' },
   ];
 
-  rows = [
-    {
-      id: 1,
-      name: 'John Doe',
-      company: 'ABC Ltd.',
-      mobile: '+44 7890 123456',
-      registerationNumber: 'VAT123456789',
-      UkAddress: '123 Baker Street, London, UK',
-      NonUkAddress: '456 Elm Street, New York, USA',
-      email: 'john.doe@example.com',
-      complianceCheck: 'Passed',
-      restrictedCountries: 'None',
-      createdBy: 'Admin 2024-01-10',
-      updatedBy: 'Admin 2024-01-15',
-    },
-    {
-      id: 2,
-      name: 'Jane Smith',
-      company: 'XYZ Corp.',
-      mobile: '+44 7523 987654',
-      registerationNumber: 'VAT987654321',
-      UkAddress: '78 High Street, Manchester, UK',
-      NonUkAddress: '789 Pine Avenue, Toronto, Canada',
-      email: 'jane.smith@example.com',
-      complianceCheck: 'Pending',
-      restrictedCountries: 'Iran, North Korea',
-      createdBy: 'Admin 2024-01-12',
-      updatedBy: 'Admin 2024-01-18',
-    },
-    {
-      id: 3,
-      name: 'Michael Johnson',
-      company: 'Global Solutions',
-      mobile: '+44 7012 345678',
-      registerationNumber: 'VAT654321789',
-      UkAddress: '56 King’s Road, Edinburgh, UK',
-      NonUkAddress: '123 Ocean Drive, Sydney, Australia',
-      email: 'michael.johnson@example.com',
-      complianceCheck: 'Failed',
-      restrictedCountries: 'Russia, Syria',
-      createdBy: 'Admin 2024-01-14',
-      updatedBy: 'Admin 2024-01-20',
-    },
-    {
-      id: 4,
-      name: 'Emma Brown',
-      company: 'Secure Trade Ltd.',
-      mobile: '+44 7412 567890',
-      registerationNumber: 'VAT111222333',
-      UkAddress: '89 Tower Bridge Road, London, UK',
-      NonUkAddress: '555 Bay Street, Dubai, UAE',
-      email: 'emma.brown@example.com',
-      complianceCheck: 'Passed',
-      restrictedCountries: 'None',
-      createdBy: 'Admin 2024-01-16',
-      updatedBy: 'Admin 2024-01-22',
-    },
-  ];
-  constructor(private fb: FormBuilder,
-    private router: Router
+  rows: User[] = [];
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private apiClient: ApiClientService,
+    private dialog: MatDialog,
+    private toastr: ToastrService
   ) {
-    this.buildForm()
+    this.buildForm();
   }
 
   ngOnInit(): void {
+    this.filterForm.controls['name'].valueChanges.subscribe((value) => {
+      if (value === '') {
+        this.clearFilterValues();
+        this.getUsers();
+      } else if (!!value) {
+        this.filterForm.controls['email'].setValue(null);
+        this.filterForm.controls['phone_no'].setValue(null);
+      }
+    });
 
+    this.filterForm.controls['email'].valueChanges.subscribe((value) => {
+      if (value === '') {
+        this.clearFilterValues();
+        this.getUsers();
+      } else if (!!value) {
+        this.filterForm.controls['name'].setValue(null);
+        this.filterForm.controls['phone_no'].setValue(null);
+      }
+    });
+    this.filterForm.controls['phone_no'].valueChanges.subscribe((value) => {
+      if (value === '') {
+        this.clearFilterValues();
+        this.getUsers();
+      } else if (!!value) {
+        this.filterForm.controls['name'].setValue(null);
+        this.filterForm.controls['email'].setValue(null);
+      }
+    });
+    this.getUsers();
   }
 
-  buildForm(){
+  getUsers(search: string = '') {
+    this.apiClient
+      .get('users', {
+        pagination: 1,
+        page: this.page.page,
+        per_page: this.page.perPage,
+        name: this.name,
+        email: this.email,
+        phone_no: this.phone_no,
+      })
+      .subscribe((resp: any) => {
+        this.page.total = resp.result.total;
+        this.rows = resp.result.data.map(
+          (row: { created_at: string; updated_at: string }) => ({
+            ...row,
+            created_at: getUKFormatedDate(row.created_at),
+          })
+        );
+      });
+  }
+
+  onApplyFilters() {
+    if (!!this.filterForm.controls['name'].value) {
+      this.name = this.filterForm.controls['name'].value;
+      this.email = '';
+      this.phone_no = '';
+    } else if (!!this.filterForm.controls['email'].value) {
+      this.email = this.filterForm.controls['email'].value;
+      this.name = '';
+      this.phone_no = '';
+    } else if (!!this.filterForm.controls['phone_no'].value) {
+      this.phone_no = this.filterForm.controls['phone_no'].value;
+      this.name = '';
+      this.email = '';
+    }
+    this.getUsers();
+  }
+
+  clearFilterValues() {
+    this.name = '';
+    this.email = '';
+    this.phone_no = '';
+  }
+
+  buildForm() {
     this.filterForm = this.fb.group({
-      ssn: [''],
-      agent_name: [''],
-      date_of_birth: [''],
-      created_at: [''],
-      updated_at: [''],
-      created_by: [''],
-      updated_by: [''],
-      agent_id: [''],
+      name: [''],
       email: [''],
-      cell_phone_no: [''],
-      address: [''],
-      ssn3: ['', [Validators.minLength(3), Validators.maxLength(3)]],
-      ssn2: ['', [Validators.minLength(2), Validators.maxLength(2)]],
-      ssn4: ['', [Validators.minLength(4), Validators.maxLength(4)]],
+      phone_no: [''],
     });
   }
 
@@ -153,31 +175,84 @@ export class UsersListComponent implements OnInit {
     return Math.ceil(this.page.total / this.page.perPage);
   }
 
-  onSelectFilters(): void {
+  onSelectFilters(): void {}
+
+  resetForm() {}
+
+  onResetFilters() {
+    this.clearFilterValues();
+    this.filterForm.controls['name'].setValue(null);
+    this.filterForm.controls['email'].setValue(null);
+    this.filterForm.controls['phone_no'].setValue(null);
+    this.getUsers();
   }
 
-  resetForm(){}
-
-  onResetFilters(){}
-
-  onAgentNameClick(agentId:any){
+  onAgentNameClick(agentId: any) {
     this.router.navigateByUrl(`/users/${agentId}`);
   }
 
-  addNewAgent(){
+  addNewAgent() {
     this.router.navigateByUrl(`/users/add`);
   }
 
-  editAgent(row: any): void {
+  editUser(row: any): void {
     console.log('Edit Users:', row);
-    this.router.navigateByUrl(`/users/edit/${row.id}`);
+    this.router.navigateByUrl(`/users/edit/${row.id}`, { state: { row } });
     // Implement edit logic (e.g., open a modal, navigate to edit page)
   }
 
-  deleteAgent(row: any): void {
-    if (confirm('Are you sure you want to delete this agent?')) {
-      console.log('Delete Agent:', row);
-      // Implement delete logic (e.g., call API to remove the agent)
-    }
+  onDeleteUser(row: any): void {
+    this.showAlert(
+      'warning',
+      'Delete User?',
+      'Do you really want to delete this user.',
+      row.id
+    );
+  }
+
+  showAlert(type: string, title: string, message: string, id: number) {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '400px',
+      panelClass: 'custom-dialog-container',
+      backdropClass: 'custom-dialog-backdrop',
+      position: { top: '50%', left: '50%' },
+      data: { type: type, title: title, message: message },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.deleteUser(id);
+      }
+    });
+  }
+
+  deleteUser(id: number) {
+    this.apiClient
+      .get(`user/delete/${id}`)
+      .toPromise()
+      .then((resp) => {
+        this.toastr.success('User Deleted successfully!', 'Success');
+        this.getUsers();
+      })
+      .catch((err) => {
+        this.toastr.error(err.error.message, 'Error');
+      });
+  }
+
+  onStatusToggle(row: any) {
+    row.status = row.status === 1 ? 0 : 1;
+    this.updateUserStatus(row);
+  }
+
+  updateUserStatus(user: User) {
+    this.apiClient
+      .post(`user/update?id=${user.id}&status=${user.status}`)
+      .subscribe((resp: any) => {
+        if (resp.status) {
+          this.toastr.success(resp.message, 'Success');
+        } else {
+          this.toastr.error(resp.message, 'Error');
+        }
+      });
   }
 }
