@@ -222,20 +222,19 @@ input:focus {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25); 
   position: relative;
   font-family: 'Segoe UI', sans-serif;
+  background-color: green;
 }
 
 .toast-title {
-  font-size: 24px;
-  font-weight: 600;
-  margin-left: 55px;
+  font-size: 22px;
+  margin-left: 45px;
   // margin-top: 5px;
 }
 
 .toast-message {
-  font-size: 20px;
-  font-weight: 400;
-  margin-left: 55px;
-  color: black !important;
+  font-size: 18px;
+  margin-left: 45px;
+  color: grey !important;
 
 }
 
@@ -243,8 +242,8 @@ input:focus {
 
 
 .toast-success {
-  min-width: 450px;
-  max-width: 450px;
+  min-width: 350px;
+  max-width: 350px;
   min-height: 90px;
   height: 55px;
   background-color: #ffffff !important;
@@ -272,11 +271,11 @@ input:focus {
 
 
 .toast-error {
-  min-width: 450px;
-  max-width: 450px;
+  min-width: 350px;
+  max-width: 350px;
   min-height: 90px;
   height: 55px;
-  background-color: #fff5f5 !important;
+  background-color: #ffffff !important;
   color: #fd6e64 !important;
 
   &::before {

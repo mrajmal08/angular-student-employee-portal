@@ -8,17 +8,15 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { CoursesFormComponent } from './courses-form/courses-form.component';
 import { CoursesListComponent } from './courses-list/courses-list.component';
 @NgModule({
-  declarations: [
-    CoursesListComponent,
-    CoursesFormComponent
-  ],
+  declarations: [CoursesListComponent, CoursesFormComponent],
   imports: [
     CommonModule,
+    // MaterialModule,
     CoursesRoutingModule,
     NgxDatatableModule,
     ReactiveFormsModule,
     NgSelectModule,
-    CollapseModule.forRoot()
-  ]
+    CollapseModule.forRoot(),
+  ],
 })
-export class CoursesModule { }
+export class CoursesModule {}

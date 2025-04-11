@@ -2,8 +2,8 @@
   <div class="container-fluid">
     <!-- Toggle button for mobile -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-    style="font-size: 15px; padding: 0%;"
-      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      style="font-size: 15px; padding: 0%;" aria-controls="navbarNav" aria-expanded="false"
+      aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -23,14 +23,19 @@
           </ul>
         </li> -->
 
+
+
+
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle me-3" id="patientsDropdown" role="button" data-bs-toggle="dropdown"
             aria-expanded="false">
-            <i class="bi bi-person-fill me-2"></i> Recruitments Agent
+            <i class="bi bi-card-list" style="font-weight:bold;"></i> Recruitments Agent
           </a>
           <ul class="dropdown-menu" aria-labelledby="patientsDropdown">
             <li><a class="dropdown-item" [routerLink]="['/agents/list']">Agents List</a></li>
-            <li><div class="custom-divider"></div></li>
+            <li>
+              <div class="custom-divider"></div>
+            </li>
             <li><a class="dropdown-item" [routerLink]="['/agents/add']">Add New Agent</a></li>
           </ul>
         </li>
@@ -38,11 +43,13 @@
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle me-3" id="patientsDropdown" role="button" data-bs-toggle="dropdown"
             aria-expanded="false">
-            <i class="bi bi-person-fill me-2"></i> Application Module
+            <i class="bi bi-journal-text"></i> Application Module
           </a>
           <ul class="dropdown-menu" aria-labelledby="patientsDropdown">
             <li><a class="dropdown-item" [routerLink]="['/applications/students/list']">Students List</a></li>
-            <li><div class="custom-divider"></div></li>
+            <li>
+              <div class="custom-divider"></div>
+            </li>
             <li><a class="dropdown-item" [routerLink]="['/applications/create']">Create new application</a></li>
           </ul>
         </li>
@@ -89,7 +96,7 @@
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle me-3" id="patientsDropdown" role="button" data-bs-toggle="dropdown"
             aria-expanded="false">
-            <i class="bi bi-person-fill me-2"></i> Master
+            <i class="bi bi-journal-text"></i> Master
           </a>
           <ul class="dropdown-menu" aria-labelledby="patientsDropdown">
             <li><a class="dropdown-item" [routerLink]="['/users/list']">Users</a></li>
@@ -108,7 +115,7 @@
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle me-3" id="patientsDropdown" role="button" data-bs-toggle="dropdown"
             aria-expanded="false">
-            <i class="bi bi-list-ul me-2"></i> Reports
+            <i class="bi bi-journal-text"></i> Reports
           </a>
           <ul class="dropdown-menu" aria-labelledby="patientsDropdown">
             <li><a class="dropdown-item" [routerLink]="['/reports/student-report']">Student Report</a></li>

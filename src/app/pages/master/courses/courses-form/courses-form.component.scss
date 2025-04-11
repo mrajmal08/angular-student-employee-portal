@@ -65,3 +65,9 @@ ng-select {
   background-color: #0681a2;
   border: #0681a2;
 }
+
+.submit-button:disabled {
+  background-color: #8f8f8f;
+ border-color:#8f8f8f ;
+ color: #5a4e4e !important
+}

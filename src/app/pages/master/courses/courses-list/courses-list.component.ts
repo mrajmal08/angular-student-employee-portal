@@ -43,6 +43,9 @@ import { Course } from 'shared/models/course-model';
   ],
 })
 export class CoursesListComponent implements OnInit {
+  onCheckboxChange(event: Event, row: any) {
+    console.log('Event and row', event, row);
+  }
   page = {
     perPage: 10,
     page: 1,
