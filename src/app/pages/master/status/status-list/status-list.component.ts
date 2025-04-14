@@ -177,4 +177,8 @@ export class StatusListComponent implements OnInit {
       }
     });
   }
+
+  onCheckboxChange(event: Event, row: any) {
+    console.log('Event and row', event, row);
+  }
 }

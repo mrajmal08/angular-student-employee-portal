@@ -102,7 +102,11 @@ input:checked + .slider.blue:before {
   border: #08783e;
 }
 
-
+.filter-button:disabled {
+  background-color: #8f8f8f;
+  border-color:#8f8f8f ;
+  color: #5a4e4e !important
+ }
 
 .reset-button {
   background-color:#00b5e9;
@@ -116,6 +120,12 @@ input:checked + .slider.blue:before {
   border: #0681a2;
 }
 
+.reset-button:disabled {
+  background-color: #8f8f8f;
+  border-color:#8f8f8f ;
+  color: #5a4e4e !important
+ }
+
 
 .add-button {
   background-color: #05a853;
@@ -126,5 +136,11 @@ input:checked + .slider.blue:before {
 .add-button:hover {
   background-color: #08783e;
   border: #08783e;
+}
+
+
+:host ::ng-deep .btn {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
 }
 

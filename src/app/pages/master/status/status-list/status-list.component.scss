@@ -54,6 +54,12 @@ button.btn-default {
   border: #08783e;
 }
 
+.filter-button:disabled {
+  background-color: #8f8f8f;
+  border-color:#8f8f8f ;
+  color: #5a4e4e !important
+ }
+
 
 
 .reset-button {
@@ -67,6 +73,12 @@ button.btn-default {
   background-color: #0681a2;
   border: #0681a2;
 }
+.reset-button:disabled {
+  background-color: #8f8f8f;
+  border-color:#8f8f8f ;
+  color: #5a4e4e !important
+ }
+
 
 .add-button {
   background-color: #05a853;
@@ -77,4 +89,12 @@ button.btn-default {
 .add-button:hover {
   background-color: #08783e;
   border: #08783e;
+}
+
+
+
+
+:host ::ng-deep .btn {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
 }

@@ -76,13 +76,13 @@
 
 <div class="d-flex justify-content-between align-items-center mb-2">
   <div>
-    <label for="perPageSelect" class="me-2">Show</label>
+    <label for="perPageSelect" class="me-2" style="padding-bottom: 10px; color: #000000;">Show</label>
     <select id="perPageSelect" class="form-select me-2" style="width: auto; display: inline-block;"
       (change)="updatePerPage($event)">
       <option *ngFor="let option of perPageOptions" [value]="option" [selected]="option === page.perPage">{{ option }}
       </option>
     </select>
-    <label for="perPageSelect" class="me-2">entries</label>
+    <label for="perPageSelect" class="me-2" style="padding-bottom: 10px; color: #000000;">entries</label>
   </div>
   <!-- <div>
     <span>Page {{ page.page }} of {{ getTotalPages() }}</span>
@@ -127,12 +127,28 @@
     <ng-template ngx-datatable-cell-template let-row="row">
       <div class="d-flex justify-content-center gap-2">
         <!-- <button class="btn btn-sm btn-primary" style="min-width: 60px; padding: 5px 10px;" (click)="editStatus(row)"> -->
-        <i class="bi bi-pencil fs-5 pt-1" style="color: green; cursor: pointer;" (click)="editUser(row)">
-        </i>
+        <input type="checkbox" style="cursor: pointer;" (change)="onCheckboxChange($event, row)"
+          (click)="$event.stopPropagation()" />
+
+
+        <!-- <mat-icon>person_outline</mat-icon> -->
+        <!-- <span _ngcontent-lce-c497="" class="fake-input"></span> -->
+        <i class="bi bi-person-fill fs-6 " style="color: #58aff7; margin-bottom: 2px; cursor: pointer;"></i>
+
+
+        <!-- <i class="bi bi-pencil fs-8 pt-1" style="color: green; cursor: pointer;" (click)="editCourse(row)">
+        </i> -->
+        <i class="bi bi-pen" style="margin-left: 0; cursor: pointer;" (click)="editUser(row)"></i>
+
+
         <!-- </button> -->
-        <!-- <button class="btn btn-sm btn-danger" style="min-width: 60px; padding: 5px 10px;" (click)="onDeleteStatus(row)"> -->
-        <i class="bi bi-x fs-2" style="color: red; cursor: pointer;" title="Remove" (click)="onDeleteUser(row)">
-        </i>
+        <!-- <button class="btn btn-sm btn-danger" style="min-width: 60px; padding: 5px 10px;" (click)="onDeleteCourse(row)"> -->
+
+
+        <!-- <i class="bi bi-x fs-4" style="color: red; cursor: pointer;" title="Remove" (click)="onDeleteCourse(row)">
+        </i> -->
+
+        <i class="bi bi-x-lg text-danger" style="font-weight: bold; cursor: pointer;" (click)="onDeleteUser(row)"></i>
         <!-- </button> -->
       </div>
     </ng-template>

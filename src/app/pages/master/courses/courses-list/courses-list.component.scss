@@ -54,7 +54,11 @@ button.btn-default {
   background-color: #08783e;
   border: #08783e;
 }
-
+.filter-button:disabled {
+  background-color: #8f8f8f;
+  border-color:#8f8f8f ;
+  color: #5a4e4e !important
+ }
 
 
 .reset-button {
@@ -69,6 +73,11 @@ button.btn-default {
   border: #0681a2;
 }
 
+.reset-button:disabled {
+  background-color: #8f8f8f;
+  border-color:#8f8f8f ;
+  color: #5a4e4e !important
+ }
 
 .add-button {
   background-color: #05a853;

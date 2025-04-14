@@ -44,7 +44,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class UsersListComponent implements OnInit {
   page = {
-    perPage: 25,
+    perPage: 10,
     page: 1,
     total: 100,
   };
@@ -63,8 +63,8 @@ export class UsersListComponent implements OnInit {
     { name: 'User Mobile', prop: 'phone_no' },
     { name: 'User Email', prop: 'email' },
     { name: 'Created At', prop: 'created_at' },
-    { name: 'Created By', prop: 'createdBy' },
-    { name: 'Updated By', prop: 'updatedBy' },
+    { name: 'Created By', prop: 'created_by' },
+    { name: 'Updated By', prop: 'updated_by' },
     { name: 'Status', prop: 'status' },
   ];
 
@@ -254,5 +254,9 @@ export class UsersListComponent implements OnInit {
           this.toastr.error(resp.message, 'Error');
         }
       });
+  }
+
+  onCheckboxChange(event: Event, row: any) {
+    console.log('Event and row', event, row);
   }
 }
