@@ -83,3 +83,7 @@ button.btn-default {
 
 
 
+:host ::ng-deep .btn {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
