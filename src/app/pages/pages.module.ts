@@ -10,6 +10,7 @@ import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CaseModule } from './case/case.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -18,14 +19,14 @@ import { CaseModule } from './case/case.module';
     HeaderComponent,
     SideBarComponent,
     BreadcrumbsComponent,
-
   ],
   imports: [
     CommonModule,
     PagesRoutingModule,
     RouterModule,
     NgbModule,
-    CaseModule
-  ]
+    CaseModule,
+    ReactiveFormsModule,
+  ],
 })
-export class PagesModule { }
+export class PagesModule {}

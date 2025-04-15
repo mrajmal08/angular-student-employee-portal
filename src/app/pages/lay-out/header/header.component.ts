@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiClientService } from 'shared/services/api-client.service';
 import { ConfirmDialogComponent } from 'shared/dialogs/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { title } from 'process';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-header',
@@ -11,11 +12,43 @@ import { title } from 'process';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
+  open = false;
+  searchForm: FormGroup;
+
   constructor(
     private apiClient: ApiClientService,
     private router: Router,
-    private dialog: MatDialog
-  ) {}
+    private dialog: MatDialog,
+    private fb: FormBuilder
+  ) {
+    this.searchForm = this.fb.group({
+      patientName: [''],
+      caseId: [''],
+    });
+  }
+
+  toggleDropdown() {
+    this.open = !this.open;
+  }
+
+  closeDropdown() {
+    this.open = false;
+  }
+
+  onSearch() {
+    console.log(this.searchForm.value);
+    this.closeDropdown();
+  }
+
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    const clickedInside = target.closest('.search-container');
+    if (!clickedInside) {
+      this.closeDropdown();
+    }
+  }
+
   userName = this.apiClient.loginInfo?.result.name; // Replace with actual authentication logic
 
   logout() {

@@ -37,6 +37,75 @@
   justify-content: flex-end;
   align-items: center;
   padding-right: 15px;
+
+
+
+  .search-container {
+    position: relative;
+    width: 400px;
+    font-family: sans-serif;
+    margin-right: 55px;
+  }
+  
+  .search-box {
+    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    background: #fff;
+    height: 35px;
+
+
+  }
+  
+  .search-box input {
+    border: none;
+    outline: none;
+    flex-grow: 1;
+    // cursor: pointer;
+    background: transparent;
+  }
+  
+  .search-icon {
+    margin-right: 8px;
+  }
+  
+  .dropdown-icon {
+    margin-left: 8px;
+  }
+  
+  .dropdown-form {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: white;
+    border: 1px solid #ccc;
+    border-top: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 1rem;
+    z-index: 100;
+  }
+  
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .form-group label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
 }
 
 .dash-logo {

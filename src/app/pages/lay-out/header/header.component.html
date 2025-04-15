@@ -3,13 +3,68 @@
     <img src="assets/images/logo/logo.svg" alt="Logo" class="dash-logo">
   </div>
   <div class="action-container">
+    <div class="search-container">
+      <div class="search-box">
+        <!-- <span class="search-icon">🔍</span> -->
+        <i class="search-icon bi bi-search"></i>
+
+        <input type="text" placeholder="Search Patient/Case" (focus)="open = true" />
+        <!-- <span class="dropdown-icon" (click)="toggleDropdown()">▼</span> -->
+        <i class="bi bi-chevron-down"></i>
+      </div>
+
+      <div class="dropdown-form" *ngIf="open">
+        <form [formGroup]="searchForm" (ngSubmit)="onSearch()">
+          <div class="form-group">
+            <label>Patient Name</label>
+            <input type="text" formControlName="patientName" />
+          </div>
+          <div class="form-group">
+            <label>Case ID</label>
+            <input type="text" formControlName="caseId" />
+          </div>
+          <button type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+
+
+    <i class="fas fa-info-circle"></i>
+
     <div class="d-inline-block me-4 user-name">
       <img src="assets/images/user.png" class="profile-img me-2" alt="Profile Picture">
       <span class="profile-name">{{ userName }}</span>
     </div>
+
     <span class="bi bi-envelope-fill user-name me-4"></span>
     <span class="bi bi-bell-fill user-name me-4"></span>
-    <span class="bi bi-power user-name me-4" (click)="logout()"></span>
+    <!-- <span class="bi bi-power user-name me-4" (click)="logout()"></span> -->
+    <div class="dropdown">
+      <span class="bi bi-power user-name me-4" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false"
+        role="button"></span>
+
+      <ul class="dropdown-menu dropdown-menu-end" style="cursor: pointer;" aria-labelledby="userMenu">
+        <li><a class="dropdown-item">Setting</a></li>
+        <li><a class="dropdown-item">Profile</a></li>
+        <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
+      </ul>
+    </div>
+
+    <!-- <div class="dropdown">
+      <button class="btn btn-outline-secondary dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown"
+        aria-expanded="false">
+        <i class="bi bi-power"></i>
+      </button>
+
+      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+        <li><a class="dropdown-item" href="#">Profile</a></li>
+        <li><a class="dropdown-item" href="#" (click)="logout()">Logout</a></li>
+      </ul>
+    </div> -->
+
+
+
+
 
   </div>
 </div>
