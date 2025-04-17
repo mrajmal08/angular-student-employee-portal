@@ -1,16 +1,13 @@
 <div class="row">
   <div class="col-sm-12">
-    <div class="card" >
-      <div class="card-header" >
-        <span>Add Students</span>
-        <span
-          class="position-absolute"
-          style="top: 2px; right: 10px; cursor: pointer; color: white">
+    <div class="card">
+      <div class="card-header">
+        <span>{{!!this.dataForEdit.row?'Edit':'Add' }} Student</span>
+        <span class="position-absolute" style="top: 2px; right: 10px; cursor: pointer; color: white">
           <i class="fa fa-times" (click)="closeForm()"></i>
         </span>
       </div>
-      <div
-        class="card-body">
+      <div class="card-body">
 
         <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
 
@@ -19,67 +16,134 @@
               <div class="form-group">
                 <label>Name:<sup *ngIf="displayValidation">*</sup></label>
                 <input type="text" class="form-control" formControlName="name" />
-                <small class="form-text text-muted danger" *ngIf="studentForm.get('name')?.errors?.['required'] && (studentForm.get('name')?.touched)">
+                <small class="form-text text-muted danger"
+                  *ngIf="studentForm.get('name')?.errors?.['required'] && (studentForm.get('name')?.touched)">
                   Please enter the student's name!
+                </small>
+              </div>
+            </div>
+
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Surname:<sup *ngIf="displayValidation">*</sup></label>
+                <input type="text" class="form-control" formControlName="surname" />
+                <small class="form-text text-muted danger"
+                  *ngIf="studentForm.get('surname')?.errors?.['required'] && (studentForm.get('surname')?.touched)">
+                  Please enter the student's surname!
                 </small>
               </div>
             </div>
 
             <div class="col-md-4">
               <div class="form-group">
-                <label>Year:<sup *ngIf="displayValidation">*</sup></label>
-                <input type="number" class="form-control" formControlName="year" />
+                <label>Email:<sup *ngIf="displayValidation">*</sup></label>
+                <input type="text" class="form-control" formControlName="email" />
+                <small class="form-text text-muted danger"
+                  *ngIf="studentForm.get('email')?.errors?.['required'] && (studentForm.get('email')?.touched)">
+                  Please enter the student's email!
+                </small>
               </div>
             </div>
 
             <div class="col-md-4">
               <div class="form-group">
-                <label>Month:<sup *ngIf="displayValidation">*</sup></label>
-                <input type="text" class="form-control" formControlName="month" />
+                <label>Nationality:<sup *ngIf="displayValidation">*</sup></label>
+                <input type="text" class="form-control" formControlName="nationality" />
+                <small class="form-text text-muted danger"
+                  *ngIf="studentForm.get('nationality')?.errors?.['required'] && (studentForm.get('nationality')?.touched)">
+                  Please enter the student's nationality!
+                </small>
               </div>
             </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Date of Birth:<sup *ngIf="displayValidation">*</sup></label>
+                <input type="date" class="form-control" formControlName="date_of_birth" />
+                <small class="form-text text-muted danger"
+                  *ngIf="studentForm.get('date_of_birth')?.errors?.['required'] && (studentForm.get('date_of_birth')?.touched)">
+                  Please enter the student's birth date!
+                </small>
+              </div>
+            </div>
+
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Place of Birth:<sup *ngIf="displayValidation">*</sup></label>
+                <input type="text" class="form-control" formControlName="place_of_birth" />
+                <small class="form-text text-muted danger"
+                  *ngIf="studentForm.get('place_of_birth')?.errors?.['required'] && (studentForm.get('place_of_birth')?.touched)">
+                  Please enter the student's birth place!
+                </small>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Passport Start Date:<sup *ngIf="displayValidation">*</sup></label>
+                <input type="date" class="form-control" formControlName="passport_start_date" />
+                <small class="form-text text-muted danger"
+                  *ngIf="studentForm.get('passport_start_date')?.errors?.['required'] && (studentForm.get('passport_start_date')?.touched)">
+                  Please enter the passport start date!
+                </small>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Passport Expiry Date:<sup *ngIf="displayValidation">*</sup></label>
+                <input type="date" class="form-control" formControlName="passport_expiry_date" />
+                <small class="form-text text-muted danger"
+                  *ngIf="studentForm.get('passport_expiry_date')?.errors?.['required'] && (studentForm.get('passport_expiry_date')?.touched)">
+                  Please enter the passport expiry date!
+                </small>
+              </div>
+            </div>
+
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Passport Status:<sup *ngIf="displayValidation">*</sup></label>
+                <input type="text" class="form-control" formControlName="passport_status" />
+                <small class="form-text text-muted danger"
+                  *ngIf="studentForm.get('passport_status')?.errors?.['required'] && (studentForm.get('passport_status')?.touched)">
+                  Please enter the student's passport status!
+                </small>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Phone No:<sup *ngIf="displayValidation">*</sup></label>
+                <input type="text" class="form-control" formControlName="phone_no" />
+                <small class="form-text text-muted danger"
+                  *ngIf="studentForm.get('phone_no')?.errors?.['required'] && (studentForm.get('phone_no')?.touched)">
+                  Please enter the student's phone no!
+                </small>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Gender:<sup *ngIf="displayValidation">*</sup></label>
+                <input type="text" class="form-control" formControlName="gender" />
+                <small class="form-text text-muted danger"
+                  *ngIf="studentForm.get('gender')?.errors?.['required'] && (studentForm.get('gender')?.touched)">
+                  Please enter the student's gender!
+                </small>
+              </div>
+            </div>
+
           </div>
-
-          <div class="row mt-3">
-            <div class="col-md-4">
-              <div class="form-group">
-                <label>Date:<sup *ngIf="displayValidation">*</sup></label>
-                <input type="date" class="form-control" formControlName="date" />
-              </div>
-            </div>
-
-            <div class="col-md-4">
-              <div class="form-group">
-                <label>Origin:<sup *ngIf="displayValidation">*</sup></label>
-                <input type="text" class="form-control" formControlName="origin" />
-              </div>
-            </div>
-
-            <div class="col-md-4">
-              <div class="form-group">
-                <label>Location:<sup *ngIf="displayValidation">*</sup></label>
-                <input type="text" class="form-control" formControlName="location" />
-              </div>
-            </div>
-          </div>
-
-          <div class="row mt-3">
-            <div class="col-md-4">
-              <div class="form-group">
-                <label>Agent:<sup *ngIf="displayValidation">*</sup></label>
-                <input type="text" class="form-control" formControlName="agent" />
-              </div>
-            </div>
-          </div>
-
-
-
 
         </form>
 
         <div class="form-buttons gap-2">
-          <button type="submit" class="btn btn-primary" [disabled]="!studentForm.valid">Submit</button>
-          <button type="button" class="btn btn-secondary">Cancel</button>
+          <button type="submit" class="btn btn-primary submit-button" [disabled]="!studentForm.valid"
+            (click)="onSubmit()">Submit</button>
+          <button type="button" class="btn btn-secondary cancel-button" (click)="closeForm()">Cancel</button>
         </div>
 
       </div>

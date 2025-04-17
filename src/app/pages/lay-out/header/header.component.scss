@@ -18,10 +18,10 @@
   }
 
   // **Optional: Add hover effect**
-  .bi:hover {
-    transform: scale(1.2);
-    color: white;
-  }
+  // .bi:hover {
+  //   transform: scale(1.2);
+  //   color: white;
+  // }
 }
 
 .image-container {
@@ -119,7 +119,44 @@
 }
 
 .profile-img {
-  width: 40px;
-  height: 40px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
+
 }
+
+:host ::ng-deep .btn {
+  color: #fff !important;
+}
+
+
+
+.dropdown-menu {
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+  border-top: 2px solid #05a853;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  min-width: 220px;
+  color: white;
+  // margin-top: -5px;
+}
+
+.dropdown-item {
+  color: #8a8686;
+  font-size: 12px;
+  padding: 5px 15px;
+}
+
+.dropdown-item:hover {
+  background-color: #f1f1f1;
+}
+
+.custom-divider {
+  height: 1px;
+  width: 90%;
+  background-color: #ddd; /* Light gray */
+  margin: 5px auto; /* Center align */
+}
+
+

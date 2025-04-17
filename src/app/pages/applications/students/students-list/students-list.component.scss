@@ -1,4 +1,4 @@
-.search-agent-title {
+.search-student-title {
   color: #00b5e9;
   position: absolute;
   top: 0;
@@ -40,4 +40,59 @@ button.btn-default {
   cursor: pointer;
   text-align: center;
   // text-decoration: underline;
+}
+
+
+.filter-button {
+  background-color: #05a853;
+  color: #ffffff;
+  border: #05a853;
+  width: 110px;
+}
+
+.filter-button:hover {
+  background-color: #08783e;
+  border: #08783e;
+}
+.filter-button:disabled {
+  background-color: #8f8f8f;
+  border-color:#8f8f8f ;
+  color: #5a4e4e !important
+ }
+
+
+.reset-button {
+  background-color:#00b5e9;
+  color: #ffffff;
+  border: #00b5e9;
+  width: 110px;
+}
+
+.reset-button:hover {
+  background-color: #0681a2;
+  border: #0681a2;
+}
+
+.reset-button:disabled {
+  background-color: #8f8f8f;
+  border-color:#8f8f8f ;
+  color: #5a4e4e !important
+ }
+
+.add-button {
+  background-color: #05a853;
+  color: #ffffff;
+  border: #05a853;
+}
+
+.add-button:hover {
+  background-color: #08783e;
+  border: #08783e;
+}
+
+
+
+:host ::ng-deep .btn {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
 }

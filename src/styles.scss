@@ -238,6 +238,13 @@ input:focus {
 
 }
 
+.toast-message span {
+  display: inline-block;
+  max-width: 250px;  // or any suitable width
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 
 

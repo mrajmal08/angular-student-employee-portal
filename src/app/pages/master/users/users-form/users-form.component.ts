@@ -92,8 +92,11 @@ export class UsersFormComponent implements OnInit {
             console.log('Error:', error);
 
             this.toastr.error(
-              this.getErrorMessageFromResponse(error.error),
-              'Error'
+              `<span title="${this.getErrorMessageFromResponse(
+                error.error
+              )}">${this.getErrorMessageFromResponse(error.error)}</span>`,
+              'Error',
+              { enableHtml: true }
             );
           })
           .catch((error: any) => {});
