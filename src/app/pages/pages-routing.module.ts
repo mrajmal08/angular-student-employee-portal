@@ -50,6 +50,14 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'departments',
+        loadChildren: () =>
+          import('./master/departments/departments.module').then(
+            (m) => m.DepartmentsModule
+          ),
+      },
+
+      {
         path: 'status',
         loadChildren: () =>
           import('./master/status/status.module').then((m) => m.StatusModule),

@@ -1,13 +1,12 @@
 <div class="d-flex mt-3 mb-3 justify-content-end">
-  <button type="button" class="btn btn-secondary add-button" (click)="addNewStatus()">+ Add New Status</button>
+  <button type="button" class="btn btn-secondary add-button" (click)="addNewDepartment()">+ Add New Department</button>
 </div>
 
 <form class="form w-100" style="margin: 20px 0px;" [formGroup]="filterForm" (ngSubmit)="onApplyFilters()"
   autocomplete="off" novalidate>
 
-  <!-- Search Status Title -->
   <div class="form-content search-filter-block position-relative ">
-    <strong class="sub-title search-status-title">Search Status</strong>
+    <strong class="sub-title search-department-title">Search Department</strong>
 
     <!-- Toggle Button (Top Right) -->
     <!-- <button class="btn plus-btn position-absolute"
@@ -17,6 +16,7 @@
       <i class="bi bi-plus" *ngIf="isCollapsed"></i>
       <i class="bi bi-dash" *ngIf="!isCollapsed"></i>
     </button> -->
+
     <div class="position-absolute d-flex" style="top: 42px; right: 20px;">
       <button type="submit" class="btn btn-primary mx-1 filter-button" (click)="onApplyFilters()"
         [disabled]="!filterForm.controls['name'].value">
@@ -29,10 +29,13 @@
       </button>
     </div>
 
+
     <div class="row">
       <div class="field-block w-100">
         <div class="col-12" style="color: #808382;">
           <div class="row" style="padding-right: 100px;">
+
+
             <div class="col-12 col-sm-6 col-md-3">
               <div class="form-group">
                 <label for="name">Name</label>
@@ -40,49 +43,8 @@
               </div>
             </div>
 
-            <!-- <div class="col-12 col-sm-6 col-md-3">
-              <div class="form-group">
-                <label for="description">Description</label>
-                <input type="text" class="form-control" id="description" formControlName="description" />
-              </div>
-            </div> -->
-
-
           </div>
 
-          <!-- Collapsible Fields with Animation -->
-          <!-- <div id="collapseBasic" [@collapseAnimation]="isCollapsed ? 'collapsed' : 'expanded'">
-            <div class="row" style="padding-right: 100px; margin-top: 20px;">
-              <div class="col-12 col-sm-6 col-md-3">
-                <div class="form-group">
-                  <label for="created_by">Created By</label>
-                  <input type="text" class="form-control" id="created_by" formControlName="created_by" />
-                </div>
-              </div>
-
-              <div class="col-12 col-sm-6 col-md-3">
-                <div class="form-group">
-                  <label for="created_by">Created By</label>
-                  <input type="text" class="form-control" id="created_by" formControlName="created_by" />
-                </div>
-              </div>
-
-              <div class="col-12 col-sm-6 col-md-3">
-                <div class="form-group">
-                  <label for="created_by">Created By</label>
-                  <input type="text" class="form-control" id="created_by" formControlName="created_by" />
-                </div>
-              </div>
-
-              <div class="col-12 col-sm-6 col-md-3">
-                <div class="form-group">
-                  <label for="created_by">Created By</label>
-                  <input type="text" class="form-control" id="created_by" formControlName="created_by" />
-                </div>
-              </div>
-
-            </div>
-          </div> -->
 
           <!-- Filter & Reset Buttons (Centered) -->
           <!-- <div class="d-flex justify-content-center mt-3">
@@ -113,17 +75,17 @@
   </div> -->
 </div>
 <ngx-datatable class="bootstrap custom-table" [rows]="rows" [columns]="columns" [columnMode]="'force'"
-  [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [scrollbarH]="true" [limit]="page.perPage"
+  [headerHeight]="30" [footerHeight]="30" [rowHeight]="'auto'" [scrollbarH]="true" [limit]="page.perPage"
   [count]="page.total" [offset]="page.page - 1" [externalPaging]="true" (page)="setPage($event)">
 
   <ngx-datatable-column *ngFor="let col of columns" [name]="col.name" [prop]="col.prop" [sortable]="false">
     <ng-template ngx-datatable-header-template let-column="column">
-      <div class="mgx-header">{{ column.name }}</div>
+      <div class="mgx-header" style="font-weight:900; ">{{ column.name }}</div>
     </ng-template>
 
     <ng-template ngx-datatable-cell-template let-value="value" let-row="row" let-column="column">
 
-      <div class="text-center">{{ value }}</div>
+      <div class="text-center" [title]="value">{{ value }}</div>
 
     </ng-template>
 
@@ -139,9 +101,11 @@
         <input type="checkbox" style="cursor: pointer; margin-right: 12px;" (change)="onCheckboxChange($event, row)"
           (click)="$event.stopPropagation()" />
 
-        <i class="bi bi-pen" style="margin-left: 0; cursor: pointer;margin-right: 10px;" (click)="editStatus(row)"></i>
+        <i class="bi bi-pen" style="margin-left: 0; cursor: pointer; margin-right: 10px;"
+          (click)="editDepartment(row)"></i>
 
-        <i class="bi bi-x-lg text-danger" style="font-weight: bold; cursor: pointer;" (click)="onDeleteStatus(row)"></i>
+        <i class="bi bi-x-lg text-danger" style="font-weight: bold; cursor: pointer;"
+          (click)="onDeleteDepartment(row)"></i>
       </div>
     </ng-template>
   </ngx-datatable-column>

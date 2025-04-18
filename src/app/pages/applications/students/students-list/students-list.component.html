@@ -93,26 +93,10 @@
 
     <ng-template ngx-datatable-cell-template let-row="row">
       <div class="d-flex justify-content-center gap-2">
-        <input type="checkbox" style="cursor: pointer;" (change)="onCheckboxChange($event, row)"
+        <input type="checkbox" style="cursor: pointer; margin-right: 12px;" (change)="onCheckboxChange($event, row)"
           (click)="$event.stopPropagation()" />
 
-
-        <!-- <mat-icon>person_outline</mat-icon> -->
-        <!-- <span _ngcontent-lce-c497="" class="fake-input"></span> -->
-        <i class="bi bi-person-fill fs-6 " style="color: #58aff7; margin-bottom: 2px; cursor: pointer;"></i>
-
-
-        <!-- <i class="bi bi-pencil fs-8 pt-1" style="color: green; cursor: pointer;" (click)="editCourse(row)">
-      </i> -->
-        <i class="bi bi-pen" style="margin-left: 0; cursor: pointer;" (click)="editStudent(row)"></i>
-
-
-        <!-- </button> -->
-        <!-- <button class="btn btn-sm btn-danger" style="min-width: 60px; padding: 5px 10px;" (click)="onDeleteCourse(row)"> -->
-
-
-        <!-- <i class="bi bi-x fs-4" style="color: red; cursor: pointer;" title="Remove" (click)="onDeleteCourse(row)">
-      </i> -->
+        <i class="bi bi-pen" style="margin-left: 0; cursor: pointer;margin-right: 10px;" (click)="editStudent(row)"></i>
 
         <i class="bi bi-x-lg text-danger" style="font-weight: bold; cursor: pointer;"
           (click)="onDeleteStudent(row)"></i>
