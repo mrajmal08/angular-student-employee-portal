@@ -198,8 +198,6 @@ vertical-align: $align;
   .ngx-datatable .datatable-header-cell {
 	line-height: 0.875rem !important;
 	font-size: 12px !important;
-
-
   }
 
   .ngx-datatable.bootstrap .datatable-header .datatable-header-cell .datatable-header-cell-label {
@@ -240,7 +238,8 @@ vertical-align: $align;
 	text-overflow: inherit !important;
 	/*word-break: break-all;*/
 	text-align: center;
-  }
+	min-height: 45px;
+}
 
   .ngx-datatable.dark .datatable-body .datatable-body-row .datatable-body-cell,
   ng-reflect-row-height {
