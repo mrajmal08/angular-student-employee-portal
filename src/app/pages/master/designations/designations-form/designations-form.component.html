@@ -1,0 +1,56 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-header">
+        <span>{{!!this.dataForEdit.row?'Edit':'Add' }} Designation</span>
+        <span class="position-absolute" style="top: 2px; right: 10px; cursor: pointer; color: white">
+          <i class="fa fa-times" (click)="closeForm()"></i>
+        </span>
+      </div>
+      <div class="card-body">
+
+        <form [formGroup]="designationForm" (ngSubmit)="onSubmit()">
+
+          <div class="row mt-3">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="firstName">Name:<sup *ngIf="displayValidation">*</sup></label>
+                <input type="text" class="form-control" name="name" formControlName="name" alphaOnly />
+                <small class="form-text text-muted danger" *ngIf="
+                      designationForm.get('name')?.errors?.['required'] &&
+                      (designationForm.get('name')?.dirty || designationForm.get('name')?.touched)">Please enter your
+                  name!</small>
+                <small class="form-text text-muted danger" *ngIf="
+                        designationForm.get('name')?.errors?.['maxlength'] &&
+                        designationForm.get('name')?.dirty">Maximum characters should be 25!</small>
+              </div>
+
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="lastName">Description:<sup *ngIf="displayValidation">*</sup></label>
+                <input type="text" class="form-control" formControlName="description" id="description" />
+                <small class="form-text text-muted danger" *ngIf="
+                    designationForm.get('description')?.errors?.['required'] &&
+                    (designationForm.get('description')?.dirty || designationForm.get('description')?.touched)
+                  ">Please enter your description!</small>
+                <small class="form-text text-muted danger" *ngIf="
+                    designationForm.get('description')?.errors?.['maxlength'] &&
+                    designationForm.get('description')?.dirty
+                  ">Maximum characters should be 25!</small>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <div class="form-buttons gap-2">
+          <button type="submit" class="btn btn-primary submit-button" [disabled]="!designationForm.valid"
+            (click)="onSubmit()">Submit</button>
+          <button type="button" class="btn btn-secondary cancel-button" (click)="closeForm()">Cancel</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

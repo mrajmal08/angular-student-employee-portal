@@ -56,6 +56,13 @@ const routes: Routes = [
             (m) => m.DepartmentsModule
           ),
       },
+      {
+        path: 'designations',
+        loadChildren: () =>
+          import('./master/designations/designations.module').then(
+            (m) => m.DesignationsModule
+          ),
+      },
 
       {
         path: 'status',
