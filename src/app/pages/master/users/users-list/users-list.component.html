@@ -55,10 +55,55 @@
                 <input type="text" class="form-control" id="phone_no" formControlName="phone_no" />
               </div>
             </div>
-            <!-- Other input fields here... -->
+
+
+
+
+
+
           </div>
 
 
+          <div class="row" style="padding-right: 100px;">
+            <div class="col-md-3">
+              <div class=" form-group">
+                <label>Roles:</label>
+                <!-- <select class="form-control" formControlName="courseChoice">
+                  <option *ngFor="let course of courses" [value]="course">{{ course }}</option>
+                </select> -->
+                <ng-select [items]="courses" bindLabel="name" bindValue="value" formControlName="courseChoice"
+                  placeholder="Select a role">
+                </ng-select>
+              </div>
+
+            </div>
+
+            <div class="col-md-3">
+              <div class=" form-group">
+                <label>Departments:</label>
+                <!-- <select class="form-control" formControlName="courseChoice">
+                  <option *ngFor="let course of courses" [value]="course">{{ course }}</option>
+                </select> -->
+                <ng-select [items]="courses" bindLabel="name" bindValue="value" formControlName="courseChoice"
+                  placeholder="Select a department">
+                </ng-select>
+              </div>
+
+            </div>
+
+            <div class="col-md-3">
+              <div class=" form-group">
+                <label>Designations:</label>
+                <!-- <select class="form-control" formControlName="courseChoice">
+                  <option *ngFor="let course of courses" [value]="course">{{ course }}</option>
+                </select> -->
+                <ng-select [items]="courses" bindLabel="name" bindValue="value" formControlName="courseChoice"
+                  placeholder="Select a designation">
+                </ng-select>
+              </div>
+
+            </div>
+          </div>
 
           <!-- Filter & Reset Buttons (Centered) -->
           <!-- <div class="d-flex justify-content-center mt-3">

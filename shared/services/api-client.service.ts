@@ -6,7 +6,8 @@ import { LoginInfo } from 'shared/models/login-info-model';
   providedIn: 'root',
 })
 export class ApiClientService {
-  private baseUrl = 'https://mavenmindconsultants.net/api';
+  // private baseUrl = 'https://mavenmindconsultants.net/api';
+  private baseUrl = 'https://api.mavenmindconsultants.net/api';
   loginInfo: LoginInfo | undefined;
   constructor(private http: HttpClient) {}
 

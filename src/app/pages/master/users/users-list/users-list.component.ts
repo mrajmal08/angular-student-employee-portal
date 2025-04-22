@@ -60,12 +60,29 @@ export class UsersListComponent implements OnInit {
   columns = [
     { name: 'User ID', prop: 'id' },
     { name: 'User Name', prop: 'name' },
-    { name: 'User Mobile', prop: 'phone_no' },
     { name: 'User Email', prop: 'email' },
+    { name: 'Phone No', prop: 'phone_no' },
+    { name: 'DOB', prop: 'date_of_birth' },
+    { name: 'Role', prop: 'role.name' },
+    { name: 'Designation', prop: 'designation.name' },
+    { name: 'Department', prop: 'department.name' },
     { name: 'Created At', prop: 'created_at' },
+    { name: 'Status', prop: 'status' },
     { name: 'Created By', prop: 'created_by' },
     { name: 'Updated By', prop: 'updated_by' },
-    { name: 'Status', prop: 'status' },
+  ];
+
+  courses: string[] = [
+    'Computer Science',
+    'Business Administration',
+    'Mechanical Engineering',
+    'Electrical Engineering',
+    'Medicine',
+    'Law',
+    'Psychology',
+    'Architecture',
+    'Finance',
+    'Marketing',
   ];
 
   rows: User[] = [];
