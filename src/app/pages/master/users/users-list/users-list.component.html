@@ -10,25 +10,25 @@
     <strong class="sub-title search-user-title">Search Users</strong>
 
     <!-- Toggle Button (Top Right) -->
-    <!-- <button class="btn plus-btn position-absolute"
+    <button class="btn plus-btn position-absolute"
       style="max-width: 42px; top: 42px; right: 20px; min-width: unset; background-color: #05a853; border: #05a853;"
       (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic"
       [class.btn-dark]="!isCollapsed" [class.btn-primary]="isCollapsed" type="button">
       <i class="bi bi-plus" *ngIf="isCollapsed"></i>
       <i class="bi bi-dash" *ngIf="!isCollapsed"></i>
-    </button> -->
+    </button>
 
-    <div class="position-absolute d-flex" style="top: 42px; right: 20px;">
+    <!-- <div class="position-absolute d-flex" style="top: 42px; right: 20px;">
       <button type="submit" class="btn btn-primary mx-1 filter-button" (click)="onApplyFilters()"
-        [disabled]="!filterForm.controls['name'].value && !filterForm.controls['email'].value && !filterForm.controls['phone_no'].value">
+        [disabled]="isDisabled()">
         Filter
       </button>
 
       <button type="button" class="btn btn-outline-secondary mx-1 reset-button" (click)="onResetFilters()"
-        [disabled]="!filterForm.controls['name'].value && !filterForm.controls['email'].value && !filterForm.controls['phone_no'].value">
+        [disabled]="isDisabled()">
         Reset
       </button>
-    </div>
+    </div> -->
 
     <div class="row">
       <div class="field-block w-100">
@@ -57,61 +57,73 @@
             </div>
 
 
+            <div class="col-md-3">
+              <div class=" form-group">
+                <label>Roles:</label>
 
+                <ng-select #roleSelect [items]="roles" bindLabel="name" bindValue="id" formControlName="roles"
+                  placeholder="Select a role" [clearable]="false" (change)="onRoleChange($event,roleSelect)">
+                </ng-select>
+              </div>
+
+            </div>
 
 
 
           </div>
 
+          <div id="collapseBasic" [@collapseAnimation]="isCollapsed ? 'collapsed' : 'expanded'">
+            <div class="row" style="padding-right: 100px; margin-top: 12px;">
+              <!-- <div class="col-md-3">
+                <div class=" form-group">
+                  <label>Roles:</label>
 
-          <div class="row" style="padding-right: 100px;">
-            <div class="col-md-3">
-              <div class=" form-group">
-                <label>Roles:</label>
-                <!-- <select class="form-control" formControlName="courseChoice">
-                  <option *ngFor="let course of courses" [value]="course">{{ course }}</option>
-                </select> -->
-                <ng-select [items]="courses" bindLabel="name" bindValue="value" formControlName="courseChoice"
-                  placeholder="Select a role">
-                </ng-select>
+                  <ng-select [items]="roles" bindLabel="name" bindValue="id" formControlName="roles"
+                    placeholder="Select a role" (change)="onRoleChange($event)">
+                  </ng-select>
+                </div>
+
+              </div> -->
+
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>Departments:</label>
+                  <ng-select #departmentSelect [items]="departments" bindLabel="name" bindValue="id"
+                    formControlName="departments" placeholder="Select a department" [clearable]="false"
+                    (change)="onDepartmentChange($event)">
+                  </ng-select>
+                </div>
               </div>
 
-            </div>
+              <div class="col-md-3">
+                <div class=" form-group">
+                  <label>Designations:</label>
+                  <ng-select #designationSelect [items]="designations" bindLabel="name" bindValue="id"
+                    formControlName="designations" placeholder="Select a designation" [clearable]="false"
+                    (change)="onDesignationChange($event)">
+                  </ng-select>
+                </div>
 
-            <div class="col-md-3">
-              <div class=" form-group">
-                <label>Departments:</label>
-                <!-- <select class="form-control" formControlName="courseChoice">
-                  <option *ngFor="let course of courses" [value]="course">{{ course }}</option>
-                </select> -->
-                <ng-select [items]="courses" bindLabel="name" bindValue="value" formControlName="courseChoice"
-                  placeholder="Select a department">
-                </ng-select>
               </div>
-
-            </div>
-
-            <div class="col-md-3">
-              <div class=" form-group">
-                <label>Designations:</label>
-                <!-- <select class="form-control" formControlName="courseChoice">
-                  <option *ngFor="let course of courses" [value]="course">{{ course }}</option>
-                </select> -->
-                <ng-select [items]="courses" bindLabel="name" bindValue="value" formControlName="courseChoice"
-                  placeholder="Select a designation">
-                </ng-select>
-              </div>
-
             </div>
           </div>
 
           <!-- Filter & Reset Buttons (Centered) -->
-          <!-- <div class="d-flex justify-content-center mt-3">
-            <button type="submit" class="btn btn-primary mx-2"
+          <div class="d-flex justify-content-center mt-3" style="margin-right: 100px;">
+            <!-- <button type="submit" class="btn btn-primary mx-2"
               style="background-color: #05a853; border: #05a853;">Filter</button>
             <button type="button" class="btn btn-default mx-2" (click)="onResetFilters()"
-              [disabled]="true">Reset</button>
-          </div> -->
+              [disabled]="true">Reset</button> -->
+            <button type="submit" class="btn btn-primary mx-1 filter-button" (click)="onApplyFilters()"
+              [disabled]="isDisabled()">
+              Filter
+            </button>
+
+            <button type="button" class="btn btn-outline-secondary mx-1 reset-button" (click)="onResetFilters()"
+              [disabled]="isDisabled()">
+              Reset
+            </button>
+          </div>
         </div>
       </div>
     </div>

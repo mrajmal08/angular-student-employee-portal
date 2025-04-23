@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
@@ -14,6 +14,9 @@ import { getUKFormatedDate } from 'shared/helpers/common-helper';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'shared/dialogs/confirm-dialog/confirm-dialog.component';
 import { ToastrService } from 'ngx-toastr';
+import { Department } from 'shared/models/department-model';
+import { Designation } from 'shared/models/designation-model';
+import { NgSelectComponent } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-users-list',
@@ -43,6 +46,12 @@ import { ToastrService } from 'ngx-toastr';
   ],
 })
 export class UsersListComponent implements OnInit {
+  @ViewChild('roleSelect', { read: ElementRef }) roleSelectRef!: ElementRef;
+  @ViewChild('departmentSelect', { read: ElementRef })
+  departmentSelectRef!: ElementRef;
+  @ViewChild('designationSelect', { read: ElementRef })
+  designationSelectRef!: ElementRef;
+
   page = {
     perPage: 10,
     page: 1,
@@ -56,6 +65,12 @@ export class UsersListComponent implements OnInit {
   name: string = '';
   email: string = '';
   phone_no: string = '';
+  role_id?: string = undefined;
+  department_id?: string = undefined;
+  designation_id?: string = undefined;
+  roles: any[] = [];
+  departments: Department[] = [];
+  designations: Designation[] = [];
 
   columns = [
     { name: 'User ID', prop: 'id' },
@@ -72,19 +87,6 @@ export class UsersListComponent implements OnInit {
     { name: 'Updated By', prop: 'updated_by' },
   ];
 
-  courses: string[] = [
-    'Computer Science',
-    'Business Administration',
-    'Mechanical Engineering',
-    'Electrical Engineering',
-    'Medicine',
-    'Law',
-    'Psychology',
-    'Architecture',
-    'Finance',
-    'Marketing',
-  ];
-
   rows: User[] = [];
   constructor(
     private fb: FormBuilder,
@@ -97,35 +99,70 @@ export class UsersListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.filterForm.controls['name'].valueChanges.subscribe((value) => {
-      if (value === '') {
-        this.clearFilterValues();
-        this.getUsers();
-      } else if (!!value) {
-        this.filterForm.controls['email'].setValue(null);
-        this.filterForm.controls['phone_no'].setValue(null);
-      }
-    });
+    // this.filterForm.controls['name'].valueChanges.subscribe((value) => {
+    //   if (value === '') {
+    //     this.clearFilterValues();
+    //     this.getUsers();
+    //   } else if (!!value) {
+    //     this.filterForm.controls['email'].setValue(null);
+    //     this.filterForm.controls['phone_no'].setValue(null);
+    //   }
+    // });
 
-    this.filterForm.controls['email'].valueChanges.subscribe((value) => {
-      if (value === '') {
-        this.clearFilterValues();
-        this.getUsers();
-      } else if (!!value) {
-        this.filterForm.controls['name'].setValue(null);
-        this.filterForm.controls['phone_no'].setValue(null);
-      }
-    });
-    this.filterForm.controls['phone_no'].valueChanges.subscribe((value) => {
-      if (value === '') {
-        this.clearFilterValues();
-        this.getUsers();
-      } else if (!!value) {
-        this.filterForm.controls['name'].setValue(null);
-        this.filterForm.controls['email'].setValue(null);
-      }
-    });
+    // this.filterForm.controls['email'].valueChanges.subscribe((value) => {
+    //   if (value === '') {
+    //     this.clearFilterValues();
+    //     this.getUsers();
+    //   } else if (!!value) {
+    //     this.filterForm.controls['name'].setValue(null);
+    //     this.filterForm.controls['phone_no'].setValue(null);
+    //   }
+    // });
+    // this.filterForm.controls['phone_no'].valueChanges.subscribe((value) => {
+    //   if (value === '') {
+    //     this.clearFilterValues();
+    //     this.getUsers();
+    //   } else if (!!value) {
+    //     this.filterForm.controls['name'].setValue(null);
+    //     this.filterForm.controls['email'].setValue(null);
+    //   }
+    // });
     this.getUsers();
+    this.getRoles();
+    this.getDepartments();
+    this.getDesignations();
+  }
+
+  getRoles() {
+    this.apiClient.get('roles', {}).subscribe((resp: any) => {
+      this.roles = resp.result.map((dep: any) => ({
+        id: dep.id,
+        name: dep.name,
+      }));
+
+      console.log('roles:', this.roles);
+    });
+  }
+
+  getDepartments() {
+    this.apiClient.get('departments', {}).subscribe((resp: any) => {
+      this.departments = resp.result.map((dep: any) => ({
+        id: dep.id,
+        name: dep.name,
+      }));
+
+      console.log('Departments:', this.departments);
+    });
+  }
+  getDesignations() {
+    this.apiClient.get('designations', {}).subscribe((resp: any) => {
+      this.designations = resp.result.map((dep: any) => ({
+        id: dep.id,
+        name: dep.name,
+      }));
+
+      console.log('designations:', this.designations);
+    });
   }
 
   getUsers(search: string = '') {
@@ -137,6 +174,9 @@ export class UsersListComponent implements OnInit {
         name: this.name,
         email: this.email,
         phone_no: this.phone_no,
+        ...(this.role_id && { role_id: this.role_id }),
+        ...(this.department_id && { department_id: this.department_id }),
+        ...(this.designation_id && { designation_id: this.designation_id }),
       })
       .subscribe((resp: any) => {
         this.page.total = resp.result.total;
@@ -152,16 +192,16 @@ export class UsersListComponent implements OnInit {
   onApplyFilters() {
     if (!!this.filterForm.controls['name'].value) {
       this.name = this.filterForm.controls['name'].value;
-      this.email = '';
-      this.phone_no = '';
+      // this.email = '';
+      // this.phone_no = '';
     } else if (!!this.filterForm.controls['email'].value) {
       this.email = this.filterForm.controls['email'].value;
-      this.name = '';
-      this.phone_no = '';
+      // this.name = '';
+      // this.phone_no = '';
     } else if (!!this.filterForm.controls['phone_no'].value) {
       this.phone_no = this.filterForm.controls['phone_no'].value;
-      this.name = '';
-      this.email = '';
+      // this.name = '';
+      // this.email = '';
     }
     this.getUsers();
   }
@@ -177,6 +217,9 @@ export class UsersListComponent implements OnInit {
       name: [''],
       email: [''],
       phone_no: [''],
+      roles: [null],
+      departments: [null],
+      designations: [null],
     });
   }
 
@@ -201,6 +244,13 @@ export class UsersListComponent implements OnInit {
     this.filterForm.controls['name'].setValue(null);
     this.filterForm.controls['email'].setValue(null);
     this.filterForm.controls['phone_no'].setValue(null);
+    this.filterForm.controls['roles'].reset();
+    this.filterForm.controls['departments'].reset();
+    this.filterForm.controls['designations'].reset();
+
+    this.role_id = undefined;
+    this.department_id = undefined;
+    this.designation_id = undefined;
     this.getUsers();
   }
 
@@ -275,5 +325,49 @@ export class UsersListComponent implements OnInit {
 
   onCheckboxChange(event: Event, row: any) {
     console.log('Event and row', event, row);
+  }
+
+  onRoleChange(selected: any, selectRef: any) {
+    this.role_id = selected.id.toString();
+    // console.log('Selected department ID:', selectedId);
+    setTimeout(() => {
+      const input: HTMLInputElement | null =
+        this.roleSelectRef.nativeElement.querySelector('input');
+      if (input) {
+        input.blur();
+      }
+    }, 0);
+  }
+
+  onDepartmentChange(selected: any) {
+    this.department_id = selected.id.toString();
+    setTimeout(() => {
+      const input: HTMLInputElement | null =
+        this.departmentSelectRef.nativeElement.querySelector('input');
+      if (input) {
+        input.blur();
+      }
+    }, 0);
+  }
+  onDesignationChange(selected: any) {
+    this.designation_id = selected.id.toString();
+    setTimeout(() => {
+      const input: HTMLInputElement | null =
+        this.designationSelectRef.nativeElement.querySelector('input');
+      if (input) {
+        input.blur();
+      }
+    }, 0);
+  }
+
+  isDisabled() {
+    return (
+      !this.filterForm.controls['name'].value &&
+      !this.filterForm.controls['email'].value &&
+      !this.filterForm.controls['phone_no'].value &&
+      !this.role_id &&
+      !this.department_id &&
+      !this.designation_id
+    );
   }
 }

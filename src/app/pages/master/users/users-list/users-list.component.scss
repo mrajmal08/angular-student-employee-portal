@@ -95,6 +95,9 @@ input:checked + .slider.blue:before {
   color: #ffffff;
   border: #05a853;
   width: 110px;
+  margin-right: 20px !important;
+
+
 }
 
 .filter-button:hover {
@@ -105,7 +108,8 @@ input:checked + .slider.blue:before {
 .filter-button:disabled {
   background-color: #8f8f8f;
   border-color:#8f8f8f ;
-  color: #5a4e4e !important
+  color: #5a4e4e !important;
+  margin-right: 20px !important;
  }
 
 .reset-button {
@@ -144,3 +148,8 @@ input:checked + .slider.blue:before {
   padding-bottom: 0.25rem;
 }
 
+::ng-deep .ng-select.ng-select-single .ng-select-container {
+  max-height: 30px !important;
+  min-height: 12px ;
+  padding-top: 4px;
+}
