@@ -99,34 +99,29 @@ export class UsersListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.filterForm.controls['name'].valueChanges.subscribe((value) => {
-    //   if (value === '') {
-    //     this.clearFilterValues();
-    //     this.getUsers();
-    //   } else if (!!value) {
-    //     this.filterForm.controls['email'].setValue(null);
-    //     this.filterForm.controls['phone_no'].setValue(null);
-    //   }
-    // });
+    this.filterForm.controls['name'].valueChanges.subscribe((value) => {
+      if (value === '') {
+        this.name = '';
+        // this.clearFilterValues();
+        // this.getUsers();
+      }
+    });
 
-    // this.filterForm.controls['email'].valueChanges.subscribe((value) => {
-    //   if (value === '') {
-    //     this.clearFilterValues();
-    //     this.getUsers();
-    //   } else if (!!value) {
-    //     this.filterForm.controls['name'].setValue(null);
-    //     this.filterForm.controls['phone_no'].setValue(null);
-    //   }
-    // });
-    // this.filterForm.controls['phone_no'].valueChanges.subscribe((value) => {
-    //   if (value === '') {
-    //     this.clearFilterValues();
-    //     this.getUsers();
-    //   } else if (!!value) {
-    //     this.filterForm.controls['name'].setValue(null);
-    //     this.filterForm.controls['email'].setValue(null);
-    //   }
-    // });
+    this.filterForm.controls['email'].valueChanges.subscribe((value) => {
+      if (value === '') {
+        this.email = '';
+
+        // this.clearFilterValues();
+        // this.getUsers();
+      }
+    });
+    this.filterForm.controls['phone_no'].valueChanges.subscribe((value) => {
+      if (value === '') {
+        this.phone_no = '';
+        // this.clearFilterValues();
+        // this.getUsers();
+      }
+    });
     this.getUsers();
     this.getRoles();
     this.getDepartments();
