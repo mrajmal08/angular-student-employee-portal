@@ -10,10 +10,10 @@
     <strong class="sub-title search-user-title">Search Users</strong>
 
     <!-- Toggle Button (Top Right) -->
-    <button class="btn plus-btn position-absolute"
-      style="max-width: 42px; top: 42px; right: 20px; min-width: unset; background-color: #05a853; border: #05a853;"
-      (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic"
-      [class.btn-dark]="!isCollapsed" [class.btn-primary]="isCollapsed" type="button">
+    <button class="btn plus-btn position-absolute custom-btn"
+      style="max-width: 42px; top: 42px; right: 20px; min-width: unset; " (click)="isCollapsed = !isCollapsed"
+      [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic" [class.btn-dark]="!isCollapsed"
+      [class.btn-primary]="isCollapsed" type="button">
       <i class="bi bi-plus" *ngIf="isCollapsed"></i>
       <i class="bi bi-dash" *ngIf="!isCollapsed"></i>
     </button>
@@ -62,7 +62,7 @@
                 <label>Roles:</label>
 
                 <ng-select #roleSelect [items]="roles" bindLabel="name" bindValue="id" formControlName="roles"
-                  placeholder="Select a role" [clearable]="false" (change)="onRoleChange($event,roleSelect)">
+                  placeholder="Select a role" [clearable]="false" (change)="onRoleChange($event)">
                 </ng-select>
               </div>
 

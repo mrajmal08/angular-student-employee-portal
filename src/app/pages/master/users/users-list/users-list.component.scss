@@ -143,6 +143,18 @@ input:checked + .slider.blue:before {
 }
 
 
+.custom-btn {
+  background-color: #4b4b4b; /* Default black */
+  border: 1px solid #4b4b4b;
+  color: white; /* Optional: make icon/text white */
+}
+
+.custom-btn:hover {
+  background-color: #05a853; /* Green on hover */
+  border-color: #05a853;
+}
+
+
 :host ::ng-deep .btn {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;

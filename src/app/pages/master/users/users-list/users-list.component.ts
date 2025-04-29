@@ -322,7 +322,7 @@ export class UsersListComponent implements OnInit {
     console.log('Event and row', event, row);
   }
 
-  onRoleChange(selected: any, selectRef: any) {
+  onRoleChange(selected: any) {
     this.role_id = selected.id.toString();
     // console.log('Selected department ID:', selectedId);
     setTimeout(() => {

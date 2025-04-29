@@ -62,7 +62,7 @@ export class StudentsCreateComponent implements OnInit {
           ...this.studentForm.value,
         }).toString();
         this.apiClient
-          .post(`student/update_student?${queryParams}`)
+          .post(`student/update?${queryParams}`)
           .subscribe((resp: any) => {
             if (resp.status) {
               this.location.back();
@@ -74,7 +74,7 @@ export class StudentsCreateComponent implements OnInit {
           ...this.studentForm.value,
         }).toString();
         this.apiClient
-          .post(`student/add_student?${queryParams}`)
+          .post(`student/insert?${queryParams}`)
           .toPromise()
           .then((resp: any) => {
             if (resp.status) {

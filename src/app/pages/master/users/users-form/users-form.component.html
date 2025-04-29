@@ -4,7 +4,10 @@
       <div class="card-header">
         <span>{{!!this.dataForEdit.row?'Edit':'Add' }} User</span>
         <span class="position-absolute" style="top: 2px; right: 10px; cursor: pointer; color: white">
-          <i class="fa fa-times" (click)="closeForm()"></i>
+
+          <i class="fa fa-times" (click)="closeForm()"
+            style="position:absolute; cursor: pointer; font-size: 24px; right: 10px; top: 20px;"></i>
+
         </span>
       </div>
       <div class="card-body">
@@ -14,7 +17,7 @@
           <div class="row mt-3">
             <div class="col-md-4">
               <div class="form-group">
-                <label for="firstName">Name:<sup *ngIf="displayValidation">*</sup></label>
+                <label for="firstName">First Name:<sup *ngIf="displayValidation">*</sup></label>
                 <input type="text" class="form-control" name="name" formControlName="name" alphaOnly />
                 <small class="form-text text-muted danger" *ngIf="
                       userForm.get('name')?.errors?.['required'] &&
@@ -25,17 +28,31 @@
               </div>
             </div>
 
+
             <div class="col-md-4">
               <div class="form-group">
-                <!-- Fake hidden fields to fool the browser -->
+                <label for="middle_name">Middle Name:</label>
+                <input type="text" class="form-control" name="middle_name" formControlName="middle_name" alphaOnly />
+
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="surname">Surname:<sup *ngIf="displayValidation">*</sup></label>
+                <input type="text" class="form-control" name="surname" formControlName="surname" alphaOnly />
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+
                 <input type="email" name="fake-email" autocomplete="nope" style="display:none;">
                 <input type="password" name="fake-password" autocomplete="new-password" style="display:none;">
 
                 <label for="lastName">Email:<sup *ngIf="displayValidation">*</sup></label>
                 <input type="email" class="form-control" formControlName="email" autocomplete="new-email-xyz" />
-                <!-- Random ID -->
 
-                <!-- Your existing error messages -->
                 <small class="form-text text-muted danger"
                   *ngIf="userForm.get('email')?.errors?.['required'] && (userForm.get('email')?.dirty || userForm.get('email')?.touched)">
                   Please enter your email!
@@ -47,7 +64,7 @@
               </div>
             </div>
 
-            <div class="col-md-4">
+            <!-- <div class="col-md-4">
               <div class="form-group">
                 <label for="email">Phone Number:<sup *ngIf="displayValidation">*</sup></label>
                 <input type="text" class="form-control" name="phone_no" formControlName="phone_no" />
@@ -59,21 +76,14 @@
                         userForm.get('phone_no')?.errors?.['maxlength'] &&
                         userForm.get('phone_no')?.dirty">Maximum characters should be 25!</small>
               </div>
-            </div>
+            </div> -->
 
-          </div>
-
-          <div class="row mt-3">
             <div class="col-md-4">
               <div class="form-group">
-                <!-- Fake hidden fields to trick the browser -->
                 <input type="email" name="fake-email" autocomplete="nope" style="display:none;">
                 <input type="password" name="fake-password" autocomplete="new-password" style="display:none;">
-
                 <label for="password">Password:<sup *ngIf="displayValidation">*</sup></label>
                 <input type="password" class="form-control" formControlName="password" />
-
-                <!-- Error messages (unchanged) -->
                 <small class="form-text text-muted danger"
                   *ngIf="userForm.get('password')?.errors?.['required'] && (userForm.get('password')?.dirty || userForm.get('password')?.touched)">
                   Please enter password!
@@ -84,21 +94,349 @@
                 </small>
               </div>
             </div>
-            <div class="col-md-4" *ngIf="!this.dataForEdit.row">
+
+            <div class="col-md-4">
               <div class="form-group">
-                <label for="password_confirmation">Confirm Password:<sup *ngIf="displayValidation">*</sup></label>
-                <input type="password" class="form-control" name="password_confirmation"
-                  formControlName="password_confirmation" />
-                <small class="form-text text-muted danger"
-                  *ngIf="
-                      userForm.get('password_confirmation')?.errors?.['required'] &&
-                      (userForm.get('password_confirmation')?.dirty || userForm.get('password_confirmation')?.touched)">Please
-                  confirm password!</small>
-                <small class="form-text text-muted danger" *ngIf="
-                        userForm.get('password_confirmation')?.errors?.['maxlength'] &&
-                        userForm.get('password_confirmation')?.dirty">Maximum characters should be 25!</small>
+                <label>Gender:</label>
+                <div class="d-flex">
+                  <div class="form-check me-3">
+                    <input class="form-check-input" type="radio" name="gender" formControlName="gender" value="Male"
+                      id="male">
+                    <label class="form-check-label" for="male">
+                      Male
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="gender" formControlName="gender" value="Female"
+                      id="female">
+                    <label class="form-check-label" for="female">
+                      Female
+                    </label>
+                  </div>
+                </div>
               </div>
             </div>
+
+
+          </div>
+
+          <div class="row mt-3">
+
+
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>DOB:</label>
+                <input type="date" class="form-control" formControlName="date_of_birth" />
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="nationality">Nationality:</label>
+                <input type="text" class="form-control" name="nationality" formControlName="nationality" alphaOnly />
+
+              </div>
+            </div>
+
+            <!-- //  Hiding... -->
+            <!-- <div class="col-md-4" *ngIf="!IsRecruitmentAgentRole">
+              <div class="form-group" [style.visibility]="'hidden'">
+                <label>DOB:</label>
+                <input type="date" class="form-control" formControlName="date_of_birth" />
+              </div>
+            </div> -->
+
+
+
+            <div class="col-md-4">
+              <div class=" form-group">
+                <label>Role:</label>
+
+                <ng-select #roleSelect [items]="roles" bindLabel="name" bindValue="id" formControlName="role_id"
+                  placeholder="Select a role" [clearable]="false" (change)="onRoleChange($event)">
+                </ng-select>
+              </div>
+
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="address">Address:</label>
+                <input type="text" class="form-control" name="middle_name" formControlName="address" alphaOnly />
+
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="zipcode">Zip Code:</label>
+                <input type="text" class="form-control" name="middle_name" formControlName="zipcode" alphaOnly />
+
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="city">City:</label>
+                <input type="text" class="form-control" name="middle_name" formControlName="city" alphaOnly />
+
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class=" form-group">
+                <label>State:</label>
+
+                <ng-select #roleSelect [items]="roles" bindLabel="name" bindValue="id" formControlName="state_id"
+                  placeholder="Select a role" [clearable]="false" (change)="onRoleChange($event)">
+                </ng-select>
+              </div>
+
+            </div>
+
+
+            <!-- // Hiding... -->
+            <!-- <div class="col-md-4" *ngIf="!IsRecruitmentAgentRole">
+              <div class="form-group" [style.visibility]="'hidden'">
+                <label>Suite No:</label>
+                <input type="date" class="form-control" formControlName="date_of_birth" />
+              </div>
+            </div> -->
+
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="work_phone_no">Work Phone Number:<sup *ngIf="displayValidation">*</sup></label>
+                <input type="text" class="form-control" name="work_phone_no" formControlName="work_phone_no" />
+
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="phone_extension">Phone Extension:<sup *ngIf="displayValidation">*</sup></label>
+                <input type="text" class="form-control" name="phone_extension" formControlName="phone_extension" />
+
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="phone">Phone:<sup *ngIf="displayValidation">*</sup></label>
+                <input type="text" class="form-control" name="phone" formControlName="phone" />
+
+              </div>
+            </div>
+
+
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Start Date:</label>
+                <input type="date" class="form-control" formControlName="start_date" />
+              </div>
+            </div>
+
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>End Date:</label>
+                <input type="date" class="form-control" formControlName="end_date" />
+              </div>
+            </div>
+
+            <!-- // Hiding... -->
+            <!-- <div class="col-md-4">
+              <div class="form-group" [style.visibility]="'hidden'">
+                <label for="emergency_phone">Emergency Phone:<sup *ngIf="displayValidation">*</sup></label>
+                <input type="text" class="form-control" name="emergency_phone" formControlName="emergency_phone" />
+
+              </div>
+            </div> -->
+
+            <!-- // Hiding... -->
+            <!-- <div class="col-md-4" *ngIf="!IsRecruitmentAgentRole">
+              <div class="form-group" [style.visibility]="'hidden'">
+                <label>Fax:</label>
+                <input type="date" class="form-control" formControlName="date_of_birth" />
+              </div>
+            </div> -->
+            <div class="col-md-4" *ngIf="!IsRecruitmentAgentRole">
+              <div class=" form-group">
+                <label>Intake:</label>
+                <ng-select #designationSelect [items]="designations" bindLabel="name" bindValue="id"
+                  formControlName="intake_id" placeholder="Select a designation" [clearable]="false"
+                  (change)="onDesignationChange($event)">
+                </ng-select>
+              </div>
+
+            </div>
+
+
+
+
+
+            <div class="col-md-4" *ngIf="IsRecruitmentAgentRole">
+              <div class="form-group">
+                <label for="agency_name">Agency Name:</label>
+                <input type="text" class="form-control" name="agency_name" formControlName="agency_name" alphaOnly />
+
+              </div>
+            </div>
+
+
+            <div class="col-md-4" *ngIf="IsRecruitmentAgentRole">
+              <div class="form-group">
+                <label for="institute_time">Time with the institution:</label>
+                <input type="text" class="form-control" name="institute_time" formControlName="institute_time"
+                  alphaOnly />
+
+              </div>
+            </div>
+
+            <div class="col-md-4" *ngIf="IsRecruitmentAgentRole">
+              <div class="form-group">
+                <label for="agent_market_value">Agent Market Value:</label>
+                <input type="text" class="form-control" name="agent_market_value" formControlName="agent_market_value"
+                  alphaOnly />
+
+              </div>
+            </div>
+
+
+
+
+
+
+            <div class="col-md-4">
+              <div class=" form-group">
+                <label>Designations:</label>
+                <ng-select #designationSelect [items]="designations" bindLabel="name" bindValue="id"
+                  formControlName="designation_id" placeholder="Select a designation" [clearable]="false"
+                  (change)="onDesignationChange($event)">
+                </ng-select>
+              </div>
+
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Departments:</label>
+                <ng-select #departmentSelect [items]="departments" bindLabel="name" bindValue="id"
+                  formControlName="department_id" placeholder="Select a department" [clearable]="false"
+                  (change)="onDepartmentChange($event)">
+                </ng-select>
+              </div>
+            </div>
+
+
+
+            <!-- <div class="col-md-4">
+              <div class=" form-group">
+                <label>Sessions:</label>
+                <ng-select #sessionSelect [items]="sessions" bindLabel="name" bindValue="id"
+                  formControlName="session_id" placeholder="Select a session" [clearable]="false"
+                  (change)="onSessionChange($event)">
+                </ng-select>
+              </div>
+
+            </div> -->
+
+            <div class="col-md-4">
+              <div class=" form-group">
+                <label>Location:</label>
+                <ng-select #sessionSelect [items]="sessions" bindLabel="name" bindValue="id"
+                  formControlName="location_id" placeholder="Select a session" [clearable]="false"
+                  (change)="onSessionChange($event)">
+                </ng-select>
+              </div>
+
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Hiring Date:</label>
+                <input type="date" class="form-control" formControlName="hiring_date" />
+              </div>
+            </div>
+
+
+
+            <div class="col-md-4">
+              <div class=" form-group">
+                <label>Employment Type:</label>
+                <ng-select #sessionSelect [items]="sessions" bindLabel="name" bindValue="id"
+                  formControlName="employee_type_id" placeholder="Select a session" [clearable]="false"
+                  (change)="onSessionChange($event)">
+                </ng-select>
+              </div>
+
+            </div>
+
+            <!-- <div class="col-md-4">
+              <div class="form-group">
+                <label for="status">Status:</label>
+                <input type="text" class="form-control" name="status" formControlName="status" alphaOnly />
+
+              </div>
+            </div> -->
+
+
+            <!-- <div class="col-md-4" *ngIf="IsRecruitmentAgentRole">
+              <div class="form-group">
+                <label for="agency_name">Agency Name:</label>
+                <input type="text" class="form-control" name="agency_name" formControlName="agency_name" alphaOnly />
+
+              </div>
+            </div> -->
+
+
+            <!-- <div class="col-md-4" *ngIf="IsRecruitmentAgentRole">
+              <div class="form-group">
+                <label for="institute_time">Institute Time:</label>
+                <input type="text" class="form-control" name="institute_time" formControlName="institute_time"
+                  alphaOnly />
+
+              </div>
+            </div> -->
+
+            <!-- <div class="col-md-4" *ngIf="IsRecruitmentAgentRole">
+              <div class="form-group">
+                <label for="agent_market_value">Agent Market Value:</label>
+                <input type="text" class="form-control" name="agent_market_value" formControlName="agent_market_value"
+                  alphaOnly />
+
+              </div>
+            </div> -->
+
+
+            <!-- <div class="col-md-4">
+              <div class="form-group">
+                <label>Start Date:</label>
+                <input type="date" class="form-control" formControlName="start_date" />
+              </div>
+            </div> -->
+
+            <!-- <div class="col-md-4">
+              <div class="form-group">
+                <label>End Date:</label>
+                <input type="date" class="form-control" formControlName="end_date" />
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="nationality">Nationality:</label>
+                <input type="text" class="form-control" name="nationality" formControlName="nationality" alphaOnly />
+
+              </div>
+            </div>
+            <div class="col-md-4" *ngIf="!IsRecruitmentAgentRole">
+              <div class="form-group">
+                <label>Date Of Birth:</label>
+                <input type="date" class="form-control" formControlName="date_of_birth" />
+              </div>
+            </div> -->
+
           </div>
         </form>
 

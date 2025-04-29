@@ -70,3 +70,9 @@ ng-select {
   border-color:#8f8f8f ;
   color: #5a4e4e !important
  }
+
+ ::ng-deep .ng-select.ng-select-single .ng-select-container {
+  max-height: 30px !important;
+  min-height: 12px ;
+  padding-top: 4px;
+}
