@@ -50,6 +50,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'sessions',
+        loadChildren: () =>
+          import('./master/sessions/sessions.module').then(
+            (m) => m.SessionsModule
+          ),
+      },
+      {
         path: 'departments',
         loadChildren: () =>
           import('./master/departments/departments.module').then(
