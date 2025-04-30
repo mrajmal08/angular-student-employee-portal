@@ -175,7 +175,9 @@ export class StudentsListComponent implements OnInit {
   }
 
   onStudentNameClick(studentId: any) {
-    this.router.navigateByUrl(`/applications/students/view/${studentId}`);
+    this.router.navigateByUrl(`/applications/students/view/${studentId}`, {
+      state: { studentId },
+    });
   }
 
   editStudent(row: any): void {
