@@ -1,8 +1,57 @@
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item" *ngFor="let breadcrumb of breadcrumbs; let last = last">
-      <a *ngIf="!last" [routerLink]="breadcrumb.url" [innerHTML]="formatBreadcrumb(breadcrumb.label)"></a>
-      <span *ngIf="last" class="active" [innerHTML]="formatBreadcrumb(breadcrumb.label)"></span>
-    </li>
-  </ol>
-</nav>
+<div class="breadcrumb-container">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+
+      <li class="breadcrumb-item" *ngFor="let breadcrumb of breadcrumbs; let last = last">
+        <a *ngIf="!last" [routerLink]="breadcrumb.url" [innerHTML]="formatBreadcrumb(breadcrumb.label)"></a>
+        <span *ngIf="last" class="active" [innerHTML]="formatBreadcrumb(breadcrumb.label)"></span>
+
+      </li>
+
+
+    </ol>
+
+  </nav>
+
+  <span class="breadcrumb-end" *ngIf="isCaseRoute">
+    <span style="color: black;">Case Id:</span>
+    <span style="color: green;"> 1234 Bently Wilson</span>
+  </span>
+
+</div>
+
+<div *ngIf="isCaseRoute" style="display: flex; align-items: center;">
+  <img src="assets/images/profile.jpeg" width="50" height="50"
+    style="border: 3px solid lightblue; background-color: green;" />
+
+  <div style="display: flex; flex-direction: column; margin-left: 10px;">
+    <div>
+      <div class="text-hold">
+        <div class="profile-details">
+          <div>
+            <span class="name">BENTLEY WILSON</span>
+            <span class="age">(58 Years Old</span>
+            <span>| DOB: 10/04/1966</span>
+            <span>| <span style="color: green;">Male</span>)</span>
+            <span>| DOA: <strong>Case Type:</strong> No Fault</span>
+            <span><strong>Provider:</strong> Mason</span>
+          </div>
+          <div class="contact-info">
+            <i class="fas fa-phone"></i> 929-900-1990
+            <i class="fas fa-map-marker-alt"></i> 2515 Glenwood Rd #1G, Brooklyn, NY, 11210
+            <i class="fas fa-envelope"></i> Bentley.wilson@gmail.com
+          </div>
+          <!-- <div class="icons">
+            <i class="fas fa-key"></i>
+            <i class="fas fa-edit"></i>
+            <i class="fas fa-copy"></i>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isCaseRoute" style="border-bottom: 1px solid grey; margin: 10px 0;"></div>

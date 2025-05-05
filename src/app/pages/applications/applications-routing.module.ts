@@ -8,14 +8,18 @@ const routes: Routes = [
     path: '',
     component: ApplicationsComponent,
     children: [
-      { path: 'students', loadChildren: () => import('./students/students.module').then(m => m.StudentsModule) },
+      {
+        path: 'students',
+        loadChildren: () =>
+          import('./students/students.module').then((m) => m.StudentsModule),
+      },
       { path: 'create', component: ApplicationsCreateComponent },
-    ]
-  }
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class ApplicationsRoutingModule { }
+export class ApplicationsRoutingModule {}

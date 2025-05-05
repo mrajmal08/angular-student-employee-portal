@@ -1,6 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Course } from 'shared/models/course-model';
+import { Session } from 'shared/models/session-model';
+import { User } from 'shared/models/user-model';
+import { ApiClientService } from 'shared/services/api-client.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-case-info',
@@ -8,26 +13,50 @@ import { Router } from '@angular/router';
   styleUrls: ['./case-info.component.scss'],
 })
 export class CaseInfoComponent implements OnInit {
+  @ViewChild('agentSelect', { read: ElementRef }) agentSelectRef!: ElementRef;
+  @ViewChild('sessionSelect', { read: ElementRef })
+  sessionSelectRef!: ElementRef;
+  @ViewChild('courseSelect', { read: ElementRef })
+  courseSelectRef!: ElementRef;
+
   caseForm!: FormGroup;
   displayValidation = true;
   userId: string | null = '';
+  dataForEdit: any;
 
-  courses = [
-    { id: 1, name: 'Computer Science' },
-    { id: 2, name: 'Business Management' },
-    { id: 3, name: 'Mechanical Engineering' },
-  ];
+  courses: Course[] = [];
+  sessions: Session[] = [];
+  agents: User[] = [];
 
   selectedCourses: number[] = [];
 
-  constructor(private fb: FormBuilder, private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private apiClient: ApiClientService,
+    private location: Location
+  ) {}
 
   ngOnInit(): void {
     this.caseForm = this.fb.group({
-      course_ids: ['', Validators.required],
-      session: ['', Validators.required],
-      agent_ids: ['', Validators.required],
+      course_id: ['', Validators.required],
+      session_id: ['', Validators.required],
+      agent_id: ['', Validators.required],
     });
+
+    this.dataForEdit = history.state;
+    console.log('dataForEdit', this.dataForEdit);
+
+    if (!!this.dataForEdit.row) {
+      this.caseForm.patchValue({
+        course_id: this.dataForEdit.row.course_id,
+        session_id: this.dataForEdit.row.session_id,
+        agent_id: this.dataForEdit.row.agent_id,
+      });
+    }
+    this.getCourses();
+    this.getSessions();
+    this.getAgents();
   }
 
   onFileChange(event: any, field: string) {
@@ -37,15 +66,122 @@ export class CaseInfoComponent implements OnInit {
   }
 
   onSubmit() {
-    let url = '/case/';
-    url += this.userId ? 'edit' : 'add';
+    // let url = '/case/';
+    // url += this.userId ? 'edit' : 'add';
+
+    // if (this.caseForm.valid) {
+    //   this.router.navigateByUrl(url + '/patient-info');
+    // } else {
+    //   console.log('Form is invalid');
+    // }
 
     if (this.caseForm.valid) {
-      this.router.navigateByUrl(url + '/patient-info');
+      if (!!this.dataForEdit.row) {
+        const queryParams = new URLSearchParams({
+          case_id: this.dataForEdit.row.id,
+          ...(this.dataForEdit.row.student_id
+            ? { student_id: this.dataForEdit.row.student_id }
+            : {}),
+          ...this.caseForm.value,
+        }).toString();
+        this.apiClient
+          .get(`case/update?${queryParams}`)
+          .subscribe((resp: any) => {
+            if (resp.status) {
+              this.location.back();
+            } else {
+            }
+          });
+      } else {
+        const queryParams = new URLSearchParams({
+          ...this.caseForm.value,
+        }).toString();
+        this.apiClient
+          .post(`case/insert?${queryParams}`)
+          .toPromise()
+          .then((resp: any) => {
+            if (resp.status) {
+              console.log('Success: GOING BACK >>>>');
+
+              this.location.back();
+            }
+          })
+          .catch((error: any) => {
+            console.log('Error:', error);
+
+            // this.toastr.error(
+            //   `<span title="${this.getErrorMessageFromResponse(
+            //     error.error
+            //   )}">${this.getErrorMessageFromResponse(error.error)}</span>`,
+            //   'Error',
+            //   { enableHtml: true }
+            // );
+          })
+          .catch((error: any) => {});
+      }
     } else {
       console.log('Form is invalid');
     }
   }
 
-  closeForm() {}
+  closeForm() {
+    this.location.back();
+  }
+
+  getCourses() {
+    this.apiClient.get('courses', {}).subscribe((resp: any) => {
+      this.courses = resp.result.map((course: any) => ({
+        id: course.id,
+        name: course.name,
+      }));
+    });
+  }
+
+  getSessions() {
+    this.apiClient.get('sessions', {}).subscribe((resp: any) => {
+      this.sessions = resp.result.map((session: any) => ({
+        id: session.id,
+        name: session.name,
+      }));
+    });
+  }
+
+  getAgents() {
+    this.apiClient.get('users?role_id=2', {}).subscribe((resp: any) => {
+      this.agents = resp.result.map((agent: any) => ({
+        id: agent.id,
+        name: agent.name,
+      }));
+    });
+  }
+
+  onAgentChange($event: any) {
+    setTimeout(() => {
+      const input: HTMLInputElement | null =
+        this.agentSelectRef.nativeElement.querySelector('input');
+      if (input) {
+        input.blur();
+      }
+    }, 10);
+  }
+
+  onSessionChange($event: any) {
+    setTimeout(() => {
+      const input: HTMLInputElement | null =
+        this.sessionSelectRef.nativeElement.querySelector('input');
+      if (input) {
+        input.blur();
+      }
+    }, 10);
+  }
+
+  onCourseChange($event: any) {
+    setTimeout(() => {
+      const input: HTMLInputElement | null =
+        this.courseSelectRef.nativeElement.querySelector('input');
+      if (input) {
+        input.blur();
+      }
+    }, 10);
+  }
 }

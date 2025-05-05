@@ -13,6 +13,7 @@ import { CaseAddComponent } from './case-add/case-add.component';
 import { CaseEditComponent } from './case-edit/case-edit.component';
 import { CommentsComponent } from './comments/comments.component';
 import { StudentInfoComponent } from '../applications/students/student-info/student-info.component';
+import { CasesListComponent } from './cases-list/cases-list.component';
 
 const routes: Routes = [
   {
@@ -38,7 +39,6 @@ const routes: Routes = [
           { path: 'verifier', component: VerifierComponent },
           { path: 'view-all', component: ViewAllComponent },
           { path: 'comments', component: CommentsComponent },
-
         ],
       },
       {
@@ -58,10 +58,14 @@ const routes: Routes = [
       },
     ],
   },
+  {
+    path: 'list',
+    component: CasesListComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class CaseRoutingModule { }
+export class CaseRoutingModule {}

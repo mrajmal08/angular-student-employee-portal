@@ -26,7 +26,7 @@
 
 
 
-        <li class="nav-item dropdown">
+        <!-- <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle me-3" id="patientsDropdown" role="button" data-bs-toggle="dropdown"
             aria-expanded="false">
             <i class="bi bi-card-list" style="font-weight:bold;"></i> Recruitments Agent
@@ -38,7 +38,7 @@
             </li>
             <li><a class="dropdown-item" [routerLink]="['/agents/add']">Add New Agent</a></li>
           </ul>
-        </li>
+        </li> -->
 
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle me-3" id="patientsDropdown" role="button" data-bs-toggle="dropdown"
@@ -47,6 +47,10 @@
           </a>
           <ul class="dropdown-menu" aria-labelledby="patientsDropdown">
             <li><a class="dropdown-item" [routerLink]="['/applications/students/list']">Students List</a></li>
+            <li>
+              <div class="custom-divider"></div>
+            </li>
+            <li><a class="dropdown-item" [routerLink]="['/case/list']">Cases List</a></li>
             <li>
               <div class="custom-divider"></div>
             </li>

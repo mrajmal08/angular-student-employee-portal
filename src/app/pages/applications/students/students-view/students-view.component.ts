@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Case } from 'shared/models/case-model';
+import { Course } from 'shared/models/course-model';
+import { Session } from 'shared/models/session-model';
 import { Student } from 'shared/models/student-model';
+import { User } from 'shared/models/user-model';
 import { ApiClientService } from 'shared/services/api-client.service';
 
 @Component({
@@ -10,6 +14,7 @@ import { ApiClientService } from 'shared/services/api-client.service';
 })
 export class StudentsViewComponent implements OnInit {
   studentData: Student | null = null;
+  caseData: Case[] | null = null;
   dataForEdit: any;
   studentId: number = 0;
 
@@ -19,6 +24,7 @@ export class StudentsViewComponent implements OnInit {
       this.studentId = this.dataForEdit.studentId;
     }
     this.getSingleStudent();
+    this.getCase();
   }
 
   getSingleStudent() {
@@ -29,18 +35,25 @@ export class StudentsViewComponent implements OnInit {
       });
   }
 
+  getCase() {
+    this.apiClient
+      .get(`case/single/${this.studentId}`, {})
+      .subscribe((resp: any) => {
+        this.caseData = resp.result;
+      });
+  }
+
   columns = [
-    { name: 'Student Id', prop: 'studentId' },
-    { name: 'Student Name', prop: 'studentName' },
-    { name: 'Course Applied For', prop: 'courseApplied' },
-    { name: 'Intake', prop: 'intake' },
-    { name: 'Dependants', prop: 'dependants' },
-    { name: 'Traveling Alone', prop: 'travelingAlone' },
-    { name: 'Recruitment Agent', prop: 'recruitmentAgent' },
-    { name: 'Method Of Contact', prop: 'methodOfContact' },
-    { name: 'Verifier', prop: 'verifier' },
-    { name: 'Created By', prop: 'createdBy' },
-    { name: 'Updated By', prop: 'updatedBy' },
+    { name: 'Case Id', prop: 'id' },
+    // { name: 'Student Name', prop: 'studentName' },
+    { name: 'Course', prop: 'course.name' },
+    { name: 'Agent', prop: 'agent.name' },
+    { name: 'Session', prop: 'session.name' },
+    // { name: 'Recruitment Agent', prop: 'recruitmentAgent' },
+    // { name: 'Method Of Contact', prop: 'methodOfContact' },
+    // { name: 'Verifier', prop: 'verifier' },
+    { name: 'Created By', prop: 'created_by' },
+    { name: 'Updated By', prop: 'updated_by' },
   ];
   rows = [
     {
@@ -263,9 +276,9 @@ export class StudentsViewComponent implements OnInit {
     this.router.navigateByUrl(url);
   }
 
-  onEditCaseClick(id: string) {
-    let url = `/case/edit/${id}/info`;
-    this.router.navigateByUrl(url);
+  onEditCaseClick(row: any) {
+    let url = `/case/edit/${row.id}/info`;
+    this.router.navigateByUrl(url, { state: { row } });
   }
 
   setPage(pageInfo: any) {
@@ -294,5 +307,52 @@ export class StudentsViewComponent implements OnInit {
     const formattedDate = `${day}/${month}/${year}`;
     console.log(formattedDate); // Output: 01/02/2000
     return formattedDate;
+  }
+
+  editStudent(row: any): void {
+    // this.router.navigateByUrl(`/applications/students/edit/${row.id}`, {
+    //   state: { row },
+    // });
+  }
+
+  onDeleteStudent(row: any): void {
+    // this.showAlert(
+    //   'warning',
+    //   'Delete Student?',
+    //   'Do you really want to delete this student.',
+    //   row.id
+    // );
+  }
+
+  showAlert(type: string, title: string, message: string, id: number) {
+    // const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+    //   width: '400px',
+    //   panelClass: 'custom-dialog-container',
+    //   backdropClass: 'custom-dialog-backdrop',
+    //   position: { top: '50%', left: '50%' },
+    //   data: { type: type, title: title, message: message },
+    // });
+    // dialogRef.afterClosed().subscribe((result) => {
+    //   if (result) {
+    //     this.deleteStudent(id);
+    //   }
+    // });
+  }
+
+  deleteStudent(id: number) {
+    // this.apiClient
+    //   .get(`student/delete/${id}`)
+    //   .toPromise()
+    //   .then((resp) => {
+    //     this.toastr.success('Student Deleted successfully!', 'Success');
+    //     this.getStudents();
+    //   })
+    //   .catch((err) => {
+    //     this.toastr.error(err.error.message, 'Error');
+    //   });
+  }
+
+  onCheckboxChange(event: Event, row: any) {
+    console.log('Event and row', event, row);
   }
 }

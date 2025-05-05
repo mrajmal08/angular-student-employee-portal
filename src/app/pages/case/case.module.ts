@@ -22,6 +22,7 @@ import { NewStudentComponent } from './new-student/new-student.component';
 import { ReenrollmentComponent } from './reenrollment/reenrollment.component';
 import { CommentsComponent } from './comments/comments.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CasesListComponent } from './cases-list/cases-list.component';
 
 @NgModule({
   declarations: [
@@ -40,8 +41,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     NewStudentComponent,
     ReenrollmentComponent,
     CommentsComponent,
-
-    ],
+    CasesListComponent,
+  ],
   imports: [
     CommonModule,
     CaseRoutingModule,
@@ -49,7 +50,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     NgSelectModule,
     NgxDatatableModule,
     TabViewModule,
-    NgbModule
-  ]
+    NgbModule,
+  ],
 })
-export class CaseModule { }
+export class CaseModule {}

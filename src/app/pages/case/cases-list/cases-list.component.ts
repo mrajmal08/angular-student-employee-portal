@@ -15,9 +15,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-students-list',
-  templateUrl: './students-list.component.html',
-  styleUrls: ['./students-list.component.scss'],
+  selector: 'app-cases-list',
+  templateUrl: './cases-list.component.html',
+  styleUrls: ['./cases-list.component.scss'],
   animations: [
     trigger('collapseAnimation', [
       state(
@@ -41,7 +41,7 @@ import { ToastrService } from 'ngx-toastr';
     ]),
   ],
 })
-export class StudentsListComponent implements OnInit {
+export class CasesListComponent implements OnInit {
   name: string = '';
   email: string = '';
 
@@ -55,14 +55,27 @@ export class StudentsListComponent implements OnInit {
   isCollapsed = true;
   filterForm!: FormGroup;
 
+  // columns = [
+  //   { name: 'Student ID', prop: 'id' },
+  //   { name: 'Student Name', prop: 'name' },
+  //   { name: 'Student Email', prop: 'email' },
+  //   { name: 'Date Of Birth', prop: 'date_of_birth' },
+  //   { name: 'Gender', prop: 'gender' },
+  //   // { name: 'Address', prop: 'address' },
+  //   { name: 'Location', prop: 'nationality' },
+  // ];
+
   columns = [
-    { name: 'Student ID', prop: 'id' },
-    { name: 'Student Name', prop: 'name' },
-    { name: 'Student Email', prop: 'email' },
-    { name: 'Date Of Birth', prop: 'date_of_birth' },
-    { name: 'Gender', prop: 'gender' },
-    // { name: 'Address', prop: 'address' },
-    { name: 'Location', prop: 'nationality' },
+    { name: 'Case Id', prop: 'id' },
+    { name: 'Student Name', prop: 'student.name' },
+    { name: 'Course', prop: 'course.name' },
+    { name: 'Agent', prop: 'agent.name' },
+    { name: 'Session', prop: 'session.name' },
+    // { name: 'Recruitment Agent', prop: 'recruitmentAgent' },
+    // { name: 'Method Of Contact', prop: 'methodOfContact' },
+    // { name: 'Verifier', prop: 'verifier' },
+    { name: 'Created By', prop: 'created_by' },
+    { name: 'Updated By', prop: 'updated_by' },
   ];
 
   rows: Student[] = [];
@@ -123,12 +136,12 @@ export class StudentsListComponent implements OnInit {
   }
   getStudents(search: string = '') {
     this.apiClient
-      .get('students', {
+      .get('case/get?', {
         pagination: 1,
         page: this.page.page,
         per_page: this.page.perPage,
-        name: this.name,
-        email: this.email,
+        // name: this.name,
+        // email: this.email,
       })
       .subscribe((resp: any) => {
         this.page.total = resp.result.total;
@@ -152,7 +165,8 @@ export class StudentsListComponent implements OnInit {
   onSelectFilters() {}
 
   addNewStudent() {
-    this.router.navigateByUrl(`/applications/students/add`);
+    let url = '/case/add/info';
+    this.router.navigateByUrl(url);
   }
 
   onResetFilters() {
@@ -164,6 +178,7 @@ export class StudentsListComponent implements OnInit {
 
   setPage(pageInfo: any) {
     this.page.page = pageInfo.offset + 1;
+    this.getStudents();
   }
 
   updatePerPage(event: any) {
@@ -175,57 +190,15 @@ export class StudentsListComponent implements OnInit {
     return Math.ceil(this.page.total / this.page.perPage);
   }
 
-  onStudentNameClick(studentId: any) {
-    this.router.navigateByUrl(`/applications/students/view/${studentId}`, {
-      state: { studentId },
-    });
-  }
-
-  editStudent(row: any): void {
-    this.router.navigateByUrl(`/applications/students/edit/${row.id}`, {
-      state: { row },
-    });
-  }
-
-  onDeleteStudent(row: any): void {
-    this.showAlert(
-      'warning',
-      'Delete Student?',
-      'Do you really want to delete this student.',
-      row.id
-    );
-  }
-
-  showAlert(type: string, title: string, message: string, id: number) {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '400px',
-      panelClass: 'custom-dialog-container',
-      backdropClass: 'custom-dialog-backdrop',
-      position: { top: '50%', left: '50%' },
-      data: { type: type, title: title, message: message },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.deleteStudent(id);
-      }
-    });
-  }
-
-  deleteStudent(id: number) {
-    this.apiClient
-      .get(`student/delete/${id}`)
-      .toPromise()
-      .then((resp) => {
-        this.toastr.success('Student Deleted successfully!', 'Success');
-        this.getStudents();
-      })
-      .catch((err) => {
-        this.toastr.error(err.error.message, 'Error');
+  onStudentNameClick(row: any, columnName: any) {
+    if (columnName === 'Student Name') {
+      let studentId = row.id;
+      this.router.navigateByUrl(`/applications/students/view/${studentId}`, {
+        state: { studentId },
       });
-  }
-
-  onCheckboxChange(event: Event, row: any) {
-    console.log('Event and row', event, row);
+    } else {
+      let url = `/case/edit/${row.id}/info`;
+      this.router.navigateByUrl(url, { state: { row } });
+    }
   }
 }
