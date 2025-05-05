@@ -20,7 +20,7 @@ export class PagesComponent implements OnInit, OnChanges {
   }
 
   private checkRoute(url: string): void {
-    this.isCaseRoute = url.includes('/case');
+    this.isCaseRoute = url.includes('/case') && !url.includes('/case/list');
   }
 
   ngOnChanges(changes: SimpleChanges): void {
