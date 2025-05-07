@@ -168,6 +168,12 @@
       <!-- Default text value for other columns -->
       <ng-template #defaultCell>
         <div class="text-center">{{ value }}</div>
+        <div *ngIf="column.name === 'Created By'">
+          <small>{{ row.created_at | date: 'short' }}</small>
+        </div>
+        <div *ngIf="column.name === 'Updated By'">
+          <small>{{ row.updated_at | date: 'short' }}</small>
+        </div>
       </ng-template>
 
     </ng-template>

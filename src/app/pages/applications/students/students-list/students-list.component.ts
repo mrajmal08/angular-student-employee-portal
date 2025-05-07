@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
   animate,
@@ -52,8 +52,7 @@ export class StudentsListComponent implements OnInit {
   };
   perPageOptions = [10, 25, 50, 100];
 
-  isCollapsed = true;
-  filterForm!: FormGroup;
+  studentForm!: FormGroup;
 
   columns = [
     { name: 'Student ID', prop: 'id' },
@@ -61,8 +60,9 @@ export class StudentsListComponent implements OnInit {
     { name: 'Student Email', prop: 'email' },
     { name: 'Date Of Birth', prop: 'date_of_birth' },
     { name: 'Gender', prop: 'gender' },
-    // { name: 'Address', prop: 'address' },
     { name: 'Location', prop: 'nationality' },
+    { name: 'Created By', prop: 'created_by' },
+    { name: 'Updated By', prop: 'updated_by' },
   ];
 
   rows: Student[] = [];
@@ -78,28 +78,28 @@ export class StudentsListComponent implements OnInit {
   }
 
   buildForm() {
-    this.filterForm = this.fb.group({
+    this.studentForm = this.fb.group({
       name: [''],
       email: [''],
     });
   }
 
   ngOnInit(): void {
-    this.filterForm.controls['name'].valueChanges.subscribe((value) => {
+    this.studentForm.controls['name'].valueChanges.subscribe((value) => {
       if (value === '') {
         this.clearFilterValues();
         this.getStudents();
       } else if (!!value) {
-        this.filterForm.controls['email'].setValue(null);
+        this.studentForm.controls['email'].setValue(null);
       }
     });
 
-    this.filterForm.controls['email'].valueChanges.subscribe((value) => {
+    this.studentForm.controls['email'].valueChanges.subscribe((value) => {
       if (value === '') {
         this.clearFilterValues();
         this.getStudents();
       } else if (!!value) {
-        this.filterForm.controls['name'].setValue(null);
+        this.studentForm.controls['name'].setValue(null);
       }
     });
 
@@ -112,16 +112,16 @@ export class StudentsListComponent implements OnInit {
   }
 
   onApplyFilters() {
-    if (!!this.filterForm.controls['name'].value) {
-      this.name = this.filterForm.controls['name'].value;
+    if (!!this.studentForm.controls['name'].value) {
+      this.name = this.studentForm.controls['name'].value;
       this.email = '';
-    } else if (!!this.filterForm.controls['email'].value) {
-      this.email = this.filterForm.controls['email'].value;
+    } else if (!!this.studentForm.controls['email'].value) {
+      this.email = this.studentForm.controls['email'].value;
       this.name = '';
     }
     this.getStudents();
   }
-  getStudents(search: string = '') {
+  getStudents() {
     this.apiClient
       .get('students', {
         pagination: 1,
@@ -136,34 +136,20 @@ export class StudentsListComponent implements OnInit {
       });
   }
 
-  editAgent(row: any): void {
-    console.log('Edit Agent:', row);
-    this.router.navigateByUrl(`/applications/students/edit/${row.id}`);
-    // Implement edit logic (e.g., open a modal, navigate to edit page)
-  }
-
-  deleteAgent(row: any): void {
-    if (confirm('Are you sure you want to delete this agent?')) {
-      console.log('Delete Agent:', row);
-      // Implement delete logic (e.g., call API to remove the agent)
-    }
-  }
-
-  onSelectFilters() {}
-
   addNewStudent() {
     this.router.navigateByUrl(`/applications/students/add`);
   }
 
   onResetFilters() {
     this.clearFilterValues();
-    this.filterForm.controls['name'].setValue(null);
-    this.filterForm.controls['email'].setValue(null);
+    this.studentForm.controls['name'].setValue(null);
+    this.studentForm.controls['email'].setValue(null);
     this.getStudents();
   }
 
   setPage(pageInfo: any) {
     this.page.page = pageInfo.offset + 1;
+    this.getStudents();
   }
 
   updatePerPage(event: any) {

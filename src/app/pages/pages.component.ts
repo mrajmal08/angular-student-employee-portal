@@ -23,11 +23,5 @@ export class PagesComponent implements OnInit, OnChanges {
     this.isCaseRoute = url.includes('/case') && !url.includes('/case/list');
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.router.url.includes('/case')) {
-      console.log('Inside case');
-    } else {
-      console.log('Outside case');
-    }
-  }
+  ngOnChanges(changes: SimpleChanges): void {}
 }

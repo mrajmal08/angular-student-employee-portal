@@ -7,15 +7,6 @@
       <div class="text-hold">
         <div class="d-flex flex-wrap align-items-center justify-content-between">
           <h2 class="mt-0 mb-2 mb-lg-0">
-            <!-- {{
-              (studentInformation.first_name
-                ? studentInformation.first_name
-                : 'N/A'
-              ) | titlecase
-            }}
-            {{ studentInformation.middle_name | titlecase }}
-            {{ studentInformation.last_name | titlecase }} -->
-
             {{ (studentData?.name ? studentData?.name + (studentData?.surname ? ' ' + studentData?.surname : '') :
             'N/A') |
             titlecase }}
@@ -37,7 +28,6 @@
                 <span>{{
                   extractStreetAddress(studentData?.address) || 'N/A'
                   }}</span>
-                <!-- <span>{{studentInformation.address ? studentInformation.address : 'N/A'}}</span> -->
               </li>
               <li>
                 <label class="mb-0">Suite / Floor:</label>
@@ -135,12 +125,6 @@
                 <ng-template #naBlock>N/A</ng-template>
               </li>
 
-              <!-- <li class="delivery-address">
-                <label class="mb-0" style="width: 17%;" >
-                  Delivery Address:
-                </label>
-                <span style="width: 83%;">{{getAddress()}}</span>
-              </li> -->
             </ul>
           </div>
         </div>
@@ -154,45 +138,29 @@
 
   </div>
 
+  <div class="box">
+    <div class="text">Case Info</div>
 
-  <ngx-datatable class="bootstrap custom-table" [rows]="caseData" [columns]="columns" [columnMode]="'force'"
-    [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [scrollbarH]="true" [limit]="page.perPage"
-    [count]="page.total" [offset]="page.page - 1" [externalPaging]="true" (page)="setPage($event)">
+    <ngx-datatable class="bootstrap custom-table" [rows]="caseData" [columns]="columns" [columnMode]="'force'"
+      [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [scrollbarH]="true" [limit]="page.perPage"
+      [count]="page.total" [offset]="page.page - 1" [externalPaging]="true" (page)="setPage($event)">
 
-    <ngx-datatable-column *ngFor="let col of columns" [name]="col.name" [prop]="col.prop" [sortable]="false">
-      <ng-template ngx-datatable-header-template let-column="column">
-        <div class="mgx-header">{{ column.name }}</div>
-      </ng-template>
-
-      <ng-template ngx-datatable-cell-template let-value="value" let-row="row" let-column="column">
-        <div *ngIf="column.name === 'Case Id'; else normalCell" class="clickable-text" (click)="onEditCaseClick(row)">
-
-          {{ value }}
-        </div>
-        <ng-template #normalCell>
-          <div class="text-center">{{ value }}</div>
+      <ngx-datatable-column *ngFor="let col of columns" [name]="col.name" [prop]="col.prop" [sortable]="false">
+        <ng-template ngx-datatable-header-template let-column="column">
+          <div class="mgx-header">{{ column.name }}</div>
         </ng-template>
-      </ng-template>
 
-    </ngx-datatable-column>
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row" let-column="column">
+          <div *ngIf="column.name === 'Case Id'; else normalCell" class="clickable-text" (click)="onEditCaseClick(row)">
 
-    <!-- <ngx-datatable-column name="Action" [width]="150">
-      <ng-template ngx-datatable-header-template>
-        <div class="mgx-header text-center">Action</div>
-      </ng-template>
+            {{ value }}
+          </div>
+          <ng-template #normalCell>
+            <div class="text-center">{{ value }}</div>
+          </ng-template>
+        </ng-template>
 
-      <ng-template ngx-datatable-cell-template let-row="row">
-        <div class="d-flex justify-content-center gap-2">
-          <input type="checkbox" style="cursor: pointer; margin-right: 12px;" (change)="onCheckboxChange($event, row)"
-            (click)="$event.stopPropagation()" />
+      </ngx-datatable-column>
 
-          <i class="bi bi-pen" style="margin-left: 0; cursor: pointer;margin-right: 10px;"
-            (click)="editStudent(row)"></i>
-
-          <i class="bi bi-x-lg text-danger" style="font-weight: bold; cursor: pointer;"
-            (click)="onDeleteStudent(row)"></i>
-        </div>
-      </ng-template>
-    </ngx-datatable-column> -->
-
-  </ngx-datatable>
+    </ngx-datatable>
+  </div>

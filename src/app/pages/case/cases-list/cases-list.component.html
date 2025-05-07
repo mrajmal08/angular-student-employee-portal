@@ -1,53 +1,8 @@
 <div class="d-flex mt-3 mb-3 justify-content-end">
-  <button type="button" class="btn btn-secondary add-button" (click)="addNewStudent()">+ Add New Case</button>
+  <button type="button" class="btn btn-secondary add-button" (click)="addNewCase()">+ Add New Case</button>
 </div>
 
-<form class="form w-100" style="margin: 20px 0px;" [formGroup]="filterForm" (ngSubmit)="onSelectFilters()"
-  autocomplete="off" novalidate>
 
-  <!-- <div class="form-content search-filter-block position-relative ">
-    <strong class="sub-title search-student-title">Search Cases</strong>
-
-    <div class="position-absolute d-flex" style="top: 42px; right: 20px;">
-      <button type="submit" class="btn btn-primary mx-1 filter-button" (click)="onApplyFilters()"
-        [disabled]="!filterForm.controls['name'].value && !filterForm.controls['email'].value">
-        Filter
-      </button>
-
-      <button type="button" class="btn btn-outline-secondary mx-1 reset-button" (click)="onResetFilters()"
-        [disabled]="!filterForm.controls['name'].value && !filterForm.controls['email'].value">
-        Reset
-      </button>
-    </div>
-
-
-    <div class="row">
-      <div class="field-block w-100">
-        <div class="col-12" style="color: #808382;">
-          <div class="row" style="padding-right: 100px;">
-
-
-            <div class="col-12 col-sm-6 col-md-3">
-              <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" class="form-control" id="name" formControlName="name" />
-              </div>
-            </div>
-
-            <div class="col-12 col-sm-6 col-md-3">
-              <div class="form-group">
-                <label for="email">Email</label>
-                <input type="text" class="form-control" id="email" formControlName="email" />
-              </div>
-            </div>
-
-          </div>
-
-        </div>
-      </div>
-    </div>
-  </div> -->
-</form>
 
 
 <div class="d-flex justify-content-between align-items-center mb-2">
@@ -60,9 +15,7 @@
     </select>
     <label for="perPageSelect" class="me-2" style="padding-bottom: 10px; color: #000000;">entries</label>
   </div>
-  <!-- <div>
-    <span>Page {{ page.page }} of {{ getTotalPages() }}</span>
-  </div> -->
+
 </div>
 <ngx-datatable class="bootstrap custom-table" [rows]="rows" [columns]="columns" [columnMode]="'force'"
   [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [scrollbarH]="true" [limit]="page.perPage"
@@ -81,11 +34,15 @@
       </div>
       <ng-template #normalCell>
         <div class="text-center">{{ value }}</div>
+        <div *ngIf="column.name === 'Created By'">
+          <small>{{ row.created_at | date: 'short' }}</small>
+        </div>
+        <div *ngIf="column.name === 'Updated By'">
+          <small>{{ row.updated_at | date: 'short' }}</small>
+        </div>
       </ng-template>
     </ng-template>
 
   </ngx-datatable-column>
-
-
 
 </ngx-datatable>

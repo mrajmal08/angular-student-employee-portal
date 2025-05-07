@@ -2,20 +2,19 @@
   <button type="button" class="btn btn-secondary add-button" (click)="addNewStudent()">+ Add new student</button>
 </div>
 
-<form class="form w-100" style="margin: 20px 0px;" [formGroup]="filterForm" (ngSubmit)="onSelectFilters()"
-  autocomplete="off" novalidate>
+<form class="form w-100" style="margin: 20px 0px;" [formGroup]="studentForm" autocomplete="off" novalidate>
 
   <div class="form-content search-filter-block position-relative ">
     <strong class="sub-title search-student-title">Search Students</strong>
 
     <div class="position-absolute d-flex" style="top: 42px; right: 20px;">
       <button type="submit" class="btn btn-primary mx-1 filter-button" (click)="onApplyFilters()"
-        [disabled]="!filterForm.controls['name'].value && !filterForm.controls['email'].value">
+        [disabled]="!studentForm.controls['name'].value && !studentForm.controls['email'].value">
         Filter
       </button>
 
       <button type="button" class="btn btn-outline-secondary mx-1 reset-button" (click)="onResetFilters()"
-        [disabled]="!filterForm.controls['name'].value && !filterForm.controls['email'].value">
+        [disabled]="!studentForm.controls['name'].value && !studentForm.controls['email'].value">
         Reset
       </button>
     </div>
@@ -81,6 +80,12 @@
       </div>
       <ng-template #normalCell>
         <div class="text-center">{{ value }}</div>
+        <div *ngIf="column.name === 'Created By'">
+          <small>{{ row.created_at | date: 'short' }}</small>
+        </div>
+        <div *ngIf="column.name === 'Updated By'">
+          <small>{{ row.updated_at | date: 'short' }}</small>
+        </div>
       </ng-template>
     </ng-template>
 

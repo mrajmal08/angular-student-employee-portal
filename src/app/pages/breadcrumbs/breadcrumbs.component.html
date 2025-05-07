@@ -13,14 +13,14 @@
 
   </nav>
 
-  <span class="breadcrumb-end" *ngIf="isCaseRoute">
+  <span class="breadcrumb-end" *ngIf="isCaseRoute && !!caseId">
     <span style="color: black;">Case Id:</span>
-    <span style="color: green;"> 1234 Bently Wilson</span>
+    <span style="color: green;"> {{caseId}} {{getStudentName()}}</span>
   </span>
 
 </div>
 
-<div *ngIf="isCaseRoute" style="display: flex; align-items: center;">
+<div *ngIf="isCaseRoute && !!studentId" style="display: flex; align-items: center;">
   <img src="assets/images/profile.jpeg" width="50" height="50"
     style="border: 3px solid lightblue; background-color: green;" />
 
@@ -29,17 +29,17 @@
       <div class="text-hold">
         <div class="profile-details">
           <div>
-            <span class="name">BENTLEY WILSON</span>
-            <span class="age">(58 Years Old</span>
-            <span>| DOB: 10/04/1966</span>
-            <span>| <span style="color: green;">Male</span>)</span>
+            <span class="name">{{getStudentName()}}</span>
+            <span class="age">({{GetYears(studentData?.date_of_birth)}} Years Old</span>
+            <span>| DOB: {{GetDOB(studentData?.date_of_birth)}}</span>
+            <span>| <span style="color: green;">{{studentData?.gender}}</span>)</span>
             <span>| DOA: <strong>Case Type:</strong> No Fault</span>
             <span><strong>Provider:</strong> Mason</span>
           </div>
           <div class="contact-info">
-            <i class="fas fa-phone"></i> 929-900-1990
-            <i class="fas fa-map-marker-alt"></i> 2515 Glenwood Rd #1G, Brooklyn, NY, 11210
-            <i class="fas fa-envelope"></i> Bentley.wilson@gmail.com
+            <i class="fas fa-phone"></i> {{studentData?.phone_no}}
+            <i class="fas fa-map-marker-alt"></i> {{getCompleteAddress()}}
+            <i class="fas fa-envelope"></i> {{studentData?.email}}
           </div>
           <!-- <div class="icons">
             <i class="fas fa-key"></i>
@@ -54,4 +54,4 @@
   </div>
 </div>
 
-<div *ngIf="isCaseRoute" style="border-bottom: 1px solid grey; margin: 10px 0;"></div>
+<div *ngIf="isCaseRoute && !!studentId" style="border-bottom: 1px solid grey; margin: 10px 0;"></div>

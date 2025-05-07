@@ -56,7 +56,7 @@ export class CoursesListComponent implements OnInit {
   columns = [
     { name: 'Course ID', prop: 'id' },
     { name: 'Course Name', prop: 'name' },
-    { name: 'Created At', prop: 'created_at' },
+    // { name: 'Created At', prop: 'created_at' },
     { name: 'Created By', prop: 'created_by' },
     { name: 'Updated By', prop: 'updated_by' },
   ];
@@ -94,7 +94,7 @@ export class CoursesListComponent implements OnInit {
         this.rows = resp.result.data.map(
           (row: { created_at: string; updated_at: string }) => ({
             ...row,
-            created_at: getUKFormatedDate(row.created_at),
+            // created_at: getUKFormatedDate(row.created_at),
           })
         );
       });

@@ -81,7 +81,7 @@ export class UsersListComponent implements OnInit {
     { name: 'Role', prop: 'role.name' },
     { name: 'Designation', prop: 'designation.name' },
     { name: 'Department', prop: 'department.name' },
-    { name: 'Created At', prop: 'created_at' },
+    // { name: 'Created At', prop: 'created_at' },
     { name: 'Status', prop: 'status' },
     { name: 'Created By', prop: 'created_by' },
     { name: 'Updated By', prop: 'updated_by' },
@@ -178,7 +178,7 @@ export class UsersListComponent implements OnInit {
         this.rows = resp.result.data.map(
           (row: { created_at: string; updated_at: string }) => ({
             ...row,
-            created_at: getUKFormatedDate(row.created_at),
+            // created_at: getUKFormatedDate(row.created_at),
           })
         );
       });

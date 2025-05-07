@@ -87,6 +87,12 @@
     <ng-template ngx-datatable-cell-template let-value="value" let-row="row" let-column="column">
 
       <div class="text-center" [title]="value">{{ value }}</div>
+      <div *ngIf="column.name === 'Created By'">
+        <small>{{ row.created_at | date: 'short' }}</small>
+      </div>
+      <div *ngIf="column.name === 'Updated By'">
+        <small>{{ row.updated_at | date: 'short' }}</small>
+      </div>
 
     </ng-template>
 
