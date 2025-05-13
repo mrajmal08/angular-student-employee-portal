@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Course } from 'shared/models/course-model';
 import { Session } from 'shared/models/session-model';
 import { User } from 'shared/models/user-model';
@@ -34,10 +34,16 @@ export class CaseInfoComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private apiClient: ApiClientService,
-    private location: Location
+    private location: Location,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
+    this.route.paramMap.subscribe((params) => {
+      this.userId = params.get('id');
+      console.log(this.userId);
+    });
+
     this.caseForm = this.fb.group({
       course_id: ['', Validators.required],
       session_id: ['', Validators.required],
@@ -66,62 +72,48 @@ export class CaseInfoComponent implements OnInit {
   }
 
   onSubmit() {
-    // let url = '/case/';
-    // url += this.userId ? 'edit' : 'add';
+    this.navigateToNext();
 
     // if (this.caseForm.valid) {
-    //   this.router.navigateByUrl(url + '/patient-info');
+    //   if (!!this.dataForEdit.row) {
+    //     const queryParams = new URLSearchParams({
+    //       case_id: this.dataForEdit.row.id,
+    //       ...(this.dataForEdit.row.student_id
+    //         ? { student_id: this.dataForEdit.row.student_id }
+    //         : {}),
+    //       ...this.caseForm.value,
+    //     }).toString();
+    //     this.apiClient
+    //       .get(`case/update?${queryParams}`)
+    //       .subscribe((resp: any) => {
+    //         if (resp.status) {
+    //           this.navigateToNext();
+    //         } else {
+    //         }
+    //       });
+    //   } else {
+    //     const queryParams = new URLSearchParams({
+    //       ...this.caseForm.value,
+    //     }).toString();
+    //     this.apiClient
+    //       .post(`case/insert?${queryParams}`)
+    //       .toPromise()
+    //       .then((resp: any) => {
+    //         if (resp.status) {
+    //           this.navigateToNext();
+    //         }
+    //       })
+    //       .catch((error: any) => {})
+    //       .catch((error: any) => {});
+    //   }
     // } else {
-    //   console.log('Form is invalid');
     // }
+  }
 
-    if (this.caseForm.valid) {
-      if (!!this.dataForEdit.row) {
-        const queryParams = new URLSearchParams({
-          case_id: this.dataForEdit.row.id,
-          ...(this.dataForEdit.row.student_id
-            ? { student_id: this.dataForEdit.row.student_id }
-            : {}),
-          ...this.caseForm.value,
-        }).toString();
-        this.apiClient
-          .get(`case/update?${queryParams}`)
-          .subscribe((resp: any) => {
-            if (resp.status) {
-              this.location.back();
-            } else {
-            }
-          });
-      } else {
-        const queryParams = new URLSearchParams({
-          ...this.caseForm.value,
-        }).toString();
-        this.apiClient
-          .post(`case/insert?${queryParams}`)
-          .toPromise()
-          .then((resp: any) => {
-            if (resp.status) {
-              console.log('Success: GOING BACK >>>>');
-
-              this.location.back();
-            }
-          })
-          .catch((error: any) => {
-            console.log('Error:', error);
-
-            // this.toastr.error(
-            //   `<span title="${this.getErrorMessageFromResponse(
-            //     error.error
-            //   )}">${this.getErrorMessageFromResponse(error.error)}</span>`,
-            //   'Error',
-            //   { enableHtml: true }
-            // );
-          })
-          .catch((error: any) => {});
-      }
-    } else {
-      console.log('Form is invalid');
-    }
+  navigateToNext() {
+    let url = '/case/';
+    url += this.userId ? 'edit' : 'add';
+    this.router.navigateByUrl(url + '/student-info');
   }
 
   closeForm() {

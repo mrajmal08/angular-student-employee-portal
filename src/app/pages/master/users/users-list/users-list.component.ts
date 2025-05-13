@@ -134,8 +134,6 @@ export class UsersListComponent implements OnInit {
         id: dep.id,
         name: dep.name,
       }));
-
-      console.log('roles:', this.roles);
     });
   }
 

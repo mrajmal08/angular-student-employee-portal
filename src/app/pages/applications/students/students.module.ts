@@ -5,13 +5,12 @@ import { StudentsRoutingModule } from './students-routing.module';
 import { StudentsComponent } from './students.component';
 import { StudentsListComponent } from './students-list/students-list.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { StudentsCreateComponent } from './students-create/students-create.component';
 import { StudentsViewComponent } from './students-view/students-view.component';
 import { StudentInfoComponent } from './student-info/student-info.component';
-
 
 @NgModule({
   declarations: [
@@ -19,15 +18,16 @@ import { StudentInfoComponent } from './student-info/student-info.component';
     StudentsListComponent,
     StudentsCreateComponent,
     StudentsViewComponent,
-    StudentInfoComponent
+    StudentInfoComponent,
   ],
   imports: [
     CommonModule,
+    FormsModule,
     StudentsRoutingModule,
     NgxDatatableModule,
     ReactiveFormsModule,
     NgSelectModule,
-    CollapseModule.forRoot()
-  ]
+    CollapseModule.forRoot(),
+  ],
 })
-export class StudentsModule { }
+export class StudentsModule {}

@@ -8,3 +8,117 @@
 ::ng-deep .radio-group {
   gap: 15px; /* Adjust spacing between each radio option */
 }
+
+
+/* group-form.component.css */
+.group-form-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+
+  padding: 30px 300px;
+}
+
+.group-input {
+  display: flex;
+  flex: 3;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.btn {
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: white;
+    width: 110px;
+}
+
+.btn-save {
+  background-color: #28a745;
+}
+
+.btn-add {
+  background-color: #fd7e14;
+  width: 150px;
+
+}
+
+.btn-view {
+  background-color: #6c757d;
+}
+
+.search-container {
+  position: relative;
+  width: 400px;
+  font-family: sans-serif;
+  margin-right: 55px;
+}
+
+.search-box {
+  border: 1px solid #ccc;
+  padding: 8px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  background: #fff;
+  height: 35px;
+
+
+}
+
+.search-box input {
+  border: none;
+  outline: none;
+  flex-grow: 1;
+  // cursor: pointer;
+  background: transparent;
+}
+
+.search-icon {
+  margin-right: 8px;
+}
+
+.dropdown-icon {
+  margin-left: 8px;
+}
+
+
+
+
+
+.search-container {
+  position: relative;
+  width: 300px;
+}
+.search-box {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  padding: 5px;
+}
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  border: 1px solid #ccc;
+  background: white;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 10;
+}
+.dropdown-item {
+  padding: 8px;
+  cursor: pointer;
+}
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
