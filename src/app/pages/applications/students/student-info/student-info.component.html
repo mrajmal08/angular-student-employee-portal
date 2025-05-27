@@ -19,7 +19,7 @@
             <div class="col-md-6">
               <div class=" form-group">
                 <ng-select [items]="students" bindLabel="name" bindValue="id" placeholder="Select a student"
-                  [clearable]="false" (change)="onStudentChange($event)">
+                  [clearable]="true" formControlName="studentId" (change)="onStudentChange($event)">
                 </ng-select>
               </div>
             </div>
@@ -29,12 +29,12 @@
             <button class="btn btn-view">View</button>
           </div>
 
-
         </div>
       </div>
-      <div class="card mt-3" *ngIf="showingForm">
+
+      <div class="card mt-3" *ngIf="showingFullForm">
         <div class="card-header">
-          <span>Student Info</span>
+          <span>Edit/View Student</span>
           <span class="position-absolute" style="right: 10px; cursor: pointer; color: white">
 
             <i class="fa fa-times" (click)="closeForm()" style="cursor: pointer; font-size: 24px; right: 10px"></i>
@@ -43,118 +43,143 @@
         </div>
 
         <div class="card-body">
-          <!-- Personal Details -->
-          <div class="row mt-3">
-            <div class="col-md-4">
-              <div class="form-group">
-                <label>Given Name:<sup *ngIf="displayValidation">*</sup></label>
-                <input type="text" class="form-control" formControlName="name" />
-                <small class="text-danger" *ngIf="studentForm.get('name')?.errors?.['required']">Please enter your
-                  given name!</small>
+          <div>
+
+
+            <!-- Personal Details -->
+            <div class="row mt-3">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Given Name:<sup *ngIf="displayValidation">*</sup></label>
+                  <input type="text" class="form-control" formControlName="name" />
+                  <small class="text-danger" *ngIf="studentForm.get('name')?.errors?.['required']">Please enter your
+                    given name!</small>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Surname:<sup *ngIf="displayValidation">*</sup></label>
+                  <input type="text" class="form-control" formControlName="surname" />
+                  <small class="text-danger" *ngIf="studentForm.get('surname')?.errors?.['required']">Please enter your
+                    surname!</small>
+                </div>
+              </div>
+
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Date of Birth:<sup *ngIf="displayValidation">*</sup></label>
+                  <input type="date" class="form-control" formControlName="date_of_birth" />
+                  <small class="text-danger" *ngIf="studentForm.get('date_of_birth')?.errors?.['required']">Please enter
+                    your date
+                    of
+                    birth!</small>
+                </div>
               </div>
             </div>
 
-            <div class="col-md-4">
-              <div class="form-group">
-                <label>Surname:<sup *ngIf="displayValidation">*</sup></label>
-                <input type="text" class="form-control" formControlName="surname" />
-                <small class="text-danger" *ngIf="studentForm.get('surname')?.errors?.['required']">Please enter your
-                  surname!</small>
+            <!-- Row 2 -->
+            <div class="row mt-3">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Gender:<sup *ngIf="displayValidation">*</sup></label>
+                  <select class="form-control" formControlName="gender">
+                    <option value="" disabled>Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                  <small class="text-danger" *ngIf="studentForm.get('gender')?.errors?.['required']">Please select your
+                    gender!</small>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Country of Birth:</label>
+                  <input type="text" class="form-control" formControlName="place_of_birth" />
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Nationality:</label>
+                  <input type="text" class="form-control" formControlName="nationality" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Row 3 -->
+            <div class="row mt-3">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Passport Start Date:</label>
+                  <input type="date" class="form-control" formControlName="passport_start_date" />
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Passport Expiry Date:</label>
+                  <input type="date" class="form-control" formControlName="passport_expiry_date" />
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Passport Status:</label>
+                  <select class="form-control" formControlName="passport_status">
+                    <option value="current">Current passport</option>
+                    <option value="none">No passport</option>
+                    <option value="Valid">Valid</option>
+                  </select>
+                </div>
               </div>
             </div>
 
 
-            <div class="col-md-4">
-              <div class="form-group">
-                <label>Date of Birth:<sup *ngIf="displayValidation">*</sup></label>
-                <input type="date" class="form-control" formControlName="date_of_birth" />
-                <small class="text-danger" *ngIf="studentForm.get('date_of_birth')?.errors?.['required']">Please enter
-                  your date
-                  of
-                  birth!</small>
+            <div class="row mt-3">
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Email:<sup *ngIf="displayValidation">*</sup></label>
+                  <input type="text" class="form-control" formControlName="email" />
+                  <small class="text-danger" *ngIf="studentForm.get('email')?.errors?.['required']">Please enter your
+                    email!</small>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Phone:<sup *ngIf="displayValidation">*</sup></label>
+                  <input type="text" class="form-control" formControlName="phone_no" />
+                  <small class="text-danger" *ngIf="studentForm.get('phone_no')?.errors?.['required']">Please enter your
+                    phone!</small>
+                </div>
               </div>
             </div>
+
+
+            <div class="text-center mt-3">
+              <button type="submit" class="btn btn-primary" [disabled]="!studentForm.valid"
+                (click)="onStudentEditViewSubmit()">Submit</button>
+            </div>
+
           </div>
+        </div>
+      </div>
 
-          <!-- Row 2 -->
-          <div class="row mt-3">
-            <div class="col-md-4">
-              <div class="form-group">
-                <label>Gender:<sup *ngIf="displayValidation">*</sup></label>
-                <select class="form-control" formControlName="gender">
-                  <option value="" disabled>Select Gender</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other</option>
-                </select>
-                <small class="text-danger" *ngIf="studentForm.get('gender')?.errors?.['required']">Please select your
-                  gender!</small>
-              </div>
-            </div>
+      <div class="card mt-3" *ngIf="showingFullForm">
+        <div class="card-header">
+          <span>Student English Info</span>
+          <span class="position-absolute" style="right: 10px; cursor: pointer; color: white">
 
-            <div class="col-md-4">
-              <div class="form-group">
-                <label>Country of Birth:</label>
-                <input type="text" class="form-control" formControlName="county" />
-              </div>
-            </div>
+            <i class="fa fa-times" (click)="closeForm()" style="cursor: pointer; font-size: 24px; right: 10px"></i>
 
-            <div class="col-md-4">
-              <div class="form-group">
-                <label>Nationality:</label>
-                <input type="text" class="form-control" formControlName="nationality" />
-              </div>
-            </div>
-          </div>
+          </span>
+        </div>
 
-          <!-- Row 3 -->
-          <div class="row mt-3">
-            <div class="col-md-4">
-              <div class="form-group">
-                <label>Passport Start Date:</label>
-                <input type="date" class="form-control" formControlName="passport_start_date" />
-              </div>
-            </div>
-
-            <div class="col-md-4">
-              <div class="form-group">
-                <label>Passport Expiry Date:</label>
-                <input type="date" class="form-control" formControlName="passport_expiry_date" />
-              </div>
-            </div>
-
-            <div class="col-md-4">
-              <div class="form-group">
-                <label>Passport Status:</label>
-                <select class="form-control" formControlName="passport_status">
-                  <option value="current">Current passport</option>
-                  <option value="none">No passport</option>
-                  <option value="Valid">Valid</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-
-          <div class="row mt-3">
-
-            <div class="col-md-4">
-              <div class="form-group">
-                <label>Email:<sup *ngIf="displayValidation">*</sup></label>
-                <input type="text" class="form-control" formControlName="email" />
-                <small class="text-danger" *ngIf="studentForm.get('email')?.errors?.['required']">Please enter your
-                  email!</small>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="form-group">
-                <label>Phone:<sup *ngIf="displayValidation">*</sup></label>
-                <input type="text" class="form-control" formControlName="phone_no" />
-                <small class="text-danger" *ngIf="studentForm.get('phone_no')?.errors?.['required']">Please enter your
-                  phone!</small>
-              </div>
-            </div>
-          </div>
+        <div class="card-body">
 
           <!-- English Test -->
           <div *ngIf="showingFullForm">
@@ -163,8 +188,12 @@
               <div class="col-md-12 mt-2">
                 <label>Did you take an English test for your visa?</label>
                 <div>
-                  <label><input type="radio" formControlName="englishTest" value="Yes" /> Yes</label>
-                  <label class="ms-3"><input type="radio" formControlName="englishTest" value="No" /> No</label>
+                  <label class="ms-3 radioBtnTxt"><input type="radio" class="radioBtn" formControlName="english_test"
+                      value="Yes" />
+                    Yes</label>
+                  <label class="ms-3 radioBtnTxt"><input type="radio" class="radioBtn" formControlName="english_test"
+                      value="No" />
+                    No</label>
                 </div>
               </div>
             </div>
@@ -176,47 +205,47 @@
                 <label>If No, why?</label>
                 <div class="radio-group mt-2 d-flex flex-wrap align-items-center gap-3">
                   <label class="d-flex align-items-center">
-                    <input type="radio" formControlName="englishExemptionReason" value="qualification"
-                      [disabled]="studentForm.get('englishTest')?.value === 'Yes'" />
-                    <span class="ms-2">Previous qualification</span>
+                    <input type="radio" formControlName="english_test_reason" value="qualification"
+                      [disabled]="studentForm.get('english_test')?.value === 'Yes'" class="radioBtn" />
+                    <span class="ms-2 radioBtnTxt">Previous qualification</span>
                   </label>
                   <input type="text" class="form-control ms-3" style="width: 250px;"
-                    formControlName="englishQualification" placeholder="Qualification details"
-                    [disabled]="studentForm.get('englishTest')?.value === 'Yes'" />
+                    formControlName="qualification_details" placeholder="Qualification details"
+                    [disabled]="studentForm.get('english_test')?.value === 'Yes'" />
                   <label class="d-flex align-items-center">
-                    <input type="radio" formControlName="englishExemptionReason" value="previousVisa"
-                      [disabled]="studentForm.get('englishTest')?.value === 'Yes'" />
-                    <span class="ms-2">Previous visa</span>
+                    <input type="radio" formControlName="english_test_reason" value="previousVisa"
+                      [disabled]="studentForm.get('english_test')?.value === 'Yes'" class="radioBtn" />
+                    <span class="ms-2 radioBtnTxt">Previous visa</span>
                   </label>
                   <label class="d-flex align-items-center">
-                    <input type="radio" formControlName="englishExemptionReason" value="studyProgramme"
-                      [disabled]="studentForm.get('englishTest')?.value === 'Yes'" />
-                    <span class="ms-2">US Study programme</span>
+                    <input type="radio" formControlName="english_test_reason" value="studyProgramme"
+                      [disabled]="studentForm.get('english_test')?.value === 'Yes'" class="radioBtn" />
+                    <span class="ms-2 radioBtnTxt">US Study programme</span>
                   </label>
                   <label class="d-flex align-items-center">
-                    <input type="radio" formControlName="englishExemptionReason" value="giftedStudent"
-                      [disabled]="studentForm.get('englishTest')?.value === 'Yes'" />
-                    <span class="ms-2">Gifted student</span>
+                    <input type="radio" formControlName="english_test_reason" value="giftedStudent"
+                      [disabled]="studentForm.get('english_test')?.value === 'Yes'" class="radioBtn" />
+                    <span class="ms-2 radioBtnTxt">Gifted student</span>
                   </label>
                   <label class="d-flex align-items-center">
-                    <input type="radio" formControlName="englishExemptionReason" value="institutionAssessment"
-                      [disabled]="studentForm.get('englishTest')?.value === 'Yes'" />
-                    <span class="ms-2">Institution assessment</span>
+                    <input type="radio" formControlName="english_test_reason" value="institutionAssessment"
+                      [disabled]="studentForm.get('english_test')?.value === 'Yes'" class="radioBtn" />
+                    <span class="ms-2 radioBtnTxt">Institution assessment</span>
                   </label>
                   <label class="d-flex align-items-center">
-                    <input type="radio" formControlName="englishExemptionReason" value="other"
-                      [disabled]="studentForm.get('englishTest')?.value === 'Yes'" />
-                    <span class="ms-2">Other</span>
+                    <input type="radio" formControlName="english_test_reason" value="other"
+                      [disabled]="studentForm.get('english_test')?.value === 'Yes'" class="radioBtn" />
+                    <span class="ms-2 radioBtnTxt">Other</span>
                   </label>
                 </div>
               </div>
             </div>
             <!-- Travel & Education -->
             <div class="row mt-3">
-              <div class="col-md-6">
+              <div class="col-md-4">
                 <div class="form-group">
                   <label>Last completed course:</label>
-                  <select class="form-control" formControlName="lastCourseCompleted">
+                  <select class="form-control" formControlName="last_course">
                     <option value="" disabled>Select a course</option>
                     <option value="High School">High School</option>
                     <option value="A Level">A Level</option>
@@ -227,34 +256,62 @@
                 </div>
               </div>
 
-              <div class="col-md-6">
+              <div class="col-md-4">
                 <div class="form-group">
                   <label>Year of completion:</label>
-                  <input type="number" class="form-control" formControlName=" " min="1900" max="2099" />
+                  <input type="date" class="form-control" formControlName="last_course_completion_year" />
                 </div>
               </div>
             </div>
 
-            <!-- Dependants -->
+
+            <div class="text-center mt-3">
+              <button type="submit" class="btn btn-primary" [disabled]="!studentForm.valid"
+                (click)="onStudentEnglistInfoSubmit()">Submit</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Dependants -->
+      <div class="card mt-3" *ngIf="showingFullForm">
+        <div class="card-header">
+          <span>Student Dependants Info</span>
+          <span class="position-absolute" style="right: 10px; cursor: pointer; color: white">
+
+            <i class="fa fa-times" (click)="closeForm()" style="cursor: pointer; font-size: 24px; right: 10px"></i>
+
+          </span>
+        </div>
+
+        <div class="card-body">
+          <div *ngIf="showingFullForm">
+
             <div class="row mt-3">
               <h4>Dependants?</h4>
               <div class="col-md-6">
                 <label>Travelling with dependants?</label>
                 <div>
-                  <label><input type="radio" formControlName="travellingWithDependants" value="Yes" /> Yes</label>
-                  <label class="ms-3"><input type="radio" formControlName="travellingWithDependants" value="No" />
+                  <label class="ms-3 radioBtnTxt"><input type="radio" class="radioBtn" formControlName="dependant"
+                      value="Yes" />
+                    Yes</label>
+                  <label class="ms-3 radioBtnTxt"><input type="radio" class="radioBtn" formControlName="dependant"
+                      value="No" />
                     No</label>
                 </div>
               </div>
               <div class="row col-md-12">
-                <div class="col-md-6">
+                <div class="col-md-4">
                   <label>How many?</label>
-                  <input type="number" class="form-control" formControlName="numberOfDependants" min="1"
-                    [disabled]="studentForm.get('travellingWithDependants')?.value !== 'Yes'" />
+                  <input type="number" class="form-control" formControlName="dependant_no" min="1"
+                    [disabled]="studentForm.get('dependant')?.value !== 'Yes'" />
                 </div>
                 <div class="col-md-6 mt-3">
                   <label>Please upload your financial maintainance for your dependants:</label>
-                  <input type="file" formControlName="additionalVisaUpload" />
+                  <input type="file" formControlName="dependantsUpload"
+                    (change)="ondependantsUploadFile($event, 'dependantsUpload')" multiple />
                 </div>
               </div>
               <div class="row">
@@ -262,138 +319,185 @@
                 <div class="col-md-6 mt-3">
                   <label>Have the financial information of the dependants been approved?</label>
                   <div>
-                    <label><input type="radio" formControlName="dependantFinancialApproval" value="Yes" /> Yes</label>
-                    <label class="ms-3"><input type="radio" formControlName="dependantFinancialApproval" value="No" />
+                    <label class="ms-3 radioBtnTxt"><input type="radio" class="radioBtn"
+                        formControlName="dependant_financial_info" value="Yes" class="radioBtn" /> Yes</label>
+                    <label class="ms-3 radioBtnTxt"><input type="radio" class="radioBtn"
+                        formControlName="dependant_financial_info" value="No" class="radioBtn" />
                       No</label>
                   </div>
                 </div>
 
                 <div class="col-md-6 mt-3">
-                  <label>Flag for compliance</label>
-                  <input type="checkbox" formControlName="complianceFlag" />
+                  <label class="form-check-label">
+                    <input type="checkbox" formControlName="flag_for_compliance" />
+                    Flag for compliance</label>
                 </div>
 
                 <!-- Travel History -->
-                <div class="col-md-6 mt-3">
+                <div class="col-md-4 mt-3">
                   <label>Have you traveled outside of your home country in the last 10 years?</label>
                   <div>
-                    <label><input type="radio" formControlName="travelOutsideHomeCountry" value="Yes" /> Yes</label>
-                    <label class="ms-3"><input type="radio" formControlName="travelOutsideHomeCountry" value="No" />
+                    <label class="ms-3 radioBtnTxt"><input type="radio" class="radioBtn"
+                        formControlName="travel_outside" value="Yes" />
+                      Yes</label>
+                    <label class="ms-3 radioBtnTxt"><input type="radio" class="radioBtn"
+                        formControlName="travel_outside" value="No" />
                       No</label>
                   </div>
                 </div>
                 <div class="row col-md-12">
-                  <div class="col-md-6 mt-3">
+                  <div class="col-md-4 mt-3">
                     <label>Approximately how many times?</label>
-                    <select class="form-control" formControlName="travelFrequency">
+                    <select class="form-control" formControlName="travel_outside_no">
                       <option value="once">Once</option>
-                      <option value="lessThan5">Less than 5</option>
-                      <option value="5OrMore">5 or more</option>
+                      <option value="less Than 5">Less than 5</option>
+                      <option value="5 Or More">5 or more</option>
                     </select>
                   </div>
                 </div>
 
 
                 <!-- UK Travel History -->
-                <div class="col-md-6 mt-3">
+                <div class="col-md-4 mt-3">
                   <label>Have you ever traveled to the UK in the last 10 years?</label>
                   <div>
-                    <label><input type="radio" formControlName="ukTravelHistory" value="Yes" /> Yes</label>
-                    <label class="ms-3"><input type="radio" formControlName="ukTravelHistory" value="No" /> No</label>
+                    <label class="ms-3 radioBtnTxt"><input type="radio" class="radioBtn" formControlName="travel_uk"
+                        value="Yes" />
+                      Yes</label>
+                    <label class="ms-3 radioBtnTxt"><input type="radio" class="radioBtn" formControlName="travel_uk"
+                        value="No" />
+                      No</label>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-md-6 mt-3">
+                  <div class="col-md-4 mt-3">
                     <label>Approximately how many times?</label>
-                    <select class="form-control" formControlName="ukTravelFrequency">
+                    <select class="form-control" formControlName="travel_uk_no">
                       <option value="once">Once</option>
-                      <option value="lessThan5">Less than 5</option>
-                      <option value="5OrMore">5 or more</option>
+                      <option value="less Than 5">Less than 5</option>
+                      <option value="5 Or More">5 or more</option>
                     </select>
                   </div>
                 </div>
 
 
-                <!-- UK Study History -->
+
+              </div>
+            </div>
+
+
+
+            <div class="text-center mt-3">
+              <button type="submit" class="btn btn-primary" [disabled]="!studentForm.valid"
+                (click)="onStudentDependantsInfoSubmit()">Submit</button>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+
+
+
+
+      <div class="card mt-3" *ngIf="showingFullForm">
+        <div class="card-header">
+          <span>Student Visa Info</span>
+          <span class="position-absolute" style="right: 10px; cursor: pointer; color: white">
+
+            <i class="fa fa-times" (click)="closeForm()" style="cursor: pointer; font-size: 24px; right: 10px"></i>
+
+          </span>
+        </div>
+
+        <div class="card-body">
+          <div *ngIf="showingFullForm">
+
+            <!-- UK Study History -->
+            <div class="row mt-3">
+              <div class="row">
+
+
+
                 <div class="col-md-6 mt-3">
                   <label>Did you have any previous study in the UK?</label>
                   <div>
-                    <label><input type="radio" formControlName="previousUkStudy" value="Yes" /> Yes</label>
-                    <label class="ms-3"><input type="radio" formControlName="previousUkStudy" value="No" /> No</label>
+                    <label class="ms-3 radioBtnTxt"><input type="radio" class="radioBtn"
+                        formControlName="previous_study_uk" value="Yes" /> Yes</label>
+                    <label class="ms-3 radioBtnTxt"><input type="radio" class="radioBtn"
+                        formControlName="previous_study_uk" value="No" /> No</label>
                   </div>
                 </div>
 
                 <div class="col-md-6 mt-3">
                   <label>Did you receive a student visa?</label>
                   <div>
-                    <label><input type="radio" formControlName="ukStudentVisa" value="Yes" /> Yes</label>
-                    <label class="ms-3"><input type="radio" formControlName="ukStudentVisa" value="No" /> No</label>
+                    <label class="ms-3 radioBtnTxt"><input type="radio" class="radioBtn"
+                        formControlName="receive_student_visa" value="Yes" /> Yes</label>
+                    <label class="ms-3 radioBtnTxt"><input type="radio" class="radioBtn"
+                        formControlName="receive_student_visa" value="No" />
+                      No</label>
                   </div>
                   <label class="mt-2">Upload student visa document:</label>
-                  <input type="file" formControlName="ukStudentVisaUpload" />
+                  <input type="file" formControlName="ukStudentVisaUpload"
+                    (change)="onukStudentVisaUploadFile($event, 'ukStudentVisaUpload')" />
                 </div>
 
                 <!-- UK Visa Refusal History -->
                 <div class="col-md-6 mt-3">
                   <label>Have you ever received a refusal for the UK?</label>
                   <div>
-                    <label><input type="radio" formControlName="ukVisaRefusal" value="Yes" /> Yes</label>
-                    <label class="ms-3"><input type="radio" formControlName="ukVisaRefusal" value="No" /> No</label>
+                    <label class="ms-3 radioBtnTxt"><input type="radio" class="radioBtn"
+                        formControlName="refusal_from_uk" value="Yes" />
+                      Yes</label>
+                    <label class="ms-3 radioBtnTxt"><input type="radio" class="radioBtn"
+                        formControlName="refusal_from_uk" value="No" />
+                      No</label>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div class="row mt-3">
-              <div class="col-md-12">
-                <label>Upload to add another visa:</label>
-                <input type="file" formControlName="additionalVisaUpload" />
+
+                <div class="row mt-3">
+                  <div class="col-md-12">
+                    <label>Upload to add another visa:</label>
+                    <input type="file" formControlName="additionalVisaUpload"
+                      (change)="onadditionalVisaUploadFile($event, 'additionalVisaUpload')" />
+                  </div>
+                </div>
               </div>
             </div>
 
             <!-- Course Level Comparison Section -->
             <div class="row mt-3">
-              <div class="col-md-12">
-                <label>Are you applying for a course that is at a higher, same, or lower level than the last course you
-                  studied in the UK?</label>
-                <div class="form-check mt-2">
-                  <label class="form-check-label">
-                    <input type="checkbox" class="form-check-input" formControlName="courseLevelComparison"
-                      value="Higher" />
-                    The course that I am applying for is at a higher level
-                  </label>
-                </div>
-                <div class="form-check mt-2">
-                  <label class="form-check-label">
-                    <input type="checkbox" class="form-check-input" formControlName="courseLevelComparison"
-                      value="Same" />
-                    The course that I am applying for is at the same level
-                  </label>
-                </div>
-                <div class="form-check mt-2">
-                  <label class="form-check-label">
-                    <input type="checkbox" class="form-check-input" formControlName="courseLevelComparison"
-                      value="Lower" />
-                    The course that I am applying for is at a lower level
-                  </label>
-                </div>
-                <div class="form-check mt-2">
-                  <label class="form-check-label">
-                    <input type="checkbox" class="form-check-input" formControlName="courseLevelComparison"
-                      value="NotStudied" />
-                    I have not studied any academic courses in the UK
-                  </label>
-                </div>
+
+              <div *ngFor="let option of levelOptions" class="form-check mt-2">
+                <label class="form-check-label">
+                  <input type="checkbox" class="form-check-input" [value]="option"
+                    [checked]="studentForm.get('course_level_in_uk')?.value?.includes(option)"
+                    (change)="updateCourseLevels($event, option)" />
+                  {{ option }}
+                </label>
               </div>
             </div>
-          </div>
-          <!-- Form Actions -->
-          <div class="form-buttons d-flex justify-content-end gap-2 mt-4">
-            <button type="submit" class="btn btn-primary" [disabled]="!studentForm.valid"
-              (click)="onSubmit()">Submit</button>
-            <button type="button" class="btn btn-secondary">Cancel</button>
+
+
+            <div class="text-center mt-3">
+              <button type="submit" class="btn btn-primary" [disabled]="!studentForm.valid"
+                (click)="onStudentVisaInfoSubmit()">Submit</button>
+            </div>
+
+
           </div>
         </div>
       </div>
+      <!-- </div> -->
+      <!-- Form Actions -->
+      <div class="form-buttons d-flex justify-content-end gap-2 mt-4">
+        <!-- <button type="submit" class="btn btn-primary" [disabled]="!studentForm.valid"
+          (click)="onSubmit()">Submit</button>
+        <button type="button" class="btn btn-secondary">Cancel</button> -->
+      </div>
+      <!-- </div>
+</div> -->
     </form>
   </div>
 </div>

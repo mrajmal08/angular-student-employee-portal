@@ -11,6 +11,7 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { StudentsCreateComponent } from './students-create/students-create.component';
 import { StudentsViewComponent } from './students-view/students-view.component';
 import { StudentInfoComponent } from './student-info/student-info.component';
+import { AddStudentDialogComponent } from './add-student-dialog/add-student-dialog.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { StudentInfoComponent } from './student-info/student-info.component';
     StudentsCreateComponent,
     StudentsViewComponent,
     StudentInfoComponent,
+    AddStudentDialogComponent,
   ],
   imports: [
     CommonModule,

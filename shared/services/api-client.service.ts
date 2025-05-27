@@ -96,6 +96,28 @@ export class ApiClientService {
     });
   }
 
+  postForFormData<T>(
+    endPoint: string,
+    body?: any,
+    customHeaders?: { [key: string]: string }
+  ): Observable<T> {
+    const token = localStorage.getItem('accessToken');
+
+    let headers = new HttpHeaders({
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...customHeaders,
+    });
+
+    // If body is FormData, we must not set Content-Type manually
+    if (body instanceof FormData) {
+      headers = headers.delete('Content-Type');
+    }
+
+    return this.http.post<T>(`${this.baseUrl}/${endPoint}`, body, {
+      headers,
+    });
+  }
+
   patch<T>(
     endpoint: string,
     body: any,

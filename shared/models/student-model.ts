@@ -7,6 +7,21 @@ export interface Student {
   passport_expiry_date: any;
   passport_status: any;
   email: string;
+  english_test: any;
+  english_test_reason: any;
+  last_course: any;
+  last_course_completion_year: any;
+  dependant: any;
+  dependant_financial_info: any;
+  flag_for_compliance: any;
+  travel_outside: any;
+  travel_outside_no: any;
+  travel_uk: any;
+  travel_uk_no: any;
+  previous_study_uk: any;
+  receive_student_visa: any;
+  refusal_from_uk: any;
+
   nationality: string;
   phone_no: string;
   date_of_birth: string;

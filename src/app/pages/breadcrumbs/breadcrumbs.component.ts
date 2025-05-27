@@ -33,8 +33,8 @@ export class BreadcrumbsComponent implements OnInit {
       });
 
     this.appService.breadCrumbData$.subscribe((data) => {
-      this.studentId = data.studentId;
-      this.caseId = data.caseId;
+      this.studentId = data.studentId ?? null;
+      this.caseId = data.caseId ?? null;
       if (this.studentId) {
         this.getSingleStudent();
       }

@@ -130,7 +130,6 @@ export class StudentsViewComponent implements OnInit {
     const year = dateObj.getFullYear();
 
     const formattedDate = `${day}/${month}/${year}`;
-    console.log(formattedDate); // Output: 01/02/2000
     return formattedDate;
   }
 }

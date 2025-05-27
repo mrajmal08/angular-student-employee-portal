@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 interface BreadCrumbData {
-  studentId: number | null;
-  caseId: number | null;
+  studentId?: number | null;
+  caseId?: number | null;
 }
 
 @Injectable({
@@ -18,6 +18,10 @@ export class AppService {
   constructor() {}
 
   updateBreadCrumbData(data: BreadCrumbData) {
-    this.breadCrumbDataSubject.next(data);
+    const currentData = this.breadCrumbDataSubject.value;
+    this.breadCrumbDataSubject.next({
+      ...currentData,
+      ...data,
+    });
   }
 }

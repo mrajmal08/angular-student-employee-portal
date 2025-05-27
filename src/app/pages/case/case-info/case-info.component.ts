@@ -6,6 +6,7 @@ import { Session } from 'shared/models/session-model';
 import { User } from 'shared/models/user-model';
 import { ApiClientService } from 'shared/services/api-client.service';
 import { Location } from '@angular/common';
+import { AppService } from 'shared/services/app-service.service';
 
 @Component({
   selector: 'app-case-info',
@@ -22,6 +23,8 @@ export class CaseInfoComponent implements OnInit {
   caseForm!: FormGroup;
   displayValidation = true;
   userId: string | null = '';
+  caseId: number | null = null;
+  studentId: number | null = null;
   dataForEdit: any;
 
   courses: Course[] = [];
@@ -35,7 +38,8 @@ export class CaseInfoComponent implements OnInit {
     private router: Router,
     private apiClient: ApiClientService,
     private location: Location,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private appService: AppService
   ) {}
 
   ngOnInit(): void {
@@ -59,7 +63,27 @@ export class CaseInfoComponent implements OnInit {
         session_id: this.dataForEdit.row.session_id,
         agent_id: this.dataForEdit.row.agent_id,
       });
+    } else {
+      this.appService.breadCrumbData$.subscribe((data) => {
+        this.caseId = data.caseId ?? null;
+        this.studentId = data.studentId ?? null;
+        if (!!this.caseId && !!this.studentId) {
+          this.apiClient
+            .get(`case/single/${this.studentId}`, {})
+            .subscribe((resp: any) => {
+              if (resp.status) {
+                this.dataForEdit.row = resp.result[0];
+                this.caseForm.patchValue({
+                  course_id: this.dataForEdit.row.course_id,
+                  session_id: this.dataForEdit.row.session_id,
+                  agent_id: this.dataForEdit.row.agent_id,
+                });
+              }
+            });
+        }
+      });
     }
+
     this.getCourses();
     this.getSessions();
     this.getAgents();
@@ -72,42 +96,48 @@ export class CaseInfoComponent implements OnInit {
   }
 
   onSubmit() {
-    this.navigateToNext();
+    // this.navigateToNext();
 
-    // if (this.caseForm.valid) {
-    //   if (!!this.dataForEdit.row) {
-    //     const queryParams = new URLSearchParams({
-    //       case_id: this.dataForEdit.row.id,
-    //       ...(this.dataForEdit.row.student_id
-    //         ? { student_id: this.dataForEdit.row.student_id }
-    //         : {}),
-    //       ...this.caseForm.value,
-    //     }).toString();
-    //     this.apiClient
-    //       .get(`case/update?${queryParams}`)
-    //       .subscribe((resp: any) => {
-    //         if (resp.status) {
-    //           this.navigateToNext();
-    //         } else {
-    //         }
-    //       });
-    //   } else {
-    //     const queryParams = new URLSearchParams({
-    //       ...this.caseForm.value,
-    //     }).toString();
-    //     this.apiClient
-    //       .post(`case/insert?${queryParams}`)
-    //       .toPromise()
-    //       .then((resp: any) => {
-    //         if (resp.status) {
-    //           this.navigateToNext();
-    //         }
-    //       })
-    //       .catch((error: any) => {})
-    //       .catch((error: any) => {});
-    //   }
-    // } else {
-    // }
+    if (this.caseForm.valid) {
+      if (!!this.dataForEdit.row) {
+        const queryParams = new URLSearchParams({
+          case_id: this.dataForEdit.row.id,
+          ...(this.dataForEdit.row.student_id
+            ? { student_id: this.dataForEdit.row.student_id }
+            : {}),
+          ...this.caseForm.value,
+        }).toString();
+        this.apiClient
+          .get(`case/update?${queryParams}`)
+          .subscribe((resp: any) => {
+            if (resp.status) {
+              this.appService.updateBreadCrumbData({
+                caseId: this.dataForEdit.row.id,
+              });
+              this.navigateToNext();
+            } else {
+            }
+          });
+      } else {
+        const queryParams = new URLSearchParams({
+          ...this.caseForm.value,
+        }).toString();
+        this.apiClient
+          .post(`case/insert?${queryParams}`)
+          .toPromise()
+          .then((resp: any) => {
+            if (resp.status) {
+              this.appService.updateBreadCrumbData({
+                caseId: resp.result.id,
+              });
+              this.navigateToNext();
+            }
+          })
+          .catch((error: any) => {})
+          .catch((error: any) => {});
+      }
+    } else {
+    }
   }
 
   navigateToNext() {
