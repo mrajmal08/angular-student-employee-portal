@@ -14,6 +14,7 @@ import { CaseEditComponent } from './case-edit/case-edit.component';
 import { CommentsComponent } from './comments/comments.component';
 import { StudentInfoComponent } from '../applications/students/student-info/student-info.component';
 import { CasesListComponent } from './cases-list/cases-list.component';
+import { SchedulerComponent } from './scheduler/scheduler.component';
 
 const routes: Routes = [
   {
@@ -34,6 +35,8 @@ const routes: Routes = [
           { path: 'student-info', component: StudentInfoComponent },
           { path: 'financial-docs', component: DependantsComponent },
           { path: 'creditability-interview', component: PreviousInfoComponent },
+          { path: 'scheduler', component: SchedulerComponent },
+
           { path: 'enrollment', component: ReferrerComponent },
           { path: 'general-docs', component: DocsComponent },
           { path: 'verifier', component: VerifierComponent },
@@ -50,6 +53,7 @@ const routes: Routes = [
           { path: 'student-info', component: StudentInfoComponent },
           { path: 'financial-docs', component: DependantsComponent },
           { path: 'creditability-interview', component: PreviousInfoComponent },
+          { path: 'scheduler', component: SchedulerComponent },
           { path: 'enrollment', component: ReferrerComponent },
           { path: 'general-docs', component: DocsComponent },
           { path: 'verifier', component: VerifierComponent },

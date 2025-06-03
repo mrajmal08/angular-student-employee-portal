@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'shared/dialogs/confirm-dialog/confirm-dialog.component';
@@ -7,11 +13,11 @@ import { ApiClientService } from 'shared/services/api-client.service';
 import { AppService } from 'shared/services/app-service.service';
 
 @Component({
-  selector: 'app-previous-info',
-  templateUrl: './previous-info.component.html',
-  styleUrls: ['./previous-info.component.scss'],
+  selector: 'app-scheduler',
+  templateUrl: './scheduler.component.html',
+  styleUrls: ['./scheduler.component.scss'],
 })
-export class PreviousInfoComponent implements OnInit {
+export class SchedulerComponent implements OnInit {
   @ViewChild('designationSelect', { read: ElementRef })
   designationSelectRef!: ElementRef;
   userForm!: FormGroup;
@@ -22,6 +28,17 @@ export class PreviousInfoComponent implements OnInit {
     { id: 'yes', name: 'Yes' },
     { id: 'no', name: 'No' },
   ];
+
+  tabs = [
+    { label: 'Created Interviews', count: 1 },
+    { label: 'Scheduled Interviews', count: 1 },
+    { label: 'Completed Interviews', count: 1 },
+    { label: 'Created Pickups', count: 0 },
+    { label: 'Scheduled Pickups', count: 0 },
+    { label: 'Completed Pickups', count: 0 },
+  ];
+
+  activeTabIndex = 0;
 
   onDesignationChange(selected: any) {
     setTimeout(() => {
@@ -124,7 +141,7 @@ export class PreviousInfoComponent implements OnInit {
         per_page: this.page.perPage,
       })
       .subscribe((resp: any) => {
-        this.page.total = resp.result.total;
+        // this.page.total = resp.result.total;
         this.rows = resp.result.data
           .filter((row: any) => row.is_scheduled === 0)
           .map((row: { created_at: string; updated_at: string }) => ({

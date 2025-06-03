@@ -23,6 +23,17 @@ import { ReenrollmentComponent } from './reenrollment/reenrollment.component';
 import { CommentsComponent } from './comments/comments.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CasesListComponent } from './cases-list/cases-list.component';
+import { CreatedInterviewComponent } from './scheduler/created-interview/created-interview.component';
+import { AddTimeSlotComponent } from './add-time-slot/add-time-slot.component';
+
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { AddTimeSlotDialogComponent } from './add-time-slot-dialog/add-time-slot-dialog.component';
+import { SchedulerComponent } from './scheduler/scheduler.component';
+import { SchedulerInterviewComponent } from './scheduler/scheduler-interview/scheduler-interview.component';
+import { AddInterviewerNameDialogComponent } from './add-interviewer-name-dialog/add-interviewer-name-dialog.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +43,9 @@ import { CasesListComponent } from './cases-list/cases-list.component';
     PatientInfoComponent,
     DependantsComponent,
     PreviousInfoComponent,
+    SchedulerComponent,
+    CreatedInterviewComponent,
+    SchedulerInterviewComponent,
     ReferrerComponent,
     DocsComponent,
     VerifierComponent,
@@ -42,6 +56,9 @@ import { CasesListComponent } from './cases-list/cases-list.component';
     ReenrollmentComponent,
     CommentsComponent,
     CasesListComponent,
+    AddTimeSlotComponent,
+    AddTimeSlotDialogComponent,
+    AddInterviewerNameDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -51,6 +68,11 @@ import { CasesListComponent } from './cases-list/cases-list.component';
     NgxDatatableModule,
     TabViewModule,
     NgbModule,
+
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatButtonModule,
   ],
 })
 export class CaseModule {}

@@ -1,23 +1,32 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmDialogComponent } from 'shared/dialogs/confirm-dialog/confirm-dialog.component';
 import { Interview } from 'shared/models/interview-model';
 import { ApiClientService } from 'shared/services/api-client.service';
 import { AppService } from 'shared/services/app-service.service';
+import { AddTimeSlotComponent } from '../../add-time-slot/add-time-slot.component';
+import { AddTimeSlotDialogComponent } from '../../add-time-slot-dialog/add-time-slot-dialog.component';
+import { convertTo12Hour } from 'shared/helpers/common-helper';
 
 @Component({
-  selector: 'app-previous-info',
-  templateUrl: './previous-info.component.html',
-  styleUrls: ['./previous-info.component.scss'],
+  selector: 'app-scheduler-interview',
+  templateUrl: './scheduler-interview.component.html',
+  styleUrls: ['./scheduler-interview.component.scss'],
 })
-export class PreviousInfoComponent implements OnInit {
+export class SchedulerInterviewComponent implements OnInit {
   @ViewChild('designationSelect', { read: ElementRef })
   designationSelectRef!: ElementRef;
   userForm!: FormGroup;
   caseId: number | null = null;
 
-  addingInterview: boolean = false;
   studentNotified: any[] = [
     { id: 'yes', name: 'Yes' },
     { id: 'no', name: 'No' },
@@ -33,19 +42,7 @@ export class PreviousInfoComponent implements OnInit {
     }, 0);
   }
 
-  onCancel() {
-    this.addingInterview = false;
-  }
-  onAdd() {
-    console.log('form value', this.userForm.value);
-    this.addInterview();
-    this.addingInterview = false;
-  }
-
   onCheckboxChange(event: Event, row: any) {}
-  addNewInterview() {
-    this.addingInterview = true;
-  }
 
   rows: Interview[] = [];
   columns = [
@@ -53,9 +50,9 @@ export class PreviousInfoComponent implements OnInit {
     { name: 'Case ID', prop: 'case_id' },
 
     { name: 'Status Name', prop: 'status.name' },
-    // { name: 'User Email', prop: 'email' },
-    // { name: 'Phone No', prop: 'phone_no' },
-    // { name: 'DOB', prop: 'date_of_birth' },
+    { name: 'Time Slots', prop: '' },
+    { name: 'Interviewer Name', prop: 'interviewer_name' },
+    { name: 'Interview Date', prop: 'interview_date' },
     // { name: 'Role', prop: 'role.name' },
     // { name: 'Designation', prop: 'designation.name' },
     // { name: 'Department', prop: 'department.name' },
@@ -75,14 +72,12 @@ export class PreviousInfoComponent implements OnInit {
     private apiClient: ApiClientService,
     private fb: FormBuilder,
     private appService: AppService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
-    this.userForm = this.fb.group({
-      referral_date: [''],
-      student_notified: [''],
-    });
+    this.userForm = this.fb.group({});
     this.appService.breadCrumbData$.subscribe((data) => {
       this.caseId = data.caseId ?? null;
     });
@@ -126,21 +121,24 @@ export class PreviousInfoComponent implements OnInit {
       .subscribe((resp: any) => {
         this.page.total = resp.result.total;
         this.rows = resp.result.data
-          .filter((row: any) => row.is_scheduled === 0)
+          .filter((row: any) => row.is_scheduled === 1 && row.status_id === 2)
           .map((row: { created_at: string; updated_at: string }) => ({
             ...row,
             // created_at: getUKFormatedDate(row.created_at),
           }));
+
         this.page.total = this.rows.length;
+
+        console.log('Interviews:', this.rows);
       });
   }
 
-  updateInterview(row: any) {
+  updateInterview(row: any, result?: any) {
     this.apiClient
       .post('interview/update', {
         case_id: row.case_id,
         id: row.id,
-        is_scheduled: 1,
+        ...result,
       })
       .subscribe((resp: any) => {
         if (resp.status) {
@@ -149,20 +147,36 @@ export class PreviousInfoComponent implements OnInit {
       });
   }
 
-  addInterview() {
-    const queryParams = new URLSearchParams({
-      case_id: this.caseId,
-      ...this.userForm.value,
-    }).toString();
-    this.apiClient
-      .post(`interview/insert?${queryParams}`)
-      .subscribe((resp: any) => {
-        this.getInterviews();
-      });
-  }
-
   updatePerPage(event: any) {
     this.page.perPage = event.target.value;
     this.getInterviews();
+  }
+
+  onTimeSlotClick(row: any) {
+    if (row.start_time && row.end_time) {
+      return;
+    }
+    this.openTimeSlotDialog(row);
+  }
+
+  openTimeSlotDialog(row: any) {
+    const modelRef = this.modalService.open(AddTimeSlotDialogComponent, {
+      size: 'lg',
+      centered: true,
+      backdrop: 'static',
+      windowClass: 'custom-modal',
+    });
+
+    modelRef.result.then((result) => {
+      if (result) {
+        this.updateInterview(row, result);
+      }
+    });
+  }
+
+  getTimeSlots(row: any): string {
+    return (
+      convertTo12Hour(row.start_time) + ' - ' + convertTo12Hour(row.end_time)
+    );
   }
 }

@@ -6,6 +6,7 @@ import { Student } from 'shared/models/student-model';
 import { AppService } from 'shared/services/app-service.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddStudentDialogComponent } from '../add-student-dialog/add-student-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-student-info',
@@ -32,12 +33,17 @@ export class StudentInfoComponent implements OnInit {
     private location: Location,
     private apiClient: ApiClientService,
     private appService: AppService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private router: Router
   ) {
     this.getStudents();
   }
 
   students: Student[] = [];
+
+  onNext() {
+    console.log('Router location:', this.router.url);
+  }
 
   getStudents() {
     this.apiClient.get('students', {}).subscribe((resp: any) => {

@@ -1,0 +1,43 @@
+<!-- <div class="card">
+    <div class="card-header">
+        <span>Add Student</span>
+        <span class="position-absolute" style="right: 10px; cursor: pointer; color: white">
+
+            <i class="fa fa-times" (click)="closeForm()" style="cursor: pointer; font-size: 24px; right: 10px"></i>
+
+        </span>
+    </div>
+
+    <div class="card-body"> -->
+
+<div class="time-picker-wrapper" #container>
+    <div>{{title}}</div>
+    <input type="text" readonly [value]="selectedTime" (click)="toggleDropdown()" placeholder="--:-- --"
+        class="input-field" />
+
+    <div class="dropdown" *ngIf="showDropdown">
+        <div class="time-picker-container">
+            <div class="picker-column">
+                <div *ngFor="let hour of hours" [class.selected]="hour === selectedHour"
+                    (click)="selectedHour = hour; onTimeSelect()">
+                    {{ hour }}
+                </div>
+            </div>
+            <div class="picker-column">
+                <div *ngFor="let minute of minutes" [class.selected]="minute === selectedMinute"
+                    (click)="selectedMinute = minute; onTimeSelect()">
+                    {{ minute }}
+                </div>
+            </div>
+            <div class="picker-column">
+                <div *ngFor="let meridiem of meridiems" [class.selected]="meridiem === selectedMeridiem"
+                    (click)="selectedMeridiem = meridiem; onTimeSelect()">
+                    {{ meridiem }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- </div>
+</div> -->

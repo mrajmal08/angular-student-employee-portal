@@ -1,0 +1,98 @@
+<!-- <p-tabView> -->
+
+
+
+
+
+
+<div class="col-sm-12">
+    <div class="card mt-3">
+        <!-- <div class="card-header"> <span>Interview</span>
+            </div> -->
+        <div class="card-body">
+
+            <div class="d-flex mt-3 mb-3 justify-content-end">
+                <button type="button" class="btn btn-secondary add-button">Shuffle By TimeSlots</button>
+            </div>
+
+            <div>
+                <label for="perPageSelect" class="me-2" style="padding-bottom: 10px; color: #000000;">Show</label>
+                <select id="perPageSelect" class="form-select me-2" style="width: auto; display: inline-block;"
+                    (change)="updatePerPage($event)">
+                    <option *ngFor="let option of perPageOptions" [value]="option" [selected]="option === page.perPage">
+                        {{ option }}
+                    </option>
+                </select>
+                <label for="perPageSelect" class="me-2" style="padding-bottom: 10px; color: #000000;">entries</label>
+            </div>
+
+            <ngx-datatable class="bootstrap custom-table" [rows]="rows" [columns]="columns" [columnMode]="'force'"
+                [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [scrollbarH]="true" [limit]="page.perPage"
+                [count]="page.total" [offset]="page.page - 1" [externalPaging]="true" (page)="setPage($event)">
+
+                <ngx-datatable-column *ngFor="let col of columns" [name]="col.name" [prop]="col.prop"
+                    [sortable]="false">
+
+
+                    <ng-template ngx-datatable-header-template let-column="column">
+                        <div class="mgx-header">{{ column.name }}</div>
+                    </ng-template>
+
+
+
+
+                    <ng-template ngx-datatable-cell-template let-value="value" let-row="row" let-column="column">
+
+                        <div *ngIf="column.name === 'Time Slots'; else normalCell" [ngClass]="{
+                            'clickable-text': !row.start_time && !row.end_time}" (click)="onTimeSlotClick(row)">
+
+                            {{!row.start_time && !row.end_time? 'Time Slots':getTimeSlots(row) }}
+                        </div>
+                        <ng-template #normalCell>
+
+                            <div class="text-center" [title]="value">{{ value }}</div>
+                            <div *ngIf="column.name === 'Created By'">
+                                <small>{{ row.created_at | date: 'short' }}</small>
+                            </div>
+                            <div *ngIf="column.name === 'Updated By'">
+                                <small>{{ row.updated_at | date: 'short' }}</small>
+                            </div>
+                        </ng-template>
+
+                    </ng-template>
+                </ngx-datatable-column>
+
+
+
+
+                <ngx-datatable-column name="Action" [width]="150">
+                    <ng-template ngx-datatable-header-template>
+                        <div class="mgx-header text-center">Action</div>
+                    </ng-template>
+
+                    <ng-template ngx-datatable-cell-template let-row="row">
+                        <div class="d-flex justify-content-center gap-2">
+                            <input type="checkbox" style="cursor: pointer;" (change)="onCheckboxChange($event, row)"
+                                (click)="$event.stopPropagation()" />
+                            <i class="bi bi-person-fill fs-6 "
+                                style="color: #58aff7; margin-bottom: 2px; cursor: pointer;"></i>
+
+                            <!-- <i class="bi bi-plus-circle fs-6" style="margin-left: 0; cursor: pointer;"
+                                (click)="editUser(row)"></i> -->
+
+                            <i class="bi bi-x-lg text-danger" style="font-weight: bold; cursor: pointer;"
+                                (click)="onDeleteUser(row)"></i>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+
+            </ngx-datatable>
+
+
+
+
+        </div>
+    </div>
+</div>
+
+<!-- </p-tabView> -->

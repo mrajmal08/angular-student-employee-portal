@@ -1,0 +1,33 @@
+<div class="card">
+    <div class="card-header">
+        <span>Add Time Slots</span>
+        <span class="position-absolute" style="right: 10px; cursor: pointer; color: white">
+
+            <i class="fa fa-times" (click)="closeForm()" style="cursor: pointer; font-size: 24px; right: 10px"></i>
+
+        </span>
+    </div>
+
+    <div class="card-body">
+
+        <div class="time-picker-row">
+            <div class="time-picker-wrapper">
+                <app-add-time-slot (timeChange)="startTime = $event" [title]="'Start Time'">
+                </app-add-time-slot>
+            </div>
+
+            <div class="time-picker-wrapper">
+                <app-add-time-slot (timeChange)="endTime = $event" [title]="'End Time'">
+                </app-add-time-slot>
+            </div>
+        </div>
+        <div class="form-buttons gap-2 mb-3">
+            <button type="submit" class="btn btn-primary submit-button" [disabled]="!startTime && !endTime"
+                (click)="onSave()">Save
+            </button>
+            <button type="button" class="btn btn-secondary cancel-button" (click)="closeForm()">Cancel</button>
+        </div>
+
+    </div>
+
+</div>

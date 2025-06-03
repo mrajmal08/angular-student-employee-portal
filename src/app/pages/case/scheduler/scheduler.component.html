@@ -1,0 +1,50 @@
+<!-- <p-tabView>
+
+
+
+    <p-tabPanel header="Created Interview">
+        <app-scheduler-body></app-scheduler-body>
+    </p-tabPanel>
+
+    <p-tabPanel header="Scheduled Interview">
+        <app-reenrollment></app-reenrollment>
+    </p-tabPanel>
+
+    <p-tabPanel header="Completed Interview">
+        <app-reenrollment></app-reenrollment>
+    </p-tabPanel>
+    <p-tabPanel header="Created Compliance Interview">
+        <app-reenrollment></app-reenrollment>
+    </p-tabPanel> <p-tabPanel header="Scheduled Compliance Interview">
+        <app-reenrollment></app-reenrollment>
+    </p-tabPanel> <p-tabPanel header="Completed Compliance Interview">
+        <app-reenrollment></app-reenrollment>
+    </p-tabPanel>
+
+</p-tabView> -->
+
+<!-- <p-tabPanel header="Interview">
+        <app-new-student></app-new-student>
+    </p-tabPanel>
+
+    <p-tabPanel header="Credit Interview">
+        <app-reenrollment></app-reenrollment>
+    </p-tabPanel> -->
+
+
+
+<div class="custom-tab-bar">
+    <div class="tab-item" *ngFor="let tab of tabs; let i = index" [class.active]="i === activeTabIndex"
+        (click)="activeTabIndex = i">
+        <span class="badge">{{ tab.count }}</span>
+        <span class="label">{{ tab.label }}</span>
+    </div>
+</div>
+
+<!-- Content -->
+<div class="tab-content">
+    <app-created-interview *ngIf="activeTabIndex === 0"></app-created-interview>
+    <app-scheduler-interview *ngIf="activeTabIndex === 1"></app-scheduler-interview>
+    <app-reenrollment *ngIf="activeTabIndex === 2"></app-reenrollment>
+    <!-- ... -->
+</div>
