@@ -18,6 +18,8 @@ import { AddTimeSlotComponent } from '../../add-time-slot/add-time-slot.componen
 import { AddTimeSlotDialogComponent } from '../../add-time-slot-dialog/add-time-slot-dialog.component';
 import { convertTo12Hour } from 'shared/helpers/common-helper';
 import { AddInterviewerNameDialogComponent } from '../../add-interviewer-name-dialog/add-interviewer-name-dialog.component';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-created-interview',
@@ -91,7 +93,10 @@ export class CreatedInterviewComponent implements OnInit {
     private appService: AppService,
     private dialog: MatDialog,
     private modalService: NgbModal,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private location: Location,
+
+    private router: Router
   ) {}
 
   ngOnInit(): void {

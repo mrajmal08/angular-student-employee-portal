@@ -1,0 +1,9 @@
+.time-picker-row {
+  display: flex;
+  gap: 16px; /* Optional: Adds spacing between the components */
+  width: 100%;
+}
+
+.time-picker-wrapper {
+  flex: 1; /* Ensures both wrappers take 50% of the row */
+}

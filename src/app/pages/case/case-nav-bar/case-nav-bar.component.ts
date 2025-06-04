@@ -40,14 +40,14 @@ export class CaseNavBarComponent implements OnInit {
   }
 
   OnNavigate(link: any, event: MouseEvent): void {
-    // const index = this.links.findIndex((l) => l.value === link.value);
+    const index = this.links.findIndex((l) => l.value === link.value);
 
-    // if (index > this.currentStep) {
-    //   // Prevent forward navigation
-    //   event.preventDefault();
-    //   event.stopPropagation();
-    //   return;
-    // }
+    if (index > this.currentStep) {
+      // Prevent forward navigation
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
 
     event.preventDefault();
     if (link.value === 'comments') {

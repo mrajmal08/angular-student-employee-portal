@@ -12,17 +12,14 @@ import { ConfirmDialogComponent } from 'shared/dialogs/confirm-dialog/confirm-di
 import { Interview } from 'shared/models/interview-model';
 import { ApiClientService } from 'shared/services/api-client.service';
 import { AppService } from 'shared/services/app-service.service';
-import { AddTimeSlotComponent } from '../../add-time-slot/add-time-slot.component';
-import { AddTimeSlotDialogComponent } from '../../add-time-slot-dialog/add-time-slot-dialog.component';
 import { convertTo12Hour } from 'shared/helpers/common-helper';
-import { AddSampleQuestionDialogComponent } from '../../add-sample-question-dialog/add-sample-question-dialog.component';
 
 @Component({
-  selector: 'app-scheduler-interview',
-  templateUrl: './scheduler-interview.component.html',
-  styleUrls: ['./scheduler-interview.component.scss'],
+  selector: 'app-completed-interview',
+  templateUrl: './completed-interview.component.html',
+  styleUrls: ['./completed-interview.component.scss'],
 })
-export class SchedulerInterviewComponent implements OnInit {
+export class CompletedInterviewComponent implements OnInit {
   @ViewChild('designationSelect', { read: ElementRef })
   designationSelectRef!: ElementRef;
   userForm!: FormGroup;
@@ -133,7 +130,7 @@ export class SchedulerInterviewComponent implements OnInit {
       .subscribe((resp: any) => {
         this.page.total = resp.result.total;
         this.rows = resp.result.data
-          .filter((row: any) => row.is_scheduled === 1 && row.status_id === 2)
+          .filter((row: any) => row.is_scheduled === 1 && row.status_id === 3)
           .map((row: { created_at: string; updated_at: string }) => ({
             ...row,
             // created_at: getUKFormatedDate(row.created_at),
@@ -171,20 +168,7 @@ export class SchedulerInterviewComponent implements OnInit {
     this.openTimeSlotDialog(row);
   }
 
-  openTimeSlotDialog(row: any) {
-    const modelRef = this.modalService.open(AddTimeSlotDialogComponent, {
-      size: 'lg',
-      centered: true,
-      backdrop: 'static',
-      windowClass: 'custom-modal',
-    });
-
-    modelRef.result.then((result) => {
-      if (result) {
-        this.updateInterview(row, result);
-      }
-    });
-  }
+  openTimeSlotDialog(row: any) {}
 
   getTimeSlots(row: any): string {
     return (
@@ -192,18 +176,5 @@ export class SchedulerInterviewComponent implements OnInit {
     );
   }
 
-  onBtnClick() {
-    const modelRef = this.modalService.open(AddSampleQuestionDialogComponent, {
-      size: 'lg',
-      centered: true,
-      backdrop: 'static',
-      windowClass: 'custom-modal',
-    });
-
-    modelRef.result.then((result) => {
-      if (result) {
-        this.updateInterview(this.selectedRow, result);
-      }
-    });
-  }
+  onBtnClick() {}
 }

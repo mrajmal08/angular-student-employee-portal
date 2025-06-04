@@ -16,7 +16,7 @@ import { VerifierComponent } from './verifier/verifier.component';
 import { ViewAllComponent } from './view-all/view-all.component';
 import { CaseAddComponent } from './case-add/case-add.component';
 import { CaseEditComponent } from './case-edit/case-edit.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NewStudentComponent } from './new-student/new-student.component';
 import { ReenrollmentComponent } from './reenrollment/reenrollment.component';
@@ -34,6 +34,9 @@ import { AddTimeSlotDialogComponent } from './add-time-slot-dialog/add-time-slot
 import { SchedulerComponent } from './scheduler/scheduler.component';
 import { SchedulerInterviewComponent } from './scheduler/scheduler-interview/scheduler-interview.component';
 import { AddInterviewerNameDialogComponent } from './add-interviewer-name-dialog/add-interviewer-name-dialog.component';
+import { AddSampleQuestionDialogComponent } from './add-sample-question-dialog/add-sample-question-dialog.component';
+import { CompletedInterviewComponent } from './completed-interview/completed-interview.component';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 
 @NgModule({
   declarations: [
@@ -46,6 +49,7 @@ import { AddInterviewerNameDialogComponent } from './add-interviewer-name-dialog
     SchedulerComponent,
     CreatedInterviewComponent,
     SchedulerInterviewComponent,
+    CompletedInterviewComponent,
     ReferrerComponent,
     DocsComponent,
     VerifierComponent,
@@ -59,6 +63,7 @@ import { AddInterviewerNameDialogComponent } from './add-interviewer-name-dialog
     AddTimeSlotComponent,
     AddTimeSlotDialogComponent,
     AddInterviewerNameDialogComponent,
+    AddSampleQuestionDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -68,11 +73,12 @@ import { AddInterviewerNameDialogComponent } from './add-interviewer-name-dialog
     NgxDatatableModule,
     TabViewModule,
     NgbModule,
+    CollapseModule.forRoot(),
 
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatButtonModule,
+    // MatFormFieldModule,
+    // MatInputModule,
+    // MatIconModule,
+    // MatButtonModule,
   ],
 })
 export class CaseModule {}

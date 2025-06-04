@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header">
-        <span>Update Interview</span>
+        <span>Upload Sample Questions</span>
         <span class="position-absolute" style="right: 10px; cursor: pointer; color: white">
 
             <i class="fa fa-times" (click)="closeForm()" style="cursor: pointer; font-size: 24px; right: 10px"></i>
@@ -15,19 +15,11 @@
             <div class="time-picker-row">
 
 
-                <div class="col-md-5">
-                    <div class="form-group">
-                        <label>Date of Birth:</label>
-                        <input type="date" class="form-control" formControlName="interview_date" />
-
-                    </div>
-                </div>
-
-                <div class="col-md-5">
-                    <div class="form-group">
-                        <label>Interviewer Name:</label>
-                        <input type="text" class="form-control" formControlName="interviewer_name" />
-
+                <div class="row mt-3">
+                    <div class="col-md-12">
+                        <label class="mb-1">Upload Sample Question</label>
+                        <input accept=".pdf" type="file" formControlName="sample_questions"
+                            (change)="onadditionalVisaUploadFile($event, 'sample_questions')" />
                     </div>
                 </div>
 

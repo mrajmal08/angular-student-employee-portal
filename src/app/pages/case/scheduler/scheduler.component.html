@@ -45,6 +45,7 @@
 <div class="tab-content">
     <app-created-interview *ngIf="activeTabIndex === 0"></app-created-interview>
     <app-scheduler-interview *ngIf="activeTabIndex === 1"></app-scheduler-interview>
-    <app-reenrollment *ngIf="activeTabIndex === 2"></app-reenrollment>
+    <app-completed-interview *ngIf="activeTabIndex === 2"></app-completed-interview>
+    <app-reenrollment *ngIf="activeTabIndex === 3"></app-reenrollment>
     <!-- ... -->
 </div>

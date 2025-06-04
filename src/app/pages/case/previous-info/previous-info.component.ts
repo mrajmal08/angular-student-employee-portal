@@ -5,6 +5,8 @@ import { ConfirmDialogComponent } from 'shared/dialogs/confirm-dialog/confirm-di
 import { Interview } from 'shared/models/interview-model';
 import { ApiClientService } from 'shared/services/api-client.service';
 import { AppService } from 'shared/services/app-service.service';
+import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-previous-info',
@@ -75,7 +77,10 @@ export class PreviousInfoComponent implements OnInit {
     private apiClient: ApiClientService,
     private fb: FormBuilder,
     private appService: AppService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+
+    private location: Location,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -164,5 +169,14 @@ export class PreviousInfoComponent implements OnInit {
   updatePerPage(event: any) {
     this.page.perPage = event.target.value;
     this.getInterviews();
+  }
+
+  onPrevious() {
+    this.location.back();
+  }
+
+  onNext() {
+    let url = '/case/add';
+    this.router.navigateByUrl(url + '/scheduler');
   }
 }

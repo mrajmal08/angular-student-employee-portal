@@ -41,8 +41,13 @@ export class StudentInfoComponent implements OnInit {
 
   students: Student[] = [];
 
+  onPrevious() {
+    this.location.back();
+  }
+
   onNext() {
-    console.log('Router location:', this.router.url);
+    let url = '/case/add';
+    this.router.navigateByUrl(url + '/creditability-interview');
   }
 
   getStudents() {

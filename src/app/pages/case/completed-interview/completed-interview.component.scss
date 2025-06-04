@@ -1,43 +1,4 @@
 
-
-
-// .btn {
-//   padding: 8px 16px;
-//   font-size: 14px;
-//   border: none;
-//   border-radius: 4px;
-//   cursor: pointer;
-//   color: white;
-//     width: 110px;
-// }
-
-.btn-save {
-  background-color: #28a745;
-  color: #fff;
-  width: 110px;
-
-}
-
-// .btn-add {
-//   background-color: #fd7e14;
-//   width: 150px;
-
-// }
-
-.btn-view {
-  background-color: #6c757d;
-  color: #fff;
-  width: 110px;
-
-}
-
-
-
-
-
-
-
-
 .add-button {
     background-color: #05a853;
     color: #ffffff;
@@ -80,3 +41,14 @@
     border-color:#8f8f8f ;
     color: #5a4e4e !important
    }
+
+
+
+   .clickable-text {
+    color: #2e7d32;
+    cursor: pointer;
+    text-align: center;
+    // text-decoration: underline;
+  }
+
+   
