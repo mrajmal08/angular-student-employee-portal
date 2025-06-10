@@ -14,7 +14,7 @@
     </div>
 
     <div *ngIf="addingInterview">
-        <form [formGroup]="userForm">
+        <form [formGroup]="interviewForm">
             <div class="row mt-3 d-flex justify-content-center">
                 <div class="col-md-4">
                     <div class="form-group">
@@ -27,8 +27,7 @@
                     <div class=" form-group">
                         <label>Student Notified:</label>
                         <ng-select [items]="studentNotified" bindLabel="name" bindValue="id"
-                            formControlName="student_notified" placeholder="Select an option" [clearable]="false"
-                            (change)="onDesignationChange($event)">
+                            formControlName="student_notified" placeholder="Select an option" [clearable]="false">
                         </ng-select>
                     </div>
 
@@ -37,7 +36,7 @@
 
 
             <div class="form-buttons gap-2 mb-3">
-                <button type="submit" class="btn btn-primary submit-button" [disabled]="!userForm.valid"
+                <button type="submit" class="btn btn-primary submit-button" [disabled]="!interviewForm.valid"
                     (click)="onAdd()">Add
                 </button>
                 <button type="button" class="btn btn-secondary cancel-button" (click)="onCancel()">Cancel</button>

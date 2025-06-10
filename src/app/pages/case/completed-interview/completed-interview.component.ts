@@ -1,13 +1,5 @@
-import {
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-  ViewEncapsulation,
-} from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmDialogComponent } from 'shared/dialogs/confirm-dialog/confirm-dialog.component';
 import { Interview } from 'shared/models/interview-model';
 import { ApiClientService } from 'shared/services/api-client.service';
@@ -20,28 +12,10 @@ import { convertTo12Hour } from 'shared/helpers/common-helper';
   styleUrls: ['./completed-interview.component.scss'],
 })
 export class CompletedInterviewComponent implements OnInit {
-  @ViewChild('designationSelect', { read: ElementRef })
-  designationSelectRef!: ElementRef;
-  userForm!: FormGroup;
   caseId: number | null = null;
   selectedRow: any = null;
 
   isRowSelected: boolean = false;
-
-  studentNotified: any[] = [
-    { id: 'yes', name: 'Yes' },
-    { id: 'no', name: 'No' },
-  ];
-
-  onDesignationChange(selected: any) {
-    setTimeout(() => {
-      const input: HTMLInputElement | null =
-        this.designationSelectRef.nativeElement.querySelector('input');
-      if (input) {
-        input.blur();
-      }
-    }, 0);
-  }
 
   onCheckboxChange(event: any, row: any) {
     if (event.target.checked) {
@@ -62,10 +36,6 @@ export class CompletedInterviewComponent implements OnInit {
     { name: 'Time Slots', prop: '' },
     { name: 'Interviewer Name', prop: 'interviewer_name' },
     { name: 'Interview Date', prop: 'interview_date' },
-    // { name: 'Role', prop: 'role.name' },
-    // { name: 'Designation', prop: 'designation.name' },
-    // { name: 'Department', prop: 'department.name' },
-    // { name: 'Status', prop: 'status' },
     { name: 'Created By', prop: 'created_by' },
     { name: 'Updated By', prop: 'updated_by' },
   ];
@@ -79,14 +49,11 @@ export class CompletedInterviewComponent implements OnInit {
 
   constructor(
     private apiClient: ApiClientService,
-    private fb: FormBuilder,
     private appService: AppService,
-    private dialog: MatDialog,
-    private modalService: NgbModal
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
-    this.userForm = this.fb.group({});
     this.appService.breadCrumbData$.subscribe((data) => {
       this.caseId = data.caseId ?? null;
     });
@@ -118,7 +85,7 @@ export class CompletedInterviewComponent implements OnInit {
     });
   }
 
-  onDeleteUser(row: any): void {}
+  onDeleteInterview(row: any): void {}
 
   getInterviews() {
     this.apiClient
@@ -133,12 +100,9 @@ export class CompletedInterviewComponent implements OnInit {
           .filter((row: any) => row.is_scheduled === 1 && row.status_id === 3)
           .map((row: { created_at: string; updated_at: string }) => ({
             ...row,
-            // created_at: getUKFormatedDate(row.created_at),
           }));
 
         this.page.total = this.rows.length;
-
-        console.log('Interviews:', this.rows);
       });
   }
 
@@ -176,5 +140,5 @@ export class CompletedInterviewComponent implements OnInit {
     );
   }
 
-  onBtnClick() {}
+  // onBtnClick() {}
 }

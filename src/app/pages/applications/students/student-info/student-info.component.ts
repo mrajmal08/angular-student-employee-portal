@@ -406,10 +406,6 @@ export class StudentInfoComponent implements OnInit {
       }
     });
 
-    // for (const [key, value] of (formData as any).entries()) {
-    //   console.log(`${key}:`, value);
-    // }
-
     return formData;
   }
 
@@ -506,7 +502,7 @@ export class StudentInfoComponent implements OnInit {
   }
 
   onStudentDependantsInfoSubmit() {
-    const dependantsInfo: any = this.getStudentDepenantsInfo();
+    const dependantsInfo: any = this.getStudentDependantsInfo();
     let formData: FormData = this.makeFormData(dependantsInfo);
     this.updateStudent(formData);
   }
@@ -584,7 +580,7 @@ export class StudentInfoComponent implements OnInit {
     return controls;
   }
 
-  getStudentDepenantsInfo() {
+  getStudentDependantsInfo() {
     const controls = [
       'name',
       'surname',

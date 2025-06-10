@@ -1,25 +1,13 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-  ViewEncapsulation,
-} from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmDialogComponent } from 'shared/dialogs/confirm-dialog/confirm-dialog.component';
 import { Interview } from 'shared/models/interview-model';
 import { ApiClientService } from 'shared/services/api-client.service';
 import { AppService } from 'shared/services/app-service.service';
-import { AddTimeSlotComponent } from '../../add-time-slot/add-time-slot.component';
 import { AddTimeSlotDialogComponent } from '../../add-time-slot-dialog/add-time-slot-dialog.component';
 import { convertTo12Hour } from 'shared/helpers/common-helper';
 import { AddInterviewerNameDialogComponent } from '../../add-interviewer-name-dialog/add-interviewer-name-dialog.component';
-import { Router } from '@angular/router';
-import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-created-interview',
@@ -27,31 +15,12 @@ import { Location } from '@angular/common';
   styleUrls: ['./created-interview.component.scss'],
 })
 export class CreatedInterviewComponent implements OnInit {
-  @ViewChild('designationSelect', { read: ElementRef })
-  designationSelectRef!: ElementRef;
-  userForm!: FormGroup;
   caseId: number | null = null;
   selectedRow: any = null;
 
   btnTitle: string = 'Shuffle By TimeSlots';
 
-  studentNotified: any[] = [
-    { id: 'yes', name: 'Yes' },
-    { id: 'no', name: 'No' },
-  ];
-
-  onDesignationChange(selected: any) {
-    setTimeout(() => {
-      const input: HTMLInputElement | null =
-        this.designationSelectRef.nativeElement.querySelector('input');
-      if (input) {
-        input.blur();
-      }
-    }, 0);
-  }
-
   onCheckboxChange(event: any, row: any) {
-    console.log('Checkbox changed:', event, row);
     if (event.target.checked) {
       this.btnTitle = 'Update Interview';
       this.selectedRow = row;
@@ -59,23 +28,14 @@ export class CreatedInterviewComponent implements OnInit {
       this.selectedRow = null;
       this.btnTitle = 'Shuffle By TimeSlots';
     }
-
-    this.cdRef.detectChanges(); //
   }
 
   rows: Interview[] = [];
   columns = [
     { name: 'Interview ID', prop: 'id' },
     { name: 'Case ID', prop: 'case_id' },
-
     { name: 'Status Name', prop: 'status.name' },
     { name: 'Time Slots', prop: '' },
-    // { name: 'Phone No', prop: 'phone_no' },
-    // { name: 'DOB', prop: 'date_of_birth' },
-    // { name: 'Role', prop: 'role.name' },
-    // { name: 'Designation', prop: 'designation.name' },
-    // { name: 'Department', prop: 'department.name' },
-    // { name: 'Status', prop: 'status' },
     { name: 'Created By', prop: 'created_by' },
     { name: 'Updated By', prop: 'updated_by' },
   ];
@@ -89,18 +49,12 @@ export class CreatedInterviewComponent implements OnInit {
 
   constructor(
     private apiClient: ApiClientService,
-    private fb: FormBuilder,
     private appService: AppService,
     private dialog: MatDialog,
-    private modalService: NgbModal,
-    private cdRef: ChangeDetectorRef,
-    private location: Location,
-
-    private router: Router
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
-    this.userForm = this.fb.group({});
     this.appService.breadCrumbData$.subscribe((data) => {
       this.caseId = data.caseId ?? null;
     });
@@ -132,7 +86,7 @@ export class CreatedInterviewComponent implements OnInit {
     });
   }
 
-  onDeleteUser(row: any): void {}
+  onDeleteInterview(row: any): void {}
 
   getInterviews() {
     this.apiClient
@@ -147,12 +101,9 @@ export class CreatedInterviewComponent implements OnInit {
           .filter((row: any) => row.is_scheduled === 1 && row.status_id === 1)
           .map((row: { created_at: string; updated_at: string }) => ({
             ...row,
-            // created_at: getUKFormatedDate(row.created_at),
           }));
 
         this.page.total = this.rows.length;
-
-        console.log('Interviews:', this.rows);
       });
   }
 
@@ -217,8 +168,6 @@ export class CreatedInterviewComponent implements OnInit {
 
       modelRef.result.then((result) => {
         if (result) {
-          console.log('Sata:', result);
-
           this.updateInterview(this.selectedRow, result);
         }
       });

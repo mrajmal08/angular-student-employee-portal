@@ -1,20 +1,12 @@
 <!-- <p-tabView> -->
-
-
-
-
-
-
 <div class="col-sm-12">
     <div class="card mt-3">
-        <!-- <div class="card-header"> <span>Interview</span>
-            </div> -->
         <div class="card-body">
 
-            <div class="d-flex mt-3 mb-3 justify-content-end" *ngIf="isRowSelected">
+            <!-- <div class="d-flex mt-3 mb-3 justify-content-end" *ngIf="isRowSelected">
                 <button type="button" class="btn btn-secondary add-button" (click)="onBtnClick()">Upload Sample
                     Questions</button>
-            </div>
+            </div> -->
 
             <div>
                 <label for="perPageSelect" class="me-2" style="padding-bottom: 10px; color: #000000;">Show</label>
@@ -78,11 +70,8 @@
                             <i class="bi bi-person-fill fs-6 "
                                 style="color: #58aff7; margin-bottom: 2px; cursor: pointer;"></i>
 
-                            <!-- <i class="bi bi-plus-circle fs-6" style="margin-left: 0; cursor: pointer;"
-                                (click)="editUser(row)"></i> -->
-
                             <i class="bi bi-x-lg text-danger" style="font-weight: bold; cursor: pointer;"
-                                (click)="onDeleteUser(row)"></i>
+                                (click)="onDeleteInterview(row)"></i>
                         </div>
                     </ng-template>
                 </ngx-datatable-column>

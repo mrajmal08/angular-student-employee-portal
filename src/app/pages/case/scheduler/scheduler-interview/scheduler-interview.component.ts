@@ -1,19 +1,10 @@
-import {
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-  ViewEncapsulation,
-} from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmDialogComponent } from 'shared/dialogs/confirm-dialog/confirm-dialog.component';
 import { Interview } from 'shared/models/interview-model';
 import { ApiClientService } from 'shared/services/api-client.service';
 import { AppService } from 'shared/services/app-service.service';
-import { AddTimeSlotComponent } from '../../add-time-slot/add-time-slot.component';
-import { AddTimeSlotDialogComponent } from '../../add-time-slot-dialog/add-time-slot-dialog.component';
 import { convertTo12Hour } from 'shared/helpers/common-helper';
 import { AddSampleQuestionDialogComponent } from '../../add-sample-question-dialog/add-sample-question-dialog.component';
 
@@ -23,28 +14,10 @@ import { AddSampleQuestionDialogComponent } from '../../add-sample-question-dial
   styleUrls: ['./scheduler-interview.component.scss'],
 })
 export class SchedulerInterviewComponent implements OnInit {
-  @ViewChild('designationSelect', { read: ElementRef })
-  designationSelectRef!: ElementRef;
-  userForm!: FormGroup;
   caseId: number | null = null;
   selectedRow: any = null;
 
   isRowSelected: boolean = false;
-
-  studentNotified: any[] = [
-    { id: 'yes', name: 'Yes' },
-    { id: 'no', name: 'No' },
-  ];
-
-  onDesignationChange(selected: any) {
-    setTimeout(() => {
-      const input: HTMLInputElement | null =
-        this.designationSelectRef.nativeElement.querySelector('input');
-      if (input) {
-        input.blur();
-      }
-    }, 0);
-  }
 
   onCheckboxChange(event: any, row: any) {
     if (event.target.checked) {
@@ -65,10 +38,6 @@ export class SchedulerInterviewComponent implements OnInit {
     { name: 'Time Slots', prop: '' },
     { name: 'Interviewer Name', prop: 'interviewer_name' },
     { name: 'Interview Date', prop: 'interview_date' },
-    // { name: 'Role', prop: 'role.name' },
-    // { name: 'Designation', prop: 'designation.name' },
-    // { name: 'Department', prop: 'department.name' },
-    // { name: 'Status', prop: 'status' },
     { name: 'Created By', prop: 'created_by' },
     { name: 'Updated By', prop: 'updated_by' },
   ];
@@ -82,14 +51,12 @@ export class SchedulerInterviewComponent implements OnInit {
 
   constructor(
     private apiClient: ApiClientService,
-    private fb: FormBuilder,
     private appService: AppService,
     private dialog: MatDialog,
     private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
-    this.userForm = this.fb.group({});
     this.appService.breadCrumbData$.subscribe((data) => {
       this.caseId = data.caseId ?? null;
     });
@@ -121,7 +88,7 @@ export class SchedulerInterviewComponent implements OnInit {
     });
   }
 
-  onDeleteUser(row: any): void {}
+  onDeleteInterview(row: any): void {}
 
   getInterviews() {
     this.apiClient
@@ -136,12 +103,9 @@ export class SchedulerInterviewComponent implements OnInit {
           .filter((row: any) => row.is_scheduled === 1 && row.status_id === 2)
           .map((row: { created_at: string; updated_at: string }) => ({
             ...row,
-            // created_at: getUKFormatedDate(row.created_at),
           }));
 
         this.page.total = this.rows.length;
-
-        console.log('Interviews:', this.rows);
       });
   }
 
@@ -162,28 +126,6 @@ export class SchedulerInterviewComponent implements OnInit {
   updatePerPage(event: any) {
     this.page.perPage = event.target.value;
     this.getInterviews();
-  }
-
-  onTimeSlotClick(row: any) {
-    if (row.start_time && row.end_time) {
-      return;
-    }
-    this.openTimeSlotDialog(row);
-  }
-
-  openTimeSlotDialog(row: any) {
-    const modelRef = this.modalService.open(AddTimeSlotDialogComponent, {
-      size: 'lg',
-      centered: true,
-      backdrop: 'static',
-      windowClass: 'custom-modal',
-    });
-
-    modelRef.result.then((result) => {
-      if (result) {
-        this.updateInterview(row, result);
-      }
-    });
   }
 
   getTimeSlots(row: any): string {

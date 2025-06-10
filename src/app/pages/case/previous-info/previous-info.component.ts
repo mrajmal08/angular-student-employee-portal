@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'shared/dialogs/confirm-dialog/confirm-dialog.component';
 import { Interview } from 'shared/models/interview-model';
@@ -16,7 +16,7 @@ import { Router } from '@angular/router';
 export class PreviousInfoComponent implements OnInit {
   @ViewChild('designationSelect', { read: ElementRef })
   designationSelectRef!: ElementRef;
-  userForm!: FormGroup;
+  interviewForm!: FormGroup;
   caseId: number | null = null;
 
   addingInterview: boolean = false;
@@ -25,21 +25,10 @@ export class PreviousInfoComponent implements OnInit {
     { id: 'no', name: 'No' },
   ];
 
-  onDesignationChange(selected: any) {
-    setTimeout(() => {
-      const input: HTMLInputElement | null =
-        this.designationSelectRef.nativeElement.querySelector('input');
-      if (input) {
-        input.blur();
-      }
-    }, 0);
-  }
-
   onCancel() {
     this.addingInterview = false;
   }
   onAdd() {
-    console.log('form value', this.userForm.value);
     this.addInterview();
     this.addingInterview = false;
   }
@@ -53,15 +42,7 @@ export class PreviousInfoComponent implements OnInit {
   columns = [
     { name: 'Interview ID', prop: 'id' },
     { name: 'Case ID', prop: 'case_id' },
-
     { name: 'Status Name', prop: 'status.name' },
-    // { name: 'User Email', prop: 'email' },
-    // { name: 'Phone No', prop: 'phone_no' },
-    // { name: 'DOB', prop: 'date_of_birth' },
-    // { name: 'Role', prop: 'role.name' },
-    // { name: 'Designation', prop: 'designation.name' },
-    // { name: 'Department', prop: 'department.name' },
-    // { name: 'Status', prop: 'status' },
     { name: 'Created By', prop: 'created_by' },
     { name: 'Updated By', prop: 'updated_by' },
   ];
@@ -84,7 +65,7 @@ export class PreviousInfoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userForm = this.fb.group({
+    this.interviewForm = this.fb.group({
       referral_date: [''],
       student_notified: [''],
     });
@@ -134,7 +115,6 @@ export class PreviousInfoComponent implements OnInit {
           .filter((row: any) => row.is_scheduled === 0)
           .map((row: { created_at: string; updated_at: string }) => ({
             ...row,
-            // created_at: getUKFormatedDate(row.created_at),
           }));
         this.page.total = this.rows.length;
       });
@@ -157,7 +137,7 @@ export class PreviousInfoComponent implements OnInit {
   addInterview() {
     const queryParams = new URLSearchParams({
       case_id: this.caseId,
-      ...this.userForm.value,
+      ...this.interviewForm.value,
     }).toString();
     this.apiClient
       .post(`interview/insert?${queryParams}`)
