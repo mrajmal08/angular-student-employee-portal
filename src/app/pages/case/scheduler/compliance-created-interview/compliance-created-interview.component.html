@@ -64,8 +64,8 @@
 
                     <ng-template ngx-datatable-cell-template let-row="row">
                         <div class="d-flex justify-content-center gap-2">
-                            <input type="checkbox" style="cursor: pointer;" [checked]="selectedRow === row"
-                                (change)="onCheckboxChange($event, row)" (click)="$event.stopPropagation()" />
+                            <input type="checkbox" style="cursor: pointer;" (change)="onCheckboxChange($event, row)"
+                                (click)="$event.stopPropagation()" />
                             <i class="bi bi-person-fill fs-6 "
                                 style="color: #58aff7; margin-bottom: 2px; cursor: pointer;"></i>
 

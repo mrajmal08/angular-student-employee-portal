@@ -1,0 +1,54 @@
+
+.add-button {
+    background-color: #05a853;
+    color: #ffffff;
+    border: #05a853;
+  }
+  
+  .add-button:hover {
+    background-color: #08783e;
+    border: #08783e;
+  }
+
+  .cancel-button {
+    background-color: #05a853;
+    color: #ffffff;
+    border: #05a853;
+    width: 110px;
+  }
+  
+  .cancel-button:hover {
+    background-color: #08783e;
+    border: #08783e;
+  }
+  
+  
+  
+  .submit-button {
+    background-color:#00b5e9;
+    color: #ffffff;
+    border: #00b5e9;
+    width: 110px;
+  }
+  
+  .submit-button:hover {
+    background-color: #0681a2;
+    border: #0681a2;
+  }
+  
+  .submit-button:disabled {
+    background-color: #8f8f8f;
+    border-color:#8f8f8f ;
+    color: #5a4e4e !important
+   }
+
+
+
+   .clickable-text {
+    color: #2e7d32;
+    cursor: pointer;
+    text-align: center;
+    // text-decoration: underline;
+  }
+
+   

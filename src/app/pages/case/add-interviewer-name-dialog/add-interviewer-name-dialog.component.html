@@ -17,7 +17,10 @@
 
                 <div class="col-md-5">
                     <div class="form-group">
-                        <label>Date of Birth:</label>
+                        <label>
+                            <span *ngIf="isCompliance">Compliance</span>
+                            Interview Date:
+                        </label>
                         <input type="date" class="form-control" formControlName="interview_date" />
 
                     </div>
@@ -25,7 +28,10 @@
 
                 <div class="col-md-5">
                     <div class="form-group">
-                        <label>Interviewer Name:</label>
+                        <label>
+                            <span *ngIf="isCompliance">Compliance</span>
+                            Interviewer Name:
+                        </label>
                         <input type="text" class="form-control" formControlName="interviewer_name" />
 
                     </div>

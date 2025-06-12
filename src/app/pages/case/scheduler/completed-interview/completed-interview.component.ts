@@ -1,31 +1,48 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmDialogComponent } from 'shared/dialogs/confirm-dialog/confirm-dialog.component';
 import { Interview } from 'shared/models/interview-model';
 import { ApiClientService } from 'shared/services/api-client.service';
 import { AppService } from 'shared/services/app-service.service';
 import { convertTo12Hour } from 'shared/helpers/common-helper';
-import { AddSampleQuestionDialogComponent } from '../../add-sample-question-dialog/add-sample-question-dialog.component';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'app-scheduler-interview',
-  templateUrl: './scheduler-interview.component.html',
-  styleUrls: ['./scheduler-interview.component.scss'],
+  selector: 'app-completed-interview',
+  templateUrl: './completed-interview.component.html',
+  styleUrls: ['./completed-interview.component.scss'],
 })
-export class SchedulerInterviewComponent implements OnInit {
+export class CompletedInterviewComponent implements OnInit {
   caseId: number | null = null;
   selectedRow: any = null;
 
   isRowSelected: boolean = false;
 
+  interviewForm!: FormGroup;
+
+  updatingInterview: boolean = false;
+  studentNotified: any[] = [
+    { id: 'yes', name: 'Yes' },
+    { id: 'no', name: 'No' },
+  ];
+
+  onCancel() {
+    this.updatingInterview = false;
+  }
+  onUpdate() {
+    this.updateInterview(this.selectedRow);
+    this.updatingInterview = false;
+  }
+
   onCheckboxChange(event: any, row: any) {
     if (event.target.checked) {
       this.isRowSelected = true;
       this.selectedRow = row;
+      this.updatingInterview = true;
     } else {
       this.isRowSelected = false;
       this.selectedRow = null;
+      this.updatingInterview = false;
     }
   }
 
@@ -54,10 +71,15 @@ export class SchedulerInterviewComponent implements OnInit {
     private apiClient: ApiClientService,
     private appService: AppService,
     private dialog: MatDialog,
-    private modalService: NgbModal
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
+    this.interviewForm = this.fb.group({
+      compliance_referral_date: [''],
+      compliance_student_notified: [''],
+    });
+
     this.appService.breadCrumbData$.subscribe((data) => {
       this.caseId = data.caseId ?? null;
     });
@@ -101,7 +123,7 @@ export class SchedulerInterviewComponent implements OnInit {
       .subscribe((resp: any) => {
         this.page.total = resp.result.total;
         this.rows = resp.result.data
-          .filter((row: any) => row.is_scheduled === 1 && row.status_id === 2)
+          .filter((row: any) => row.is_scheduled === 1 && row.status_id === 3)
           .map((row: { created_at: string; updated_at: string }) => ({
             ...row,
           }));
@@ -110,12 +132,12 @@ export class SchedulerInterviewComponent implements OnInit {
       });
   }
 
-  updateInterview(row: any, result?: any) {
+  updateInterview(row: any) {
     this.apiClient
       .post('interview/update', {
         case_id: row.case_id,
         id: row.id,
-        ...result,
+        ...this.interviewForm.value,
       })
       .subscribe((resp: any) => {
         if (resp.status) {
@@ -129,24 +151,20 @@ export class SchedulerInterviewComponent implements OnInit {
     this.getInterviews();
   }
 
+  onTimeSlotClick(row: any) {
+    if (row.start_time && row.end_time) {
+      return;
+    }
+    this.openTimeSlotDialog(row);
+  }
+
+  openTimeSlotDialog(row: any) {}
+
   getTimeSlots(row: any): string {
     return (
       convertTo12Hour(row.start_time) + ' - ' + convertTo12Hour(row.end_time)
     );
   }
 
-  onBtnClick() {
-    const modelRef = this.modalService.open(AddSampleQuestionDialogComponent, {
-      size: 'lg',
-      centered: true,
-      backdrop: 'static',
-      windowClass: 'custom-modal',
-    });
-
-    modelRef.result.then((result) => {
-      if (result) {
-        this.updateInterview(this.selectedRow, result);
-      }
-    });
-  }
+  // onBtnClick() {}
 }

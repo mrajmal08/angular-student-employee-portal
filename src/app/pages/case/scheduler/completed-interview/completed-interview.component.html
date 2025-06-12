@@ -1,11 +1,49 @@
 <!-- <p-tabView> -->
+<div *ngIf="updatingInterview">
+    <form [formGroup]="interviewForm">
+        <div class="row mt-3 d-flex justify-content-center">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Compliance Referral Date:</label>
+                    <input type="date" class="form-control" formControlName="compliance_referral_date" />
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class=" form-group">
+                    <label>Compliance Student Notified:</label>
+                    <ng-select [items]="studentNotified" bindLabel="name" bindValue="id"
+                        formControlName="compliance_student_notified" placeholder="Select an option"
+                        [clearable]="false">
+                    </ng-select>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="form-buttons gap-2 mb-3">
+            <button type="submit" class="btn btn-primary submit-button" [disabled]="!interviewForm.valid"
+                (click)="onUpdate()">Update
+            </button>
+            <button type="button" class="btn btn-secondary cancel-button" (click)="onCancel()">Cancel</button>
+        </div>
+    </form>
+
+</div>
+
 <div class="col-sm-12">
     <div class="card mt-3">
         <div class="card-body">
 
-            <div class="d-flex mt-3 mb-3 justify-content-end">
-                <button type="button" class="btn btn-secondary add-button" (click)="onBtnClick()">{{btnTitle}}</button>
-            </div>
+            <!-- <div class="d-flex mt-3 mb-3 justify-content-end" *ngIf="isRowSelected">
+                <button type="button" class="btn btn-secondary add-button" (click)="onBtnClick()">Upload Sample
+                    Questions</button>
+            </div> -->
+
+
+
+
 
             <div>
                 <label for="perPageSelect" class="me-2" style="padding-bottom: 10px; color: #000000;">Show</label>
@@ -69,9 +107,6 @@
                             <i class="bi bi-person-fill fs-6 "
                                 style="color: #58aff7; margin-bottom: 2px; cursor: pointer;"></i>
 
-                            <!-- <i class="bi bi-plus-circle fs-6" style="margin-left: 0; cursor: pointer;"
-                                (click)="editUser(row)"></i> -->
-
                             <i class="bi bi-x-lg text-danger" style="font-weight: bold; cursor: pointer;"
                                 (click)="onDeleteInterview(row)"></i>
                         </div>
@@ -84,10 +119,7 @@
 
 
         </div>
-
-
     </div>
-
 </div>
 
 <!-- </p-tabView> -->

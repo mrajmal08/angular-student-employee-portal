@@ -1,19 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmDialogComponent } from 'shared/dialogs/confirm-dialog/confirm-dialog.component';
 import { Interview } from 'shared/models/interview-model';
 import { ApiClientService } from 'shared/services/api-client.service';
 import { AppService } from 'shared/services/app-service.service';
 import { convertTo12Hour } from 'shared/helpers/common-helper';
-import { AddSampleQuestionDialogComponent } from '../../add-sample-question-dialog/add-sample-question-dialog.component';
 
 @Component({
-  selector: 'app-scheduler-interview',
-  templateUrl: './scheduler-interview.component.html',
-  styleUrls: ['./scheduler-interview.component.scss'],
+  selector: 'app-compliance-completed-interview',
+  templateUrl: './compliance-completed-interview.component.html',
+  styleUrls: ['./compliance-completed-interview.component.scss'],
 })
-export class SchedulerInterviewComponent implements OnInit {
+export class ComplianceCompletedInterviewComponent implements OnInit {
   caseId: number | null = null;
   selectedRow: any = null;
 
@@ -39,6 +37,14 @@ export class SchedulerInterviewComponent implements OnInit {
     { name: 'Interviewer Name', prop: 'interviewer_name' },
     { name: 'Interview Date', prop: 'interview_date' },
     { name: 'Referral Date', prop: 'referral_date' },
+
+    {
+      name: 'Comp Interviewer Name',
+      prop: 'compliance_interviewer_name',
+    },
+    { name: 'Comp Interview Date', prop: 'compliance_interview_date' },
+    { name: 'Comp Referral Date', prop: 'compliance_referral_date' },
+
     { name: 'Created By', prop: 'created_by' },
     { name: 'Updated By', prop: 'updated_by' },
   ];
@@ -53,8 +59,7 @@ export class SchedulerInterviewComponent implements OnInit {
   constructor(
     private apiClient: ApiClientService,
     private appService: AppService,
-    private dialog: MatDialog,
-    private modalService: NgbModal
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -101,7 +106,7 @@ export class SchedulerInterviewComponent implements OnInit {
       .subscribe((resp: any) => {
         this.page.total = resp.result.total;
         this.rows = resp.result.data
-          .filter((row: any) => row.is_scheduled === 1 && row.status_id === 2)
+          .filter((row: any) => row.is_scheduled === 1 && row.status_id === 6)
           .map((row: { created_at: string; updated_at: string }) => ({
             ...row,
           }));
@@ -129,24 +134,20 @@ export class SchedulerInterviewComponent implements OnInit {
     this.getInterviews();
   }
 
+  onTimeSlotClick(row: any) {
+    if (row.start_time && row.end_time) {
+      return;
+    }
+    this.openTimeSlotDialog(row);
+  }
+
+  openTimeSlotDialog(row: any) {}
+
   getTimeSlots(row: any): string {
     return (
       convertTo12Hour(row.start_time) + ' - ' + convertTo12Hour(row.end_time)
     );
   }
 
-  onBtnClick() {
-    const modelRef = this.modalService.open(AddSampleQuestionDialogComponent, {
-      size: 'lg',
-      centered: true,
-      backdrop: 'static',
-      windowClass: 'custom-modal',
-    });
-
-    modelRef.result.then((result) => {
-      if (result) {
-        this.updateInterview(this.selectedRow, result);
-      }
-    });
-  }
+  // onBtnClick() {}
 }

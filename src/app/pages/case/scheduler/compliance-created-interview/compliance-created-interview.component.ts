@@ -1,29 +1,32 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmDialogComponent } from 'shared/dialogs/confirm-dialog/confirm-dialog.component';
 import { Interview } from 'shared/models/interview-model';
 import { ApiClientService } from 'shared/services/api-client.service';
 import { AppService } from 'shared/services/app-service.service';
+import { AddTimeSlotDialogComponent } from '../../add-time-slot-dialog/add-time-slot-dialog.component';
 import { convertTo12Hour } from 'shared/helpers/common-helper';
+import { AddInterviewerNameDialogComponent } from '../../add-interviewer-name-dialog/add-interviewer-name-dialog.component';
 
 @Component({
-  selector: 'app-completed-interview',
-  templateUrl: './completed-interview.component.html',
-  styleUrls: ['./completed-interview.component.scss'],
+  selector: 'app-compliance-created-interview',
+  templateUrl: './compliance-created-interview.component.html',
+  styleUrls: ['./compliance-created-interview.component.scss'],
 })
-export class CompletedInterviewComponent implements OnInit {
+export class ComplianceCreatedInterviewComponent implements OnInit {
   caseId: number | null = null;
   selectedRow: any = null;
 
-  isRowSelected: boolean = false;
+  btnTitle: string = 'Shuffle By TimeSlots';
 
   onCheckboxChange(event: any, row: any) {
     if (event.target.checked) {
-      this.isRowSelected = true;
+      this.btnTitle = 'Update Interview';
       this.selectedRow = row;
     } else {
-      this.isRowSelected = false;
       this.selectedRow = null;
+      this.btnTitle = 'Shuffle By TimeSlots';
     }
   }
 
@@ -31,11 +34,11 @@ export class CompletedInterviewComponent implements OnInit {
   columns = [
     { name: 'Interview ID', prop: 'id' },
     { name: 'Case ID', prop: 'case_id' },
-
     { name: 'Status Name', prop: 'status.name' },
     { name: 'Time Slots', prop: '' },
     { name: 'Interviewer Name', prop: 'interviewer_name' },
     { name: 'Interview Date', prop: 'interview_date' },
+    { name: 'Referral Date', prop: 'referral_date' },
     { name: 'Created By', prop: 'created_by' },
     { name: 'Updated By', prop: 'updated_by' },
   ];
@@ -50,7 +53,8 @@ export class CompletedInterviewComponent implements OnInit {
   constructor(
     private apiClient: ApiClientService,
     private appService: AppService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -97,7 +101,7 @@ export class CompletedInterviewComponent implements OnInit {
       .subscribe((resp: any) => {
         this.page.total = resp.result.total;
         this.rows = resp.result.data
-          .filter((row: any) => row.is_scheduled === 1 && row.status_id === 3)
+          .filter((row: any) => row.is_scheduled === 1 && row.status_id === 4)
           .map((row: { created_at: string; updated_at: string }) => ({
             ...row,
           }));
@@ -132,7 +136,20 @@ export class CompletedInterviewComponent implements OnInit {
     this.openTimeSlotDialog(row);
   }
 
-  openTimeSlotDialog(row: any) {}
+  openTimeSlotDialog(row: any) {
+    const modelRef = this.modalService.open(AddTimeSlotDialogComponent, {
+      size: 'lg',
+      centered: true,
+      backdrop: 'static',
+      windowClass: 'custom-modal',
+    });
+
+    modelRef.result.then((result) => {
+      if (result) {
+        this.updateInterview(row, result);
+      }
+    });
+  }
 
   getTimeSlots(row: any): string {
     return (
@@ -140,5 +157,24 @@ export class CompletedInterviewComponent implements OnInit {
     );
   }
 
-  // onBtnClick() {}
+  onBtnClick() {
+    if (this.btnTitle !== 'Shuffle By TimeSlots') {
+      const modelRef = this.modalService.open(
+        AddInterviewerNameDialogComponent,
+        {
+          size: 'lg',
+          centered: true,
+          backdrop: 'static',
+          windowClass: 'custom-modal',
+        }
+      );
+      modelRef.componentInstance.isCompliance = true;
+
+      modelRef.result.then((result) => {
+        if (result) {
+          this.updateInterview(this.selectedRow, result);
+        }
+      });
+    }
+  }
 }

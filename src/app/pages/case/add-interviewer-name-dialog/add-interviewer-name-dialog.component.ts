@@ -3,6 +3,7 @@ import {
   ElementRef,
   EventEmitter,
   HostListener,
+  Input,
   OnInit,
   Output,
   ViewChild,
@@ -21,6 +22,7 @@ import { AppService } from 'shared/services/app-service.service';
 })
 export class AddInterviewerNameDialogComponent implements OnInit {
   agentForm!: FormGroup;
+  @Input() isCompliance: boolean = false;
   constructor(public activeModal: NgbActiveModal, private fb: FormBuilder) {}
   ngOnInit(): void {
     this.agentForm = this.fb.group({
@@ -39,14 +41,15 @@ export class AddInterviewerNameDialogComponent implements OnInit {
   }
 
   onSave() {
-    console.log('Time Slot Saved:', {
-      startTime: this.startTime,
-      endTime: this.endTime,
-    });
-
+    const keyName = this.isCompliance
+      ? 'compliance_interviewer_name'
+      : 'interviewer_name';
+    const keyDate = this.isCompliance
+      ? 'compliance_interview_date'
+      : 'interview_date';
     this.activeModal.close({
-      interviewer_name: this.agentForm.get('interviewer_name')?.value,
-      interview_date: this.agentForm.get('interview_date')?.value,
+      [keyName]: this.agentForm.get('interviewer_name')?.value,
+      [keyDate]: this.agentForm.get('interview_date')?.value,
     });
   }
 }

@@ -9,11 +9,11 @@ import { convertTo12Hour } from 'shared/helpers/common-helper';
 import { AddSampleQuestionDialogComponent } from '../../add-sample-question-dialog/add-sample-question-dialog.component';
 
 @Component({
-  selector: 'app-scheduler-interview',
-  templateUrl: './scheduler-interview.component.html',
-  styleUrls: ['./scheduler-interview.component.scss'],
+  selector: 'app-compliance-scheduler-interview',
+  templateUrl: './compliance-scheduler-interview.component.html',
+  styleUrls: ['./compliance-scheduler-interview.component.scss'],
 })
-export class SchedulerInterviewComponent implements OnInit {
+export class ComplianceSchedulerInterviewComponent implements OnInit {
   caseId: number | null = null;
   selectedRow: any = null;
 
@@ -39,6 +39,14 @@ export class SchedulerInterviewComponent implements OnInit {
     { name: 'Interviewer Name', prop: 'interviewer_name' },
     { name: 'Interview Date', prop: 'interview_date' },
     { name: 'Referral Date', prop: 'referral_date' },
+
+    {
+      name: 'Comp Interviewer Name',
+      prop: 'compliance_interviewer_name',
+    },
+    { name: 'Comp Interview Date', prop: 'compliance_interview_date' },
+    { name: 'Comp Referral Date', prop: 'compliance_referral_date' },
+
     { name: 'Created By', prop: 'created_by' },
     { name: 'Updated By', prop: 'updated_by' },
   ];
@@ -101,7 +109,7 @@ export class SchedulerInterviewComponent implements OnInit {
       .subscribe((resp: any) => {
         this.page.total = resp.result.total;
         this.rows = resp.result.data
-          .filter((row: any) => row.is_scheduled === 1 && row.status_id === 2)
+          .filter((row: any) => row.is_scheduled === 1 && row.status_id === 5)
           .map((row: { created_at: string; updated_at: string }) => ({
             ...row,
           }));
@@ -142,7 +150,7 @@ export class SchedulerInterviewComponent implements OnInit {
       backdrop: 'static',
       windowClass: 'custom-modal',
     });
-
+    modelRef.componentInstance.isCompliance = true;
     modelRef.result.then((result) => {
       if (result) {
         this.updateInterview(this.selectedRow, result);

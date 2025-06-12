@@ -35,8 +35,11 @@ import { SchedulerComponent } from './scheduler/scheduler.component';
 import { SchedulerInterviewComponent } from './scheduler/scheduler-interview/scheduler-interview.component';
 import { AddInterviewerNameDialogComponent } from './add-interviewer-name-dialog/add-interviewer-name-dialog.component';
 import { AddSampleQuestionDialogComponent } from './add-sample-question-dialog/add-sample-question-dialog.component';
-import { CompletedInterviewComponent } from './completed-interview/completed-interview.component';
+import { CompletedInterviewComponent } from './scheduler/completed-interview/completed-interview.component';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { ComplianceCreatedInterviewComponent } from './scheduler/compliance-created-interview/compliance-created-interview.component';
+import { ComplianceSchedulerInterviewComponent } from './scheduler/compliance-scheduler-interview/compliance-scheduler-interview.component';
+import { ComplianceCompletedInterviewComponent } from './scheduler/compliance-completed-interview/compliance-completed-interview.component';
 
 @NgModule({
   declarations: [
@@ -48,8 +51,11 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
     PreviousInfoComponent,
     SchedulerComponent,
     CreatedInterviewComponent,
+    ComplianceCreatedInterviewComponent,
     SchedulerInterviewComponent,
+    ComplianceSchedulerInterviewComponent,
     CompletedInterviewComponent,
+    ComplianceCompletedInterviewComponent,
     ReferrerComponent,
     DocsComponent,
     VerifierComponent,

@@ -36,6 +36,7 @@ export class CreatedInterviewComponent implements OnInit {
     { name: 'Case ID', prop: 'case_id' },
     { name: 'Status Name', prop: 'status.name' },
     { name: 'Time Slots', prop: '' },
+    { name: 'Referral Date', prop: 'referral_date' },
     { name: 'Created By', prop: 'created_by' },
     { name: 'Updated By', prop: 'updated_by' },
   ];

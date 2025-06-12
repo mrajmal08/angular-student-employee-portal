@@ -19,9 +19,9 @@ export class SchedulerComponent implements OnInit {
     { label: 'Created Interviews', count: 1 },
     { label: 'Scheduled Interviews', count: 1 },
     { label: 'Completed Interviews', count: 1 },
-    { label: 'Created Pickups', count: 0 },
-    { label: 'Scheduled Pickups', count: 0 },
-    { label: 'Completed Pickups', count: 0 },
+    { label: 'Compliance Created Interviews', count: 0 },
+    { label: 'Compliance Scheduled Interviews', count: 0 },
+    { label: 'Compliance Completed Interviews', count: 0 },
   ];
 
   activeTabIndex = 0;

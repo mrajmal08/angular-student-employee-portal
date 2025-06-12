@@ -46,6 +46,11 @@
     <app-created-interview *ngIf="activeTabIndex === 0"></app-created-interview>
     <app-scheduler-interview *ngIf="activeTabIndex === 1"></app-scheduler-interview>
     <app-completed-interview *ngIf="activeTabIndex === 2"></app-completed-interview>
-    <app-reenrollment *ngIf="activeTabIndex === 3"></app-reenrollment>
+    <app-compliance-created-interview *ngIf="activeTabIndex === 3"></app-compliance-created-interview>
+    <app-compliance-scheduler-interview *ngIf="activeTabIndex === 4"></app-compliance-scheduler-interview>
+    <app-compliance-completed-interview *ngIf="activeTabIndex === 5"></app-compliance-completed-interview>
+
+
+    <!-- <app-reenrollment *ngIf="activeTabIndex === 3"></app-reenrollment> -->
     <!-- ... -->
 </div>

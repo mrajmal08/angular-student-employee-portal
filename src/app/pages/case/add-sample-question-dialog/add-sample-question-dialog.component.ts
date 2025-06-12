@@ -3,6 +3,7 @@ import {
   ElementRef,
   EventEmitter,
   HostListener,
+  Input,
   OnInit,
   Output,
   ViewChild,
@@ -20,6 +21,8 @@ import { AppService } from 'shared/services/app-service.service';
   styleUrls: ['./add-sample-question-dialog.component.scss'],
 })
 export class AddSampleQuestionDialogComponent implements OnInit {
+  @Input() isCompliance: boolean = false;
+
   sample_questions_File: File | null = null;
   agentForm!: FormGroup;
   constructor(public activeModal: NgbActiveModal, private fb: FormBuilder) {}
@@ -39,13 +42,12 @@ export class AddSampleQuestionDialogComponent implements OnInit {
   }
 
   onSave() {
-    console.log('Time Slot Saved:', {
-      startTime: this.startTime,
-      endTime: this.endTime,
-    });
+    const keyName = this.isCompliance
+      ? 'compliance_sample_questions'
+      : 'sample_questions';
 
     this.activeModal.close({
-      sample_questions: this.sample_questions_File,
+      [keyName]: this.sample_questions_File,
     });
   }
 

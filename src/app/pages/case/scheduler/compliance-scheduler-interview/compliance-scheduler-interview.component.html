@@ -3,8 +3,9 @@
     <div class="card mt-3">
         <div class="card-body">
 
-            <div class="d-flex mt-3 mb-3 justify-content-end">
-                <button type="button" class="btn btn-secondary add-button" (click)="onBtnClick()">{{btnTitle}}</button>
+            <div class="d-flex mt-3 mb-3 justify-content-end" *ngIf="isRowSelected">
+                <button type="button" class="btn btn-secondary add-button" (click)="onBtnClick()">Upload Sample
+                    Questions</button>
             </div>
 
             <div>
@@ -36,7 +37,7 @@
                     <ng-template ngx-datatable-cell-template let-value="value" let-row="row" let-column="column">
 
                         <div *ngIf="column.name === 'Time Slots'; else normalCell" [ngClass]="{
-                            'clickable-text': !row.start_time && !row.end_time}" (click)="onTimeSlotClick(row)">
+                            'clickable-text': !row.start_time && !row.end_time}">
 
                             {{!row.start_time && !row.end_time? 'Time Slots':getTimeSlots(row) }}
                         </div>
@@ -64,8 +65,8 @@
 
                     <ng-template ngx-datatable-cell-template let-row="row">
                         <div class="d-flex justify-content-center gap-2">
-                            <input type="checkbox" style="cursor: pointer;" [checked]="selectedRow === row"
-                                (change)="onCheckboxChange($event, row)" (click)="$event.stopPropagation()" />
+                            <input type="checkbox" style="cursor: pointer;" (change)="onCheckboxChange($event, row)"
+                                (click)="$event.stopPropagation()" />
                             <i class="bi bi-person-fill fs-6 "
                                 style="color: #58aff7; margin-bottom: 2px; cursor: pointer;"></i>
 
@@ -84,10 +85,7 @@
 
 
         </div>
-
-
     </div>
-
 </div>
 
 <!-- </p-tabView> -->
