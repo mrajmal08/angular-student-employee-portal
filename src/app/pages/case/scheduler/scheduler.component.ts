@@ -16,9 +16,9 @@ export class SchedulerComponent implements OnInit {
   caseId: number | null = null;
 
   tabs = [
-    { label: 'Created Interviews', count: 1 },
-    { label: 'Scheduled Interviews', count: 1 },
-    { label: 'Completed Interviews', count: 1 },
+    { label: 'Created Interviews', count: 0 },
+    { label: 'Scheduled Interviews', count: 0 },
+    { label: 'Completed Interviews', count: 0 },
     { label: 'Compliance Created Interviews', count: 0 },
     { label: 'Compliance Scheduled Interviews', count: 0 },
     { label: 'Compliance Completed Interviews', count: 0 },
@@ -28,4 +28,25 @@ export class SchedulerComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
+
+  handleSignalForCreatedInterview(event: number) {
+    this.tabs[0].count = event;
+  }
+  handleSignalForSchedulerInterview(event: number) {
+    this.tabs[1].count = event;
+  }
+  handleSignalForCompletedInterview(event: number) {
+    this.tabs[2].count = event;
+  }
+
+  handleSignalForCompCreatedInterview(event: number) {
+    this.tabs[3].count = event;
+  }
+  handleSignalForCompSchedulerInterview(event: number) {
+    this.tabs[4].count = event;
+  }
+
+  handleSignalForCompCompletedInterview(event: number) {
+    this.tabs[5].count = event;
+  }
 }

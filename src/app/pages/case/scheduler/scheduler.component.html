@@ -43,12 +43,18 @@
 
 <!-- Content -->
 <div class="tab-content">
-    <app-created-interview *ngIf="activeTabIndex === 0"></app-created-interview>
-    <app-scheduler-interview *ngIf="activeTabIndex === 1"></app-scheduler-interview>
-    <app-completed-interview *ngIf="activeTabIndex === 2"></app-completed-interview>
-    <app-compliance-created-interview *ngIf="activeTabIndex === 3"></app-compliance-created-interview>
-    <app-compliance-scheduler-interview *ngIf="activeTabIndex === 4"></app-compliance-scheduler-interview>
-    <app-compliance-completed-interview *ngIf="activeTabIndex === 5"></app-compliance-completed-interview>
+    <app-created-interview [hidden]="activeTabIndex !== 0"
+        (signalToParent)="handleSignalForCreatedInterview($event)"></app-created-interview>
+    <app-scheduler-interview [hidden]="activeTabIndex !== 1"
+        (signalToParent)="handleSignalForSchedulerInterview($event)"></app-scheduler-interview>
+    <app-completed-interview [hidden]="activeTabIndex !== 2"
+        (signalToParent)="handleSignalForCompletedInterview($event)"></app-completed-interview>
+    <app-compliance-created-interview [hidden]="activeTabIndex !== 3"
+        (signalToParent)="handleSignalForCompCreatedInterview($event)"></app-compliance-created-interview>
+    <app-compliance-scheduler-interview [hidden]="activeTabIndex !== 4"
+        (signalToParent)="handleSignalForCompSchedulerInterview($event)"></app-compliance-scheduler-interview>
+    <app-compliance-completed-interview [hidden]="activeTabIndex !== 5"
+        (signalToParent)="handleSignalForCompCompletedInterview($event)"></app-compliance-completed-interview>
 
 
     <!-- <app-reenrollment *ngIf="activeTabIndex === 3"></app-reenrollment> -->

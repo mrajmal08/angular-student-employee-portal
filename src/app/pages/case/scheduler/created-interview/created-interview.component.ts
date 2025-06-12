@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmDialogComponent } from 'shared/dialogs/confirm-dialog/confirm-dialog.component';
@@ -15,6 +15,7 @@ import { AddInterviewerNameDialogComponent } from '../../add-interviewer-name-di
   styleUrls: ['./created-interview.component.scss'],
 })
 export class CreatedInterviewComponent implements OnInit {
+  @Output() signalToParent: EventEmitter<number> = new EventEmitter<number>();
   caseId: number | null = null;
   selectedRow: any = null;
 
@@ -105,6 +106,7 @@ export class CreatedInterviewComponent implements OnInit {
           }));
 
         this.page.total = this.rows.length;
+        this.signalToParent.emit(this.page.total);
       });
   }
 
