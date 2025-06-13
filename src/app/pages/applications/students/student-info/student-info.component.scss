@@ -129,3 +129,55 @@ font-size: 1.1rem;
 .radioBtn{
 transform: scale(1.5); margin-right: 5px;
 }
+
+
+
+
+
+.custom-tab-bar {
+  display: flex;
+  width: 100%;
+  // background-color: red;
+  // border-bottom: 1px solid #ccc; /* shared line under tabs */
+}
+
+.tab-item {
+  display: flex;
+  align-items: center;
+  padding: 6px 14px;
+  cursor: pointer;
+  background-color: white;
+  border-top: 2px solid transparent;
+  border-left: 2px solid transparent;
+  border-right: 2px solid transparent;
+  border-bottom: 1px solid #ccc; /* gives all tabs bottom border */
+  border-radius: 6px 6px 0 0;
+  transition: all 0.2s ease;
+}
+
+.tab-item.active {
+  border-top: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  border-bottom: none; /* remove bottom border to merge with content */
+  background-color: #f9f9f9;
+}
+
+.tab-item .badge {
+  background-color: #28a745;
+  color: white;
+  border-radius: 50%;
+  width: 44px;
+  height: 24px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+}
+
+.tab-item .label {
+  font-weight: 500;
+  color: #28a745;
+  white-space: nowrap;
+}

@@ -14,6 +14,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./student-info.component.scss'],
 })
 export class StudentInfoComponent implements OnInit {
+  activeTabIndex = 0;
+  tabs = [
+    { label: 'General Info', count: 0 },
+    { label: 'English Language', count: 0 },
+    { label: 'Dependants Info', count: 0 },
+    { label: 'Immigration History', count: 0 },
+  ];
+
   studentForm!: FormGroup;
   displayValidation = true; // Add this property
 
@@ -71,6 +79,8 @@ export class StudentInfoComponent implements OnInit {
   }
 
   onStudentChange(event: any) {
+    console.log('Selected Student:', event);
+
     this.studentId = event.id;
     this.selectedStudent = event;
     this.showingFullForm = true;
