@@ -55,8 +55,13 @@ export class CasesListComponent implements OnInit {
 
   columns = [
     { name: 'Case Id', prop: 'id' },
+    // { name: 'Student Id', prop: 'student.id' },
+
     { name: 'Student Name', prop: 'student.name' },
     { name: 'Course', prop: 'course.name' },
+    { name: 'Nationality', prop: 'student.nationality' },
+    { name: 'Offer Status', prop: 'case_status.name' },
+
     { name: 'Agent', prop: 'agent.name' },
     { name: 'Session', prop: 'session.name' },
     { name: 'Created By', prop: 'created_by' },

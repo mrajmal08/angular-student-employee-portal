@@ -2,7 +2,8 @@
   <div class="row" id="details-menu">
     <ul class="list-inline details-list mb-0 mt-1">
       <li class="list-inline-item" routerLinkActive="active" *ngFor="let link of links; let i = index"
-        (click)="OnNavigate(link,$event)" [ngClass]="{'comment-tab': link.value === 'comments'}">
+        (click)="OnNavigate(link,$event)"
+        [ngClass]="{'comment-tab': link.value === 'comments' ,  'active': selectedLink === link.value} ">
 
         <a [routerLink]="[link.value]" style="pointer-events: none;">{{link.label}}</a>
 

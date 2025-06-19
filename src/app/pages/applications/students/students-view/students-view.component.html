@@ -23,7 +23,7 @@
         <div class="row mt-3 mt-lg-2 padd-lr">
           <div class="col-12 patient-info-box px-0">
             <ul class="list-unstyled">
-              <li>
+              <!-- <li>
                 <label class="mb-0">Street Address:</label>
                 <span>{{
                   extractStreetAddress(studentData?.address) || 'N/A'
@@ -42,7 +42,7 @@
                 <span>
                   {{ studentInformation.ssn ? studentInformation.ssn : 'N/A' }}
                 </span>
-              </li>
+              </li> -->
               <li>
                 <label class="mb-0">Home Phone No:</label>
                 <span>
@@ -62,19 +62,19 @@
                   }}</span>
               </li>
               <li>
-                <label class="mb-0">State:</label>
+                <label class="mb-0">Country:</label>
                 <span>{{
                   studentData?.nationality ? studentData?.nationality : 'N/A'
                   }}</span>
               </li>
               <li>
-                <label class="mb-0">Zip Code:</label>
+                <label class="mb-0">Post Code:</label>
                 <span>{{
                   studentInformation.zip ? studentInformation.zip : 'N/A'
                   }}</span>
               </li>
               <li>
-                <label class="mb-0">Cell No:</label>
+                <label class="mb-0">Mobile Number:</label>
                 <span>
                   <ng-container *ngIf="
                       studentData?.phone_no ;
@@ -85,7 +85,7 @@
                 </span>
                 <ng-template #naBlock>N/A</ng-template>
               </li>
-              <li>
+              <!-- <li>
                 <label class="mb-0">Work No:</label>
                 <span>
                   <ng-container *ngIf="
@@ -104,16 +104,29 @@
                   ? studentInformation.phone_extension
                   : 'N/A'
                   }}</span>
-              </li>
+              </li> -->
               <li>
                 <label class="mb-0">Email:</label>
                 <span>{{
                   studentData?.email ? studentData?.email : 'N/A'
                   }}</span>
               </li>
-              <li><label class="mb-0"></label><span></span></li>
+              <!-- <li><label class="mb-0"></label><span></span></li> -->
               <li>
                 <label class="mb-0">Emergency Contact No:</label>
+                <span>
+                  <ng-container *ngIf="
+                      studentData?.phone_no ;
+                      else naBlock
+                    ">
+                    {{ studentData?.phone_no}}
+                  </ng-container>
+                </span>
+                <ng-template #naBlock>N/A</ng-template>
+              </li>
+
+              <li>
+                <label class="mb-0">Emergency Contact Person Name:</label>
                 <span>
                   <ng-container *ngIf="
                       studentData?.phone_no ;
