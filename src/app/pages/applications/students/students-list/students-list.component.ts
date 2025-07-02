@@ -55,7 +55,7 @@ export class StudentsListComponent implements OnInit {
   studentForm!: FormGroup;
 
   columns = [
-    { name: 'Student ID', prop: 'id' },
+    { name: 'Student ID', prop: 'student_id' },
     { name: 'Student Name', prop: 'name' },
     { name: 'Student Email', prop: 'email' },
     { name: 'Date Of Birth', prop: 'date_of_birth' },

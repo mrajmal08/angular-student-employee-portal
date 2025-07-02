@@ -7,6 +7,7 @@ import { AppService } from 'shared/services/app-service.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddStudentDialogComponent } from '../add-student-dialog/add-student-dialog.component';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-student-info',
@@ -42,7 +43,8 @@ export class StudentInfoComponent implements OnInit {
     private apiClient: ApiClientService,
     private appService: AppService,
     private modalService: NgbModal,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {
     this.getStudents();
   }
@@ -54,8 +56,10 @@ export class StudentInfoComponent implements OnInit {
   }
 
   onNext() {
+    // let url = '/case/add';
+    // this.router.navigateByUrl(url + '/creditability-interview');
     let url = '/case/add';
-    this.router.navigateByUrl(url + '/creditability-interview');
+    this.router.navigateByUrl(url + '/general-docs');
   }
 
   getStudents() {
@@ -467,6 +471,9 @@ export class StudentInfoComponent implements OnInit {
       .toPromise()
       .then((resp: any) => {
         if (resp.status) {
+          this.toastr.success(resp.message, 'Success');
+        } else {
+          this.toastr.error(resp.message, 'Error');
         }
       })
       .catch((error: any) => {})

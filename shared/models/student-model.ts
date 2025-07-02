@@ -1,5 +1,6 @@
 export interface Student {
   id: number;
+  student_id: string;
   name: string;
   surname: any;
   place_of_birth: any;

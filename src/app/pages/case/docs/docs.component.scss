@@ -17,6 +17,30 @@
     margin-left:6px;
     height:28px
   }
+
+  
+  .btn-save {
+    background-color: #28a745;
+    padding: 8px 16px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: white;
+    width: 110px;
+  }
+  
+  
+  .btn-view {
+    background-color: #6c757d;
+    padding: 8px 16px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: white;
+    width: 110px;
+  }
   
   .btn-collapse {
     background-color: #00AEEF;
@@ -57,6 +81,8 @@
   ngx-datatable .ngx-datatable.bootstrap.custom-table .datatable-body-row:hover {
     background-color: #f1f1f1;
   }
+
+
   
   .mgx-header {
     font-weight: bold;
@@ -75,11 +101,11 @@
     padding: 0rem;
     font-size: 12px;
     height:30px;
-    width:733px;
+    width:775px;
     margin-top: -40px
   }
   .preview-container {
-    border: 2px solid #6C6C6C; /* Grey border */
+    // border: 2px solid #6C6C6C; /* Grey border */
     border-radius: 0px; /* Optional: rounded corners */
     height: 200px; /* Adjust height as needed */
     width: 110%; /* Ensure it takes the full width of its container */
@@ -133,5 +159,17 @@
     justify-content: center;
     align-items: center;
   }
+
+
+  .preview-container {
+    width: 100%;
+  }
+  
+  .preview-frame {
+    width: 100%;
+    height: 450px; /* or whatever height you need */
+    border: 1px solid black;
+  }
+  
   
   

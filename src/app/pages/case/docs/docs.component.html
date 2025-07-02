@@ -8,9 +8,9 @@
             <div class="doc-btn d-flex align-items-center">
               <span style="margin-left:9px; font-size:13px" class="doc-category">{{ category.name }}</span>
               <span class="mx-2">|</span>
-              <span style="margin-left:9px; font-size:13px" class="doc-count">{{ category.documents.length }}</span>
+              <span style="margin-left:9px; font-size:13px" class="doc-count">{{ category.counter }}</span>
               <button class="btn btn-primary btn-collapse ms-auto plus-button" type="button" data-bs-toggle="collapse"
-                [attr.data-bs-target]="'#' + category.id">
+                [attr.data-bs-target]="'#' + category.id" (click)="handleCollapseClick($event, category)">
                 +
               </button>
             </div>
@@ -20,10 +20,12 @@
                   <ngx-datatable class="bootstrap custom-table" [rows]="category.documents" [columns]="columns"
                     [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
                     [scrollbarH]="true">
-                    <ngx-datatable-column name="Name" prop="name" class="mgx-header"></ngx-datatable-column>
-                    <ngx-datatable-column name="Created At" prop="createdAt" class="mgx-header"></ngx-datatable-column>
-                    <ngx-datatable-column name="Created By" prop="createdBy" class="mgx-header"></ngx-datatable-column>
-                    <ngx-datatable-column name="Updated By" prop="updatedBy" class="mgx-header"></ngx-datatable-column>
+                    <ngx-datatable-column name="Case Id" prop="case_id" class="mgx-header"></ngx-datatable-column>
+                    <ngx-datatable-column name="File Name" prop="fileName" class="mgx-header"
+                      [width]="300"></ngx-datatable-column>
+                    <ngx-datatable-column name="Created At" prop="created_at" class="mgx-header"></ngx-datatable-column>
+                    <ngx-datatable-column name="Created By" prop="created_by" class="mgx-header"></ngx-datatable-column>
+                    <ngx-datatable-column name="Updated By" prop="updated_by" class="mgx-header"></ngx-datatable-column>
                     <ngx-datatable-column name="Action" [width]="150" class="mgx-header">
                       <!-- <ng-template ngx-datatable-cell-template let-row="row">
                         <div class="action-buttons d-flex justify-content-center gap-2">
@@ -40,10 +42,10 @@
                       <ng-template ngx-datatable-cell-template let-row="row">
                         <div class="action-buttons d-flex justify-content-center gap-3">
                           <input type="checkbox" style="cursor: pointer;" (click)="$event.stopPropagation()" />
-                          <i class="bi bi-eye action-icon"></i>
+                          <i class="bi bi-eye action-icon" (click)="eyeClick(row)"></i>
                           <i class="bi bi-pencil action-icon"></i>
-                          <i class="bi bi-download action-icon"></i>
-                          <i class="bi bi-car-front action-icon"></i>
+                          <i class="bi bi-download action-icon" (click)="downloadFile(row)"></i>
+                          <i class="bi bi-car-front action-icon" (click)="printFile(row)"></i>
                         </div>
                       </ng-template>
 
@@ -55,10 +57,7 @@
           </div>
         </div>
         <!-- Upload Button -->
-        <div class="form-buttons p-4">
-          <button type="button" data-bs-toggle="modal" data-bs-target="#addDocuments"
-            class="btn btn-lg btn-primary">Scan Documents</button>
-        </div>
+
       </div>
       <!-- Preview Section -->
       <div class="col-md-6">
@@ -67,11 +66,29 @@
             <h3 class="mb-0 textstyle">Preview</h3>
             <button type="button" class="btn-close btn-close-white" (click)="previewUrl = null"></button>
           </div>
-          <div class="mt-2 text-center" *ngIf="previewUrl">
-            <iframe [src]="previewUrl" frameborder="0" class="preview-frame"></iframe>
+          <!-- <div class="mt-2" *ngIf="previewUrl" style="background-color: red; min-width: 100%;">
+            <iframe [src]="previewUrl" frameborder="1" class="preview-frame"></iframe>
+          </div> -->
+          <div class="mt-2" *ngIf="previewUrl" style="width: 100%;">
+            <iframe #downloadIframe [src]="previewUrl" frameborder="1" width="100%" height="600px"
+              class="preview-frame"></iframe>
           </div>
+
+
         </div>
       </div>
+      <div class="row align-items-center">
+        <div class="col d-flex justify-content-center">
+          <button type="button" data-bs-toggle="modal" data-bs-target="#addDocuments"
+            class="btn btn-lg btn-primary">Scan Documents</button>
+        </div>
+
+        <div class="col d-flex justify-content-end gap-2">
+          <button type="button" class="btn btn-view" (click)="onPrevious()">Previous</button>
+          <button type="button" class="btn btn-save" (click)="onNext()">Next</button>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>

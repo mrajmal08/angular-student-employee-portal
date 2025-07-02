@@ -23,7 +23,7 @@ export class CaseNavBarComponent implements OnInit {
   links = [
     { value: 'info', label: 'Case' },
     { value: 'student-info', label: 'Student Info' },
-    { value: 'general-docs', label: 'General Docs' },
+    { value: 'general-docs', label: 'Docs' },
     // { value: 'financial-docs', label: 'Financial Docs' },
     { value: 'creditability-interview', label: 'Creditability Interview' },
     { value: 'scheduler', label: 'Scheduler' },
