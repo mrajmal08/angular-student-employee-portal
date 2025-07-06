@@ -1,0 +1,67 @@
+<div class="card">
+    <div class="card-header">
+        <span>Upload Document</span>
+        <span class="position-absolute" style="right: 10px; cursor: pointer; color: white">
+
+            <i class="fa fa-times" (click)="closeForm()" style="cursor: pointer; font-size: 24px; right: 10px"></i>
+
+        </span>
+    </div>
+
+    <div class="card-body">
+        <!-- <div class="row mt-3"> -->
+        <form [formGroup]="documentForm">
+
+            <div class="time-picker-row">
+
+
+                <div class="row mt-3">
+                    <div class="col-md-12">
+                        <label class="mb-1">Upload
+                            Document
+                        </label>
+                        <input accept=".pdf" type="file" formControlName="document"
+                            (change)="onDocumentUploadFile($event)" />
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6  mt-4">
+                <div class=" form-group">
+                    <label>
+                        Documents:
+                    </label>
+
+                    <ng-select #documentSelect [items]="documentCategories" bindLabel="name" bindValue="id"
+                        formControlName="id" placeholder="Select a role" [clearable]="false"
+                        (change)="onDocumentChange($event)">
+                    </ng-select>
+                </div>
+
+            </div>
+        </form>
+        <!-- </div> -->
+
+        <!-- <div class="time-picker-row">
+            <div class="time-picker-wrapper">
+                <app-add-time-slot (timeChange)="startTime = $event" [title]="'Start Time'">
+                </app-add-time-slot>
+            </div>
+
+            <div class="time-picker-wrapper">
+                <app-add-time-slot (timeChange)="endTime = $event" [title]="'End Time'">
+                </app-add-time-slot>
+            </div>
+        </div> -->
+        <div class="form-buttons gap-2 mb-3">
+            <button type="submit" class="btn btn-primary submit-button" [disabled]="documentForm.invalid"
+                (click)="onSave()">Save
+            </button>
+            <button type="button" class="btn btn-secondary cancel-button" (click)="closeForm()">Cancel</button>
+        </div>
+
+    </div>
+
+</div>

@@ -40,6 +40,7 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { ComplianceCreatedInterviewComponent } from './scheduler/compliance-created-interview/compliance-created-interview.component';
 import { ComplianceSchedulerInterviewComponent } from './scheduler/compliance-scheduler-interview/compliance-scheduler-interview.component';
 import { ComplianceCompletedInterviewComponent } from './scheduler/compliance-completed-interview/compliance-completed-interview.component';
+import { AddDocumentDialogComponent } from './docs/add-document-dialog/add-document-dialog.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { ComplianceCompletedInterviewComponent } from './scheduler/compliance-co
     ComplianceCompletedInterviewComponent,
     ReferrerComponent,
     DocsComponent,
+    AddDocumentDialogComponent,
     VerifierComponent,
     ViewAllComponent,
     CaseAddComponent,

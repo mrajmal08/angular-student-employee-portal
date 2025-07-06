@@ -29,7 +29,7 @@ export class CaseNavBarComponent implements OnInit {
     { value: 'scheduler', label: 'Scheduler' },
     { value: 'enrollment', label: 'Enrolment' },
     { value: 'verifier', label: 'UKVI / Compliance' },
-    { value: 'verifier', label: 'Registry' },
+    // { value: 'verifier', label: 'Registry' },
     { value: 'view-all', label: 'View All' },
     { value: 'comments', label: 'Comment' },
   ];

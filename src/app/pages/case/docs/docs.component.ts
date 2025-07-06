@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { ApiClientService } from 'shared/services/api-client.service';
 import { AppService } from 'shared/services/app-service.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AddDocumentDialogComponent } from './add-document-dialog/add-document-dialog.component';
 
 interface Document {
   case_media_id: number;
@@ -42,7 +44,8 @@ export class DocsComponent implements OnInit {
     private apiClient: ApiClientService,
     private appService: AppService,
     private location: Location,
-    private router: Router
+    private router: Router,
+    private modalService: NgbModal
   ) {
     // this.documentCategories=[
     //   {
@@ -506,6 +509,21 @@ export class DocsComponent implements OnInit {
           }));
         }
       });
+  }
+
+  uploadDocuments() {
+    const modelRef = this.modalService.open(AddDocumentDialogComponent, {
+      size: 'lg',
+      centered: true,
+      backdrop: 'static',
+      windowClass: 'custom-modal',
+    });
+
+    modelRef.result.then((result) => {
+      if (result) {
+        this.getDocuments();
+      }
+    });
   }
 
   onPrevious() {
