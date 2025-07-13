@@ -74,7 +74,7 @@ export class DependantsComponent implements OnInit {
 
     this.getFinanceData();
     this.financeForm = this.fb.group({
-      course_id: [''],
+      course_id: ['', Validators.required],
       course_fees: [''],
       first_year_fees: [''],
       inside_london: [false],
@@ -147,8 +147,9 @@ export class DependantsComponent implements OnInit {
       living_cost_outside_london: data.living_cost_outside_london,
       total_fund: data.total_fund,
       living_cost_plan: parsedPlan,
-      otherSelected: !!data.other,
-      other: data.other,
+      otherSelected:
+        data.other !== null && data.other !== 'null' ? true : false,
+      other: data.other !== null && data.other !== 'null' ? data.other : '',
 
       education_loan: data.education_loan,
       another_education_loan: data.another_education_loan,
@@ -229,22 +230,7 @@ export class DependantsComponent implements OnInit {
   }
 
   onCheckboxChange(optionLabel: string, event: any) {
-    // const selected: string[] =
-    //   this.financeForm.get('living_cost_plan')?.value || [];
-
-    // if (event.target.checked) {
-    //   if (!selected.includes(optionLabel)) {
-    //     selected.push(optionLabel);
-    //   }
-    // } else {
-    //   const index = selected.indexOf(optionLabel);
-    //   if (index !== -1) {
-    //     selected.splice(index, 1);
-    //   }
-    // }
-
-    // this.financeForm.get('living_cost_plan')?.setValue(selected);
-
+    this.financeForm.patchValue({ other: null });
     const selected = [...this.financeForm.value.living_cost_plan];
     if (event.target.checked) {
       selected.push(optionLabel);
@@ -253,6 +239,7 @@ export class DependantsComponent implements OnInit {
       if (index > -1) selected.splice(index, 1);
     }
     this.financeForm.patchValue({ living_cost_plan: selected });
+    console.log('valuee', this.financeForm.value);
   }
 
   onOtherToggle() {
@@ -323,7 +310,6 @@ export class DependantsComponent implements OnInit {
 
   getFinanceEvidence() {
     const controls = [
-      'course_id',
       'course_fees',
       'first_year_fees',
       'living_cost_inside_london',
@@ -367,10 +353,12 @@ export class DependantsComponent implements OnInit {
   makeFormData(controls: string[]) {
     const formData = new FormData();
     formData.append('case_id', this.caseId ? this.caseId.toString() : '');
+    formData.append('course_id', this.financeForm.get('course_id')?.value);
     if (!!this.financeData) {
       formData.append('id', this.financeData.id.toString());
     }
 
+    let isLivingCostPlanAdded = false;
     controls.forEach((key) => {
       const control: any = this.financeForm.get(key);
 
@@ -391,7 +379,19 @@ export class DependantsComponent implements OnInit {
           formData.append('another_deposit_doc', this.anotherDepositDocFile);
         }
       } else {
-        formData.append(key, control?.value ?? '');
+        if (key === 'living_cost_plan') {
+          const livingCostPlan = control?.value || [];
+          if (livingCostPlan.length > 0) {
+            formData.append('living_cost_plan', JSON.stringify(livingCostPlan));
+            isLivingCostPlanAdded = true;
+          } else {
+            formData.append('living_cost_plan', JSON.stringify([]));
+          }
+          formData.append('other', 'null');
+        } else {
+          if (!isLivingCostPlanAdded)
+            formData.append(key, control?.value ?? '');
+        }
       }
 
       // if (key === 'qualification_details') {
@@ -462,6 +462,7 @@ export class DependantsComponent implements OnInit {
       .then((resp: any) => {
         if (resp.status) {
           this.isEdit = true;
+          this.financeData = resp.result;
           this.toastr.success(resp.message, 'Success');
         } else {
           this.toastr.error(resp.message, 'Error');

@@ -20,7 +20,7 @@
                   <div class="col-md-4">
                     <div class=" form-group">
                       <label>
-                        Name of course:
+                        Name of course:<sup>*</sup>
                       </label>
 
                       <ng-select #courseSelect [items]="courses" bindLabel="name" bindValue="id"
@@ -102,7 +102,7 @@
 
                   <div *ngFor="let option of checkboxOptions">
                     <label class="form-check-label" style="font-size: 14px;">
-                      <input type="checkbox" [checked]="financeForm.value.living_cost_plan.includes(option.label)"
+                      <input type="checkbox" [checked]="financeForm.value.living_cost_plan?.includes(option.label)"
                         (change)="onCheckboxChange(option.label, $event)"
                         [disabled]="financeForm.get('otherSelected')?.value"
                         style="transform: scale(1.5); margin-right: 5px;" />
@@ -137,8 +137,8 @@
 
 
                 <div class="text-center mt-3">
-                  <button type="submit" class="btn btn-primary" [disabled]="!financeForm.valid"
-                    (click)="onSubmit(1)">Submit</button>
+                  <button type="submit" class="btn btn-primary" [disabled]="!financeForm.valid" (click)="onSubmit(1)"
+                    [disabled]="!financeForm.valid">Submit</button>
                 </div>
 
               </div>
@@ -199,8 +199,8 @@
               </div>
 
               <div class="text-center mt-3">
-                <button type="submit" class="btn btn-primary" [disabled]="!financeForm.valid"
-                  (click)="onSubmit(2)">Submit</button>
+                <button type="submit" class="btn btn-primary" [disabled]="!financeForm.valid" (click)="onSubmit(2)"
+                  [disabled]="!financeForm.valid">Submit</button>
               </div>
 
             </div>
@@ -264,8 +264,8 @@
               </div>
 
               <div class="text-center mt-3">
-                <button type="submit" class="btn btn-primary" [disabled]="!financeForm.valid"
-                  (click)="onSubmit(3)">Submit</button>
+                <button type="submit" class="btn btn-primary" [disabled]="!financeForm.valid" (click)="onSubmit(3)"
+                  [disabled]="!financeForm.valid">Submit</button>
               </div>
 
             </div>
@@ -322,8 +322,8 @@
               </div>
 
               <div class="text-center mt-3">
-                <button type="submit" class="btn btn-primary" [disabled]="!financeForm.valid"
-                  (click)="onSubmit(4)">Submit</button>
+                <button type="submit" class="btn btn-primary" [disabled]="!financeForm.valid" (click)="onSubmit(4)"
+                  [disabled]="!financeForm.valid">Submit</button>
               </div>
 
             </div>
