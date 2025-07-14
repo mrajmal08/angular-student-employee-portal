@@ -1,24 +1,12 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Course } from 'shared/models/case-model';
 import { Finance } from 'shared/models/finance-model';
 import { ApiClientService } from 'shared/services/api-client.service';
 import { AppService } from 'shared/services/app-service.service';
-
-interface Document {
-  name: string;
-  createdAt: string;
-  createdBy: string;
-  updatedBy: string;
-  file: string;
-}
-
-interface DocumentCategory {
-  id: string;
-  name: string;
-  documents: Document[];
-}
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-dependants',
@@ -83,10 +71,8 @@ export class DependantsComponent implements OnInit {
       living_cost_outside_london: [''],
       total_fund: [{ value: 0, disabled: true }],
 
-      //  need working on them...
       living_cost_plan: this.fb.control<string[]>([]),
       otherSelected: [false],
-      // otherValue: [''],
       other: [''],
 
       education_loan: [''],
@@ -129,11 +115,6 @@ export class DependantsComponent implements OnInit {
   }
 
   patchData(data: Finance) {
-    // living_cost_plan: string[];
-    // other: string;
-
-    // course: Course;
-
     const parsedPlan = JSON.parse(data.living_cost_plan);
 
     this.financeForm.patchValue({
@@ -393,49 +374,6 @@ export class DependantsComponent implements OnInit {
             formData.append(key, control?.value ?? '');
         }
       }
-
-      // if (key === 'qualification_details') {
-      //   formData.append(
-      //     'english_test_reason',
-      //     !!control?.value ? control?.value : null
-      //   );
-      // } else if (key === 'dependantsUpload') {
-      //   if (this.dependantsUploadFile) {
-      //     formData.append('financial_maintenance[]', this.dependantsUploadFile);
-      //   }
-      // } else if (key === 'ukStudentVisaUpload') {
-      //   if (this.ukStudentVisaUploadFile) {
-      //     formData.append('visa_document[]', this.ukStudentVisaUploadFile);
-      //   }
-      // } else if (key === 'additionalVisaUpload') {
-      //   if (this.additionalVisaUploadFile) {
-      //     formData.append('visa_document2[]', this.additionalVisaUploadFile);
-      //   }
-      // } else {
-      //   let valueToSend;
-      //   if (control?.value === 'Yes' || control?.value === true) {
-      //     valueToSend = '1';
-      //   } else if (control?.value === 'No' || control?.value === false) {
-      //     valueToSend = '0';
-      //   } else if (
-      //     Array.isArray(control?.value) &&
-      //     control.value.every((v: any) => typeof v === 'string')
-      //   ) {
-      //     this.studentForm.value.course_level_in_uk.forEach((level: string) => {
-      //       formData.append('course_level_in_uk[]', level);
-      //     });
-      //   } else {
-      //     valueToSend = control?.value ?? '';
-      //   }
-
-      //   if (
-      //     valueToSend !== null &&
-      //     valueToSend !== undefined &&
-      //     valueToSend !== ''
-      //   ) {
-      //     formData.append(key, valueToSend);
-      //   }
-      // }
     });
 
     return formData;

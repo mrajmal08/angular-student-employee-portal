@@ -5,6 +5,8 @@ import { ConfirmDialogComponent } from 'shared/dialogs/confirm-dialog/confirm-di
 import { Interview } from 'shared/models/interview-model';
 import { ApiClientService } from 'shared/services/api-client.service';
 import { AppService } from 'shared/services/app-service.service';
+import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-scheduler',
@@ -25,7 +27,7 @@ export class SchedulerComponent implements OnInit {
   ];
 
   activeTabIndex = 0;
-  constructor() {}
+  constructor(private location: Location, private router: Router) {}
 
   ngOnInit(): void {}
 
@@ -48,5 +50,14 @@ export class SchedulerComponent implements OnInit {
 
   handleSignalForCompCompletedInterview(event: number) {
     this.tabs[5].count = event;
+  }
+
+  onPrevious() {
+    this.location.back();
+  }
+
+  onNext() {
+    let url = '/case/add';
+    this.router.navigateByUrl(url + '/financial-docs');
   }
 }

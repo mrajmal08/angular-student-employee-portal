@@ -27,7 +27,7 @@ export class CaseNavBarComponent implements OnInit {
     // { value: 'financial-docs', label: 'Financial Docs' },
     { value: 'creditability-interview', label: 'Creditability Interview' },
     { value: 'scheduler', label: 'Scheduler' },
-    { value: 'financial-docs', label: 'Financial Docs' },
+    { value: 'financial-docs', label: 'Financial' },
     { value: 'enrollment', label: 'Enrolment' },
     { value: 'verifier', label: 'UKVI / Compliance' },
     // { value: 'verifier', label: 'Registry' },
