@@ -53,7 +53,9 @@ export class DependantsComponent implements OnInit {
     private apiClient: ApiClientService,
     private fb: FormBuilder,
     private appService: AppService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private location: Location,
+    private router: Router
   ) {}
   ngOnInit(): void {
     this.appService.breadCrumbData$.subscribe((data) => {
@@ -423,5 +425,14 @@ export class DependantsComponent implements OnInit {
       })
       .catch((error: any) => {})
       .catch((error: any) => {});
+  }
+
+  onPrevious() {
+    this.location.back();
+  }
+
+  onNext() {
+    let url = '/case/add';
+    this.router.navigateByUrl(url + '/creditability-interview');
   }
 }

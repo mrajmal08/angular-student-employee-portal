@@ -532,7 +532,7 @@ export class DocsComponent implements OnInit {
 
   onNext() {
     let url = '/case/add';
-    this.router.navigateByUrl(url + '/creditability-interview');
+    this.router.navigateByUrl(url + '/financial-docs');
   }
 
   columns = [

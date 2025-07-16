@@ -57,7 +57,7 @@ export class SchedulerComponent implements OnInit {
   }
 
   onNext() {
-    let url = '/case/add';
-    this.router.navigateByUrl(url + '/financial-docs');
+    // let url = '/case/add';
+    // this.router.navigateByUrl(url + '/financial-docs');
   }
 }

@@ -25,13 +25,13 @@ export class CaseNavBarComponent implements OnInit {
     { value: 'student-info', label: 'Student Info' },
     { value: 'general-docs', label: 'Docs' },
     // { value: 'financial-docs', label: 'Financial Docs' },
+    { value: 'financial-docs', label: 'Financial' },
     { value: 'creditability-interview', label: 'Creditability Interview' },
     { value: 'scheduler', label: 'Scheduler' },
-    { value: 'financial-docs', label: 'Financial' },
-    { value: 'enrollment', label: 'Enrolment' },
     { value: 'verifier', label: 'UKVI / Compliance' },
-    // { value: 'verifier', label: 'Registry' },
-    { value: 'view-all', label: 'View All' },
+    { value: 'enrollment', label: 'Enrolment' },
+    { value: 'verifier', label: 'Registry' },
+    // { value: 'view-all', label: 'View All' },
     { value: 'comments', label: 'Comment' },
   ];
 
