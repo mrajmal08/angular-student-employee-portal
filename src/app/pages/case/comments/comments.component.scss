@@ -1,17 +1,156 @@
+
+// .comments-container {
+//   padding: 20px;
+//   width: 100%;
+// }
+
+// .modal-title {
+//   font-size: 20px;
+//   font-weight: bold;
+// }
+
+// .dropdown-container {
+//   display: flex;
+//   justify-content: space-between;
+//   margin-bottom: 15px;
+
+//   .form-select {
+//     width: 100%;
+//     padding: 8px;
+//     border: 1px solid #ccc;
+//     border-radius: 5px;
+//   }
+// }
+
+// .button-group {
+//   display: flex;
+//   justify-content: end;
+//   gap: 10px;
+//   margin-bottom: 20px;
+
+//   .btn {
+//     padding: 8px 20px;
+//     font-size: 14px;
+//     font-weight: 500;
+//     border-radius: 5px;
+//     cursor: pointer;
+//   }
+
+//   .refresh-btn {
+//     background-color: #17a2b8;
+//     color: #fff;
+//     border: none;
+//   }
+
+//   .filter-btn {
+//     background-color: #28a745;
+//     color: #fff;
+//     border: none;
+//   }
+// }
+
+// .comments-box {
+//   min-height: 300px;
+//   border: 1px solid #ccc;
+//   border-radius: 5px;
+//   padding: 20px;
+//   text-align: center;
+//   margin-bottom: 20px;
+//   color: #6c757d;
+
+//   .no-comments-text {
+//     font-size: 16px;
+//     margin-top:100px;
+//   }
+// }
+
+// .input-container {
+//   display: flex;
+//   align-items: center;
+//   border: 1px solid #ccc;
+//   border-radius: 5px;
+//   overflow: hidden;
+
+//   .comment-input {
+//     flex: 1;
+//     padding: 10px;
+//     border: none;
+//     outline: none;
+//   }
+
+//   .send-btn {
+//     background-color: transparent;
+//     border: none;
+//     padding: 10px 15px;
+//     cursor: pointer;
+
+//     i {
+//       font-size: 20px;
+//       color: #17a2b8;
+//     }
+//   }
+// }
+
+
+
+
+
+
+
+
+
 /* Container */
-.comments-container {
+
+
+.main{
+  .header{
+    background-color: #4b4b4b;
+    min-height: 35px;
+    color: #ddd;
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    padding: 4px 12px;
+    font-weight: bold;
+    
+  }
+}
+.comment-box {
+  max-width: 850px;
+  margin: 20px auto;
+  background: #fff;
+  border-radius: 10px;
+  // border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
   padding: 20px;
-  width: 100%;
+
+
+
+.rounded-input {
+  border-radius: 50px;
+  padding: 10px 40px 10px 20px; 
+  border: 1px solid #ccc;
+  outline: none;
+  width: 170px; /* <-- You can increase this as needed */
+  box-sizing: border-box;
 }
 
-/* Modal Title */
-.modal-title {
-  font-size: 20px;
-  font-weight: bold;
+
+
 }
 
-/* Dropdown */
-.dropdown-container {
+/* Top Filter Section */
+.filter-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 20px;
+
+
+
+  .dropdown-container {
   display: flex;
   justify-content: space-between;
   margin-bottom: 15px;
@@ -21,77 +160,135 @@
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    min-width: 400px;
   }
 }
-
-/* Buttons */
-.button-group {
-  display: flex;
-  justify-content: end;
-  gap: 10px;
-  margin-bottom: 20px;
-
-  .btn {
-    padding: 8px 20px;
-    font-size: 14px;
-    font-weight: 500;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-
-  .refresh-btn {
-    background-color: #17a2b8;
-    color: #fff;
-    border: none;
-  }
-
-  .filter-btn {
-    background-color: #28a745;
-    color: #fff;
-    border: none;
-  }
 }
 
-/* Comments Display */
-.comments-box {
-  min-height: 300px;
+.filter-section select,
+.filter-section input {
+  padding: 6px 10px;
+  font-size: 14px;
   border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 20px;
-  text-align: center;
-  margin-bottom: 20px;
-  color: #6c757d;
-
-  .no-comments-text {
-    font-size: 16px;
-    margin-top:100px;
-  }
+  border-radius: 6px;
 }
 
-/* Input and Send */
-.input-container {
+.filter-section button {
+  padding: 6px 15px;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: white;
+}
+
+.filter-section button:first-of-type {
+  background-color: #6c757d; /* Reset */
+  min-width: 114px;
+}
+
+.filter-section button:last-of-type {
+  background-color: #28a745; /* Filter */
+  min-width: 114px;
+
+}
+
+/* Message Section */
+.messages-section {
+  max-height: 350px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 15px;
+  background-color: #f9f9f9;
+}
+
+/* Single Message */
+.message {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* Aligns the message block to the right */
+  margin-bottom: 15px;
+}
+
+.meta {
+  font-size: 12px;
+  color: #f55d42;
+  margin-bottom: 5px;
+  text-align: right;
+}
+
+.meta span {
+  margin-left: 5px;
+}
+
+.meta .pipe.grey {
+  color: grey;
+}
+.meta .pipe.blue {
+  color: #00bfff;
+}
+
+.meta .me {
+  color: gray;
+  margin-right: 5px;
+  font-weight: bold;
+}
+.meta .id {
+  color: #00bfff;
+}
+.meta .category {
+  color: #00bfff;
+}
+
+.bubble {
+  background-color: #00bfff;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 15px 15px 0 15px;
+  max-width: 70%;
+  word-wrap: break-word;
+  font-size: 14px;
+  text-align: left;
+}
+
+.timestamp {
+  font-size: 11px;
+  color: gray;
+  margin-top: 4px;
+  text-align: right;
+}
+
+
+/* Send Message Area */
+form {
   display: flex;
   align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+form select {
+  padding: 6px;
+  border-radius: 6px;
   border: 1px solid #ccc;
-  border-radius: 5px;
-  overflow: hidden;
+  font-size: 14px;
+}
 
-  .comment-input {
-    flex: 1;
-    padding: 10px;
-    border: none;
-    outline: none;
-  }
+form input {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
 
-  .send-btn {
-    background-color: transparent;
-    border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-
-    i {
-      font-size: 20px;
-      color: #17a2b8;
-    }
-  }
+form button {
+  padding: 8px 20px;
+  font-size: 14px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
 }

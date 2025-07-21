@@ -67,6 +67,7 @@ import { AddDocumentDialogComponent } from './docs/add-document-dialog/add-docum
     NewStudentComponent,
     ReenrollmentComponent,
     CommentsComponent,
+
     CasesListComponent,
     AddTimeSlotComponent,
     AddTimeSlotDialogComponent,
@@ -77,6 +78,7 @@ import { AddDocumentDialogComponent } from './docs/add-document-dialog/add-docum
     CommonModule,
     CaseRoutingModule,
     ReactiveFormsModule,
+    FormsModule,
     NgSelectModule,
     NgxDatatableModule,
     TabViewModule,

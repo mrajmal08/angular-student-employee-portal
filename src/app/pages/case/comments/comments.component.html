@@ -1,41 +1,54 @@
-<!-- Modal Header -->
-<h5 class="modal-title text-center mb-3 mt-2">Comments</h5>
+<div class="main">
 
-<!-- Main Container -->
-<div class="comments-container">
-  <form [formGroup]="commentForm" (ngSubmit)="submitComment()">
-    <!-- Dropdown -->
-    <div class="dropdown-container">
-      <select class="form-select" formControlName="commentType">
-        <option *ngFor="let type of commentTypes" [value]="type">{{ type }}</option>
-      </select>
+  <div class="header">
+    <div class="title">Comments</div>
+    <i class="fa fa-times" (click)="close()"></i>
+  </div>
+
+  <div class="comment-box">
+    <div class="filter-section">
+
+      <div class="dropdown-container">
+        <select class="form-select" [(ngModel)]="selectedCategoryId"
+          (change)="onCategoryChange($any($event.target).value)">
+          <option value="" disabled>Select Comment Type</option>
+          <option *ngFor="let category of commentCategories" [value]="category.id">{{ category.name }}</option>
+        </select>
+      </div>
+      <div class="filter-section">
+
+        <button (click)="onReset()">Reset</button>
+        <button (click)="onFilter()">Filter</button>
+      </div>
     </div>
 
-    <!-- Buttons: Refresh & Filter -->
-    <div class="button-group">
-      <button type="button" class="btn refresh-btn">Refresh</button>
-      <button type="button" class="btn filter-btn">Filter</button>
+    <div class="messages-section">
+      <div *ngFor="let comment of commentsData" class="message">
+        <div class="meta">
+          <span class="role">{{ comment.role_name }}</span>
+          <span class="pipe">|</span>
+          <span class="category">{{ comment.category_name }}</span>
+          <span class="pipe blue">|</span>
+          <span class="id">{{ caseId }}</span>
+          <span class="pipe grey">|</span>
+          <span class="me">{{ comment.created_by_user_name }}</span>
+          <img class="icon" src="assets/doctor-icon.png" />
+        </div>
+        <div class="bubble">{{ comment.message }}</div>
+        <div class="timestamp">{{ comment.created_at | date:'medium' }}</div>
+      </div>
     </div>
 
-    <!-- Comments Display Section -->
-    <div class="comments-box">
-      <p *ngIf="comments.length === 0" class="no-comments-text">No Comments Found.</p>
-      <ul *ngIf="comments.length > 0">
-        <li *ngFor="let comment of comments">{{ comment.text }}</li>
-      </ul>
-    </div>
+    <form [formGroup]="commentForm" (ngSubmit)="sendMessage()">
+      <div class="dropdown-container">
+        <select class="form-select rounded-input" formControlName="comment_category_id">
+          <option value="" disabled>Comment Type</option>
+          <option *ngFor="let category of commentCategories" [value]="category.id">{{ category.name }}</option>
+        </select>
+      </div>
+      <input type="text" class="rounded-input" formControlName="message" placeholder="Type a message*" />
+      <button type="submit" [disabled]="!commentForm.get('message')?.value">Send</button>
+    </form>
+  </div>
 
-    <!-- Input Field -->
-    <div class="input-container">
-      <textarea
-        class="comment-input"
-        rows="2"
-        placeholder="Type a message"
-        formControlName="description"
-      ></textarea>
-      <button type="submit" class="send-btn">
-        <i class="pi pi-send"></i>
-      </button>
-    </div>
-  </form>
 </div>
