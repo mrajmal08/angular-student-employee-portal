@@ -96,6 +96,7 @@ export class CreatedInterviewComponent implements OnInit {
         pagination: 1,
         page: this.page.page,
         per_page: this.page.perPage,
+        case_id: this.caseId,
       })
       .subscribe((resp: any) => {
         this.page.total = resp.result.total;

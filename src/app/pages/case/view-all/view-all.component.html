@@ -1,1 +1,845 @@
-<p>view-all works!</p>
+<div class="tab-content">
+    <div class="row">
+        <div class="col-sm-12">
+            <form>
+                <div class="col-sm-12">
+                    <div class="card mt-3">
+                        <div class="card-header">
+                            <span>View All Info</span>
+                        </div>
+                        <div class="card-body">
+                            <div>
+
+                                <div class="card mt-3">
+                                    <div class="card-header">
+                                        <span>Case Information</span>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <form [formGroup]="caseForm">
+                                            <div class=" row mt-3">
+                                                <div class="col-md-6">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Course Offered:
+                                                        </label>
+
+                                                        <ng-select #courseSelect [items]="courses" bindLabel="name"
+                                                            bindValue="id" formControlName="course_id"
+                                                            placeholder="Select a role" [clearable]="false"
+                                                            (change)="onCourseChange($event)">
+                                                        </ng-select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Sessions:
+                                                        </label>
+
+                                                        <ng-select #sessionSelect [items]="sessions" bindLabel="name"
+                                                            bindValue="id" formControlName="session_id"
+                                                            placeholder="Select a role" [clearable]="false"
+                                                            (change)="onSessionChange($event)">
+                                                        </ng-select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6 mx-auto mt-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Agents:
+                                                        </label>
+
+                                                        <ng-select #agentSelect [items]="agents" bindLabel="name"
+                                                            bindValue="id" formControlName="agent_id"
+                                                            placeholder="Select a role" [clearable]="false"
+                                                            (change)="onAgentChange($event)">
+                                                        </ng-select>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+
+                                <div class="card mt-3">
+                                    <div class="card-header">
+                                        <span>Student Information</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div>
+                                            <form [formGroup]="studentForm">
+                                                <div class="row mt-3">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label>Given Name:<sup
+                                                                    *ngIf="displayValidation">*</sup></label>
+                                                            <input type="text" class="form-control"
+                                                                formControlName="name" />
+                                                            <small class="text-danger"
+                                                                *ngIf="studentForm.get('name')?.errors?.['required']">Please
+                                                                enter your
+                                                                given name!</small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label>Surname:<sup
+                                                                    *ngIf="displayValidation">*</sup></label>
+                                                            <input type="text" class="form-control"
+                                                                formControlName="surname" />
+                                                            <small class="text-danger"
+                                                                *ngIf="studentForm.get('surname')?.errors?.['required']">Please
+                                                                enter
+                                                                your
+                                                                surname!</small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label>Date of Birth:<sup
+                                                                    *ngIf="displayValidation">*</sup></label>
+                                                            <input type="date" class="form-control"
+                                                                formControlName="date_of_birth" />
+                                                            <small class="text-danger"
+                                                                *ngIf="studentForm.get('date_of_birth')?.errors?.['required']">Please
+                                                                enter
+                                                                your date
+                                                                of
+                                                                birth!</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mt-3">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label>Gender:<sup *ngIf="displayValidation">*</sup></label>
+                                                            <select class="form-control" formControlName="gender">
+                                                                <option value="" disabled>Select Gender</option>
+                                                                <option value="Male">Male</option>
+                                                                <option value="Female">Female</option>
+                                                                <option value="Other">Other</option>
+                                                            </select>
+                                                            <small class="text-danger"
+                                                                *ngIf="studentForm.get('gender')?.errors?.['required']">Please
+                                                                select
+                                                                your
+                                                                gender!</small>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label>Country of Birth:</label>
+                                                            <input type="text" class="form-control"
+                                                                formControlName="place_of_birth" />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label>Nationality:</label>
+                                                            <input type="text" class="form-control"
+                                                                formControlName="nationality" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mt-3">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label>Passport Start Date:</label>
+                                                            <input type="date" class="form-control"
+                                                                formControlName="passport_start_date" />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label>Passport Expiry Date:</label>
+                                                            <input type="date" class="form-control"
+                                                                formControlName="passport_expiry_date" />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label>Passport Status:</label>
+                                                            <select class="form-control"
+                                                                formControlName="passport_status">
+                                                                <option value="current">Current passport</option>
+                                                                <option value="none">No passport</option>
+                                                                <option value="Valid">Valid</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="row mt-3">
+
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label>Email:<sup *ngIf="displayValidation">*</sup></label>
+                                                            <input type="text" class="form-control"
+                                                                formControlName="email" />
+                                                            <small class="text-danger"
+                                                                *ngIf="studentForm.get('email')?.errors?.['required']">Please
+                                                                enter
+                                                                your
+                                                                email!</small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label>Phone:<sup *ngIf="displayValidation">*</sup></label>
+                                                            <input type="text" class="form-control"
+                                                                formControlName="phone_no" />
+                                                            <small class="text-danger"
+                                                                *ngIf="studentForm.get('phone_no')?.errors?.['required']">Please
+                                                                enter
+                                                                your
+                                                                phone!</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="card mt-3">
+                                                    <div class="card-header">
+                                                        <span>Student English Info</span>
+                                                    </div>
+
+                                                    <div class="card-body">
+
+                                                        <div *ngIf="showingFullForm">
+                                                            <div class="row mt-4">
+                                                                <h4>English Test</h4>
+                                                                <div class="col-md-12 mt-2">
+                                                                    <label>Did you take an English test for your
+                                                                        visa?</label>
+                                                                    <div>
+                                                                        <label class="ms-3 radioBtnTxt"><input
+                                                                                type="radio" class="radioBtn"
+                                                                                formControlName="english_test"
+                                                                                value="Yes" />
+                                                                            Yes</label>
+                                                                        <label class="ms-3 radioBtnTxt"><input
+                                                                                type="radio" class="radioBtn"
+                                                                                formControlName="english_test"
+                                                                                value="No" />
+                                                                            No</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row mt-3">
+                                                                <div class="col-md-12">
+                                                                    <label>If No, why?</label>
+                                                                    <div
+                                                                        class="radio-group mt-2 d-flex flex-wrap align-items-center gap-3">
+                                                                        <label class="d-flex align-items-center">
+                                                                            <input type="radio"
+                                                                                formControlName="english_test_reason"
+                                                                                value="qualification"
+                                                                                [disabled]="studentForm.get('english_test')?.value === 'Yes'"
+                                                                                class="radioBtn" />
+                                                                            <span class="ms-2 radioBtnTxt">Previous
+                                                                                qualification</span>
+                                                                        </label>
+                                                                        <input type="text" class="form-control ms-3"
+                                                                            style="width: 250px;"
+                                                                            formControlName="qualification_details"
+                                                                            placeholder="Qualification details"
+                                                                            [disabled]="studentForm.get('english_test')?.value === 'Yes'" />
+                                                                        <label class="d-flex align-items-center">
+                                                                            <input type="radio"
+                                                                                formControlName="english_test_reason"
+                                                                                value="previousVisa"
+                                                                                [disabled]="studentForm.get('english_test')?.value === 'Yes'"
+                                                                                class="radioBtn" />
+                                                                            <span class="ms-2 radioBtnTxt">Previous
+                                                                                visa</span>
+                                                                        </label>
+                                                                        <label class="d-flex align-items-center">
+                                                                            <input type="radio"
+                                                                                formControlName="english_test_reason"
+                                                                                value="studyProgramme"
+                                                                                [disabled]="studentForm.get('english_test')?.value === 'Yes'"
+                                                                                class="radioBtn" />
+                                                                            <span class="ms-2 radioBtnTxt">US Study
+                                                                                programme</span>
+                                                                        </label>
+                                                                        <label class="d-flex align-items-center">
+                                                                            <input type="radio"
+                                                                                formControlName="english_test_reason"
+                                                                                value="giftedStudent"
+                                                                                [disabled]="studentForm.get('english_test')?.value === 'Yes'"
+                                                                                class="radioBtn" />
+                                                                            <span class="ms-2 radioBtnTxt">Gifted
+                                                                                student</span>
+                                                                        </label>
+                                                                        <label class="d-flex align-items-center">
+                                                                            <input type="radio"
+                                                                                formControlName="english_test_reason"
+                                                                                value="institutionAssessment"
+                                                                                [disabled]="studentForm.get('english_test')?.value === 'Yes'"
+                                                                                class="radioBtn" />
+                                                                            <span class="ms-2 radioBtnTxt">Institution
+                                                                                assessment</span>
+                                                                        </label>
+                                                                        <label class="d-flex align-items-center">
+                                                                            <input type="radio"
+                                                                                formControlName="english_test_reason"
+                                                                                value="other"
+                                                                                [disabled]="studentForm.get('english_test')?.value === 'Yes'"
+                                                                                class="radioBtn" />
+                                                                            <span class="ms-2 radioBtnTxt">Other</span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mt-3">
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label>Last completed course:</label>
+                                                                        <select class="form-control"
+                                                                            formControlName="last_course">
+                                                                            <option value="" disabled>Select a course
+                                                                            </option>
+                                                                            <option value="High School">High School
+                                                                            </option>
+                                                                            <option value="A Level">A Level</option>
+                                                                            <option value="Bachelors Degree">Bachelors
+                                                                                Degree</option>
+                                                                            <option value="Masters Degree">Masters
+                                                                                Degree</option>
+                                                                            <option value="Other">Other</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label>Year of completion:</label>
+                                                                        <input type="date" class="form-control"
+                                                                            formControlName="last_course_completion_year" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="card mt-3">
+                                                    <div class="card-header">
+                                                        <span>Student Dependants Info</span>
+                                                    </div>
+
+                                                    <div class="card-body">
+                                                        <div *ngIf="showingFullForm">
+
+                                                            <div class="row mt-3">
+                                                                <h4>Dependants?</h4>
+                                                                <div class="col-md-6">
+                                                                    <label>Travelling with dependants?</label>
+                                                                    <div>
+                                                                        <label class="ms-3 radioBtnTxt"><input
+                                                                                type="radio" class="radioBtn"
+                                                                                formControlName="dependant"
+                                                                                value="Yes" />
+                                                                            Yes</label>
+                                                                        <label class="ms-3 radioBtnTxt"><input
+                                                                                type="radio" class="radioBtn"
+                                                                                formControlName="dependant"
+                                                                                value="No" />
+                                                                            No</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row col-md-12">
+                                                                    <div class="col-md-4">
+                                                                        <label>How many?</label>
+                                                                        <input type="number" class="form-control"
+                                                                            formControlName="dependant_no" min="1"
+                                                                            [disabled]="studentForm.get('dependant')?.value !== 'Yes'" />
+                                                                    </div>
+                                                                    <div class="col-md-6 mt-3">
+                                                                        <label>Please upload your financial maintainance
+                                                                            for your dependants:</label>
+                                                                        <input type="file" multiple />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+
+                                                                    <div class="col-md-6 mt-3">
+                                                                        <label>Have the financial information of the
+                                                                            dependants been approved?</label>
+                                                                        <div>
+                                                                            <label class="ms-3 radioBtnTxt"><input
+                                                                                    type="radio" class="radioBtn"
+                                                                                    formControlName="dependant_financial_info"
+                                                                                    value="Yes" class="radioBtn" />
+                                                                                Yes</label>
+                                                                            <label class="ms-3 radioBtnTxt"><input
+                                                                                    type="radio" class="radioBtn"
+                                                                                    formControlName="dependant_financial_info"
+                                                                                    value="No" class="radioBtn" />
+                                                                                No</label>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-md-6 mt-3">
+                                                                        <label class="form-check-label">
+                                                                            <input type="checkbox"
+                                                                                formControlName="flag_for_compliance" />
+                                                                            Flag for compliance</label>
+                                                                    </div>
+
+                                                                    <div class="col-md-4 mt-3">
+                                                                        <label>Have you traveled outside of your home
+                                                                            country in the last 10 years?</label>
+                                                                        <div>
+                                                                            <label class="ms-3 radioBtnTxt"><input
+                                                                                    type="radio" class="radioBtn"
+                                                                                    formControlName="travel_outside"
+                                                                                    value="Yes" />
+                                                                                Yes</label>
+                                                                            <label class="ms-3 radioBtnTxt"><input
+                                                                                    type="radio" class="radioBtn"
+                                                                                    formControlName="travel_outside"
+                                                                                    value="No" />
+                                                                                No</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row col-md-12">
+                                                                        <div class="col-md-4 mt-3">
+                                                                            <label>Approximately how many times?</label>
+                                                                            <select class="form-control"
+                                                                                formControlName="travel_outside_no">
+                                                                                <option value="once">Once</option>
+                                                                                <option value="less Than 5">Less than 5
+                                                                                </option>
+                                                                                <option value="5 Or More">5 or more
+                                                                                </option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+
+
+                                                                    <div class="col-md-4 mt-3">
+                                                                        <label>Have you ever traveled to the UK in the
+                                                                            last 10 years?</label>
+                                                                        <div>
+                                                                            <label class="ms-3 radioBtnTxt"><input
+                                                                                    type="radio" class="radioBtn"
+                                                                                    formControlName="travel_uk"
+                                                                                    value="Yes" />
+                                                                                Yes</label>
+                                                                            <label class="ms-3 radioBtnTxt"><input
+                                                                                    type="radio" class="radioBtn"
+                                                                                    formControlName="travel_uk"
+                                                                                    value="No" />
+                                                                                No</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-4 mt-3">
+                                                                            <label>Approximately how many times?</label>
+                                                                            <select class="form-control"
+                                                                                formControlName="travel_uk_no">
+                                                                                <option value="once">Once</option>
+                                                                                <option value="less Than 5">Less than 5
+                                                                                </option>
+                                                                                <option value="5 Or More">5 or more
+                                                                                </option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="card mt-3">
+                                                    <div class="card-header">
+                                                        <span>Student Visa Info</span>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div *ngIf="showingFullForm">
+                                                            <div class="row mt-3">
+                                                                <div class="row">
+                                                                    <div class="col-md-6 mt-3">
+                                                                        <label>Did you have any previous study in the
+                                                                            UK?</label>
+                                                                        <div>
+                                                                            <label class="ms-3 radioBtnTxt"><input
+                                                                                    type="radio" class="radioBtn"
+                                                                                    formControlName="previous_study_uk"
+                                                                                    value="Yes" /> Yes</label>
+                                                                            <label class="ms-3 radioBtnTxt"><input
+                                                                                    type="radio" class="radioBtn"
+                                                                                    formControlName="previous_study_uk"
+                                                                                    value="No" /> No</label>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-md-6 mt-3">
+                                                                        <label>Did you receive a student visa?</label>
+                                                                        <div>
+                                                                            <label class="ms-3 radioBtnTxt"><input
+                                                                                    type="radio" class="radioBtn"
+                                                                                    formControlName="receive_student_visa"
+                                                                                    value="Yes" /> Yes</label>
+                                                                            <label class="ms-3 radioBtnTxt"><input
+                                                                                    type="radio" class="radioBtn"
+                                                                                    formControlName="receive_student_visa"
+                                                                                    value="No" />
+                                                                                No</label>
+                                                                        </div>
+                                                                        <label class="mt-2">Upload student visa
+                                                                            document:</label>
+                                                                        <input type="file"
+                                                                            formControlName="ukStudentVisaUpload" />
+                                                                    </div>
+
+                                                                    <div class="col-md-6 mt-3">
+                                                                        <label>Have you ever received a refusal for the
+                                                                            UK?</label>
+                                                                        <div>
+                                                                            <label class="ms-3 radioBtnTxt"><input
+                                                                                    type="radio" class="radioBtn"
+                                                                                    formControlName="refusal_from_uk"
+                                                                                    value="Yes" />
+                                                                                Yes</label>
+                                                                            <label class="ms-3 radioBtnTxt"><input
+                                                                                    type="radio" class="radioBtn"
+                                                                                    formControlName="refusal_from_uk"
+                                                                                    value="No" />
+                                                                                No</label>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row mt-3">
+                                                                        <div class="col-md-12">
+                                                                            <label>Upload to add another visa:</label>
+                                                                            <input type="file"
+                                                                                formControlName="additionalVisaUpload" />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row mt-3">
+
+                                                                <div *ngFor="let option of levelOptions"
+                                                                    class="form-check mt-2">
+                                                                    <label class="form-check-label">
+                                                                        <input type="checkbox" class="form-check-input"
+                                                                            [value]="option"
+                                                                            [checked]="studentForm.get('course_level_in_uk')?.value?.includes(option)"
+                                                                            [disabled]="true" />
+                                                                        {{ option }}
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mt-3">
+                        <div class="card-header">
+                            <span>Finance Evidence</span>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <form [formGroup]="financeForm">
+                                    <div class="row mt-3">
+                                        <div class="col-md-4">
+                                            <div class=" form-group">
+                                                <label>
+                                                    Name of course:<sup>*</sup>
+                                                </label>
+
+                                                <ng-select #courseSelect [items]="courses" bindLabel="name"
+                                                    bindValue="id" formControlName="course_id"
+                                                    placeholder="Select a course" [clearable]="false"
+                                                    (change)="onCourseChange($event)">
+                                                </ng-select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Course fees:</label>
+                                                <input type="text" class="form-control" formControlName="course_fees" />
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>First year fees:</label>
+                                                <input type="text" class="form-control"
+                                                    formControlName="first_year_fees" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-3">
+                                        <div class="col-md-4 mt-3">
+                                            <label class="form-check-label" style="font-size: 18px;">
+                                                <input type="checkbox" formControlName="inside_london"
+                                                    style="transform: scale(1.5); margin-right: 5px;" />
+                                                Inside London
+                                            </label>
+
+                                            <div class="form-group mt-2">
+                                                <label>Your living costs:</label>
+                                                <input type="text" class="form-control"
+                                                    formControlName="living_cost_inside_london" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 mt-3">
+                                            <label class="form-check-label" style="font-size: 18px;">
+                                                <input type="checkbox" formControlName="outside_london"
+                                                    style="transform: scale(1.5); margin-right: 5px;" />
+                                                Outside London
+                                            </label>
+
+                                            <div class="form-group mt-2">
+                                                <label>Your living costs:</label>
+                                                <input type="text" class="form-control"
+                                                    formControlName="living_cost_outside_london" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 mt-4">
+                                            <div class="form-group  mt-4">
+                                                <label>Total funding to be shown:</label>
+                                                <input type="text" class="form-control" formControlName="total_fund"
+                                                    [disabled]="true" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-4 mt-4">
+                                        <div style="font-size: 22px;">
+
+                                            How are you planning to fund your studies and living costs
+                                        </div>
+
+                                        <div *ngFor="let option of checkboxOptions">
+                                            <label class="form-check-label" style="font-size: 14px;">
+                                                <input type="checkbox"
+                                                    [checked]="financeForm.value.living_cost_plan?.includes(option.label)"
+                                                    [disabled]="financeForm.get('otherSelected')?.value"
+                                                    style="transform: scale(1.5); margin-right: 5px;"
+                                                    [disabled]="true" />
+                                                {{ option.label }}
+                                            </label>
+                                        </div>
+
+
+                                        <!-- "Other" checkbox -->
+                                        <div class="mt-2">
+                                            <label class="form-check-label" style="font-size: 14px;">
+                                                <input type="checkbox" formControlName="otherSelected"
+                                                    style="transform: scale(1.5); margin-right: 5px;" />
+                                                Other
+                                            </label>
+                                        </div>
+
+                                        <!-- Show input for 'Other' if selected -->
+                                        <div *ngIf="financeForm.get('otherSelected')?.value" class="mt-2">
+                                            <label>Specify Other:</label>
+                                            <input type="text" class="form-control" formControlName="other" />
+                                        </div>
+                                    </div>
+
+                                    <div class="card mt-3">
+                                        <div class="card-header">
+                                            <span>Educational Loan</span>
+                                        </div>
+
+                                        <div class="card-body">
+                                            <div class="row mt-3">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Educational Loan:</label>
+                                                        <input type="text" class="form-control"
+                                                            formControlName="education_loan" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Upload document:</label>
+                                                        <input type="file" class="form-control"
+                                                            formControlName="loan_doc" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mt-3">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Add another loan:</label>
+                                                        <input type="text" class="form-control"
+                                                            formControlName="another_education_loan" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Upload document:</label>
+                                                        <input type="file" class="form-control"
+                                                            formControlName="another_loan_doc" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card mt-3">
+                                        <div class="card-header">
+                                            <span>Deposits paid</span>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row mt-3">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Course fee deposit:</label>
+                                                        <input type="text" class="form-control"
+                                                            formControlName="fees_deposit" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>I have paid another deposit:</label>
+                                                        <input type="file" class="form-control"
+                                                            formControlName="deposit_doc" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mt-3">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Add another deposit:</label>
+                                                        <input type="text" class="form-control"
+                                                            formControlName="another_deposit" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Upload document:</label>
+                                                        <input type="file" class="form-control"
+                                                            formControlName="another_deposit_doc" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card mt-3">
+                                        <div class="card-header">
+                                            <span>Funds allocation</span>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row mt-3">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Tuition fees:</label>
+                                                        <input type="text" class="form-control"
+                                                            formControlName="funds_amount_paid"
+                                                            placeholder="Amount paid to date" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Educational loan:</label>
+                                                        <input type="text" class="form-control"
+                                                            formControlName="edu_loan_paid" placeholder="Amount" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mt-4">
+                                                <div class="form-group  mt-4">
+                                                    <label>Fees outstanding:</label>
+                                                    <input type="text" class="form-control"
+                                                        formControlName="fees_outstanding" [disabled]="true" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mt-3">
+                        <div class="card-header">
+                            <span>Interviews</span>
+                        </div>
+                        <div class="card-body">
+                            <ngx-datatable class="bootstrap custom-table" [rows]="rows" [columns]="columns"
+                                [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+                                [scrollbarH]="true" [limit]="page.perPage" [count]="page.total" [offset]="page.page - 1"
+                                [externalPaging]="true" (page)="setPage($event)">
+
+                                <ngx-datatable-column *ngFor="let col of columns" [name]="col.name" [prop]="col.prop"
+                                    [sortable]="false">
+
+                                    <ng-template ngx-datatable-header-template let-column="column">
+                                        <div class="mgx-header">{{ column.name }}</div>
+                                    </ng-template>
+
+                                    <ng-template ngx-datatable-cell-template let-value="value" let-row="row"
+                                        let-column="column">
+
+                                        <div class="text-center" [title]="value">{{ value }}</div>
+                                        <div *ngIf="column.name === 'Created By'">
+                                            <small>{{ row.created_at | date: 'short' }}</small>
+                                        </div>
+                                        <div *ngIf="column.name === 'Updated By'">
+                                            <small>{{ row.updated_at | date: 'short' }}</small>
+                                        </div>
+
+                                    </ng-template>
+                                </ngx-datatable-column>
+
+                            </ngx-datatable>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="text-end mt-3">
+            <button type="submit" class="btn btn-view me-2">Previous</button>
+            <button type="submit" class="btn btn-save">Next</button>
+        </div>
+    </div>
+</div>
