@@ -2,19 +2,39 @@
   <div class="user pt-4">
     <div class="row">
       <!-- Document List Section -->
+
       <div class="col-md-6">
-        <div *ngFor="let category of documentCategories">
+
+        <div *ngFor="let category of documentCategories let i=index">
+
+
+
           <div class="doc-div mt-3">
-            <div class="doc-btn d-flex align-items-center">
+            <!-- <div style="background-color: green; margin-bottom: 5px; display: flex; flex-direction: column;"> -->
+
+            <h3 *ngIf="i===0" style=" margin-bottom: 55px !important; margin-left: 8px;">Pre-Cas
+              Document</h3>
+            <h3 *ngIf="i===12" style=" margin-bottom: 55px !important; margin-left: 8px;">Financial
+              Documents</h3>
+            <h3 *ngIf="i===17" style=" margin-bottom: 55px !important; margin-left: 8px;">Post-Cas
+              and Enrolment Documents</h3>
+            <h3 *ngIf="i===23" style=" margin-bottom: 55px !important; margin-left: 8px;">Other
+              Documents</h3>
+            <div else class="doc-btn d-flex align-items-center" style="border: 1px solid rgb(175, 171, 171);">
+
               <span style="margin-left:9px; font-size:13px" class="doc-category">{{ category.name }}</span>
               <span class="mx-2">|</span>
               <span style="margin-left:9px; font-size:13px" class="doc-count">{{ category.counter }}</span>
               <button class="btn btn-primary btn-collapse ms-auto plus-button" type="button" data-bs-toggle="collapse"
                 [attr.data-bs-target]="'#' + category.id" (click)="handleCollapseClick($event, category)">
-                +
+                <i [ngClass]="category.isCollapsed ? 'fas fa-plus fa-lg' : 'fas fa-minus fa-lg'"></i>
               </button>
+
+              <!-- </div> -->
             </div>
-            <div class="collapse" [id]="category.id">
+
+            <div class="collapse" style=" border: 1px solid rgb(231, 227, 227); " [id]="category.id">
+
               <div class="p-2">
                 <div class="table-responsive">
                   <ngx-datatable class="bootstrap custom-table" [rows]="category.documents" [columns]="columns"
@@ -55,22 +75,24 @@
               </div>
             </div>
           </div>
+
         </div>
         <!-- Upload Button -->
 
       </div>
       <!-- Preview Section -->
       <div class="col-md-6">
-        <div class="preview-container border p-3 position-sticky">
-          <div class="d-flex justify-content-between align-items-center preview-header text-white p-2">
+        <div class="preview-container border p-3 position-sticky" style="margin-top: 75px;">
+          <div class="d-flex justify-content-between align-items-center preview-header text-white p-2"
+            style="width: auto;">
             <h3 class="mb-0 textstyle">Preview</h3>
             <button type="button" class="btn-close btn-close-white" (click)="previewUrl = null"></button>
           </div>
           <!-- <div class="mt-2" *ngIf="previewUrl" style="background-color: red; min-width: 100%;">
             <iframe [src]="previewUrl" frameborder="1" class="preview-frame"></iframe>
           </div> -->
-          <div class="mt-2" *ngIf="previewUrl" style="width: 100%;">
-            <iframe #downloadIframe [src]="previewUrl" frameborder="1" width="100%" height="600px"
+          <div class="mt-2" *ngIf="previewUrl" style="width: 100%; height: 100%;">
+            <iframe #downloadIframe [src]="previewUrl" frameborder="1" width="100%" height="100vh"
               class="preview-frame"></iframe>
           </div>
 
@@ -78,15 +100,15 @@
         </div>
       </div>
       <div class="row align-items-center">
-        <div class="col d-flex justify-content-center">
+        <div class="col d-flex justify-content-start">
           <button type="button" data-bs-toggle="modal" data-bs-target="#addDocuments" class="btn btn-lg btn-primary"
             (click)="uploadDocuments()">Upload Documents</button>
         </div>
 
-        <div class="col d-flex justify-content-end gap-2">
+        <!-- <div class="col d-flex justify-content-end gap-2">
           <button type="button" class="btn btn-view" (click)="onPrevious()">Previous</button>
           <button type="button" class="btn btn-save" (click)="onNext()">Next</button>
-        </div>
+        </div> -->
       </div>
 
     </div>

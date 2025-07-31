@@ -23,6 +23,7 @@ interface DocumentCategory {
   id: number;
   name: string;
   counter: number;
+  isCollapsed: boolean;
   documents: Document[];
 }
 
@@ -302,81 +303,80 @@ export class DocsComponent implements OnInit {
     //     ],
     //   },
     // ];
-
-    this.documentCategories = [
-      {
-        id: 1,
-        name: 'General Documents',
-        counter: 5,
-        documents: [],
-      },
-      {
-        id: 2,
-        name: 'Academic Documents',
-        counter: 0,
-        documents: [],
-      },
-      {
-        id: 3,
-        name: 'Academic Qualification',
-        counter: 0,
-        documents: [],
-      },
-      {
-        id: 4,
-        name: 'English Language Certificate',
-        counter: 0,
-        documents: [],
-      },
-      {
-        id: 5,
-        name: 'English Language Verification Certificate',
-        counter: 0,
-        documents: [],
-      },
-      {
-        id: 6,
-        name: 'Passport',
-        counter: 0,
-        documents: [],
-      },
-      {
-        id: 7,
-        name: 'CV',
-        counter: 0,
-        documents: [],
-      },
-      {
-        id: 8,
-        name: 'Academic Reference Letter',
-        counter: 0,
-        documents: [],
-      },
-      {
-        id: 9,
-        name: 'Work Reference Letter',
-        counter: 0,
-        documents: [],
-      },
-      {
-        id: 10,
-        name: 'Statement Of Purpose',
-        counter: 0,
-        documents: [],
-      },
-      {
-        id: 11,
-        name: 'TB Certificate',
-        counter: 0,
-        documents: [],
-      },
-      {
-        id: 12,
-        name: 'Other Documents',
-        counter: 0,
-        documents: [],
-      },
-    ];
+    // this.documentCategories = [
+    //   {
+    //     id: 1,
+    //     name: 'General Documents',
+    //     counter: 5,
+    //     documents: [],
+    //   },
+    //   {
+    //     id: 2,
+    //     name: 'Academic Documents',
+    //     counter: 0,
+    //     documents: [],
+    //   },
+    //   {
+    //     id: 3,
+    //     name: 'Academic Qualification',
+    //     counter: 0,
+    //     documents: [],
+    //   },
+    //   {
+    //     id: 4,
+    //     name: 'English Language Certificate',
+    //     counter: 0,
+    //     documents: [],
+    //   },
+    //   {
+    //     id: 5,
+    //     name: 'English Language Verification Certificate',
+    //     counter: 0,
+    //     documents: [],
+    //   },
+    //   {
+    //     id: 6,
+    //     name: 'Passport',
+    //     counter: 0,
+    //     documents: [],
+    //   },
+    //   {
+    //     id: 7,
+    //     name: 'CV',
+    //     counter: 0,
+    //     documents: [],
+    //   },
+    //   {
+    //     id: 8,
+    //     name: 'Academic Reference Letter',
+    //     counter: 0,
+    //     documents: [],
+    //   },
+    //   {
+    //     id: 9,
+    //     name: 'Work Reference Letter',
+    //     counter: 0,
+    //     documents: [],
+    //   },
+    //   {
+    //     id: 10,
+    //     name: 'Statement Of Purpose',
+    //     counter: 0,
+    //     documents: [],
+    //   },
+    //   {
+    //     id: 11,
+    //     name: 'TB Certificate',
+    //     counter: 0,
+    //     documents: [],
+    //   },
+    //   {
+    //     id: 12,
+    //     name: 'Other Documents',
+    //     counter: 0,
+    //     documents: [],
+    //   },
+    // ];
   }
 
   ngOnInit(): void {
@@ -387,6 +387,7 @@ export class DocsComponent implements OnInit {
   }
 
   handleCollapseClick(event: Event, category: any): void {
+    category.isCollapsed = !category.isCollapsed;
     if (category.counter > 0) {
     }
     console.log('handleCollapseClick', event, category);
@@ -505,6 +506,7 @@ export class DocsComponent implements OnInit {
             id: category.id,
             name: category.name,
             counter: category.counter,
+            isCollapsed: true, // Default to collapsed
             documents: [],
           }));
         }
