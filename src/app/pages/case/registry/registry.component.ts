@@ -343,7 +343,7 @@ export class RegistryComponent implements OnInit {
     this.TransferOfCourseUploadFile = event.target.files[0];
   }
 
-  onSubmit() {
+  onRegisteryDetailsSubmit() {
     let formData: any;
     const registryDetails: any = this.getRegistryDetails();
     formData = this.makeFormData(registryDetails);
@@ -412,6 +412,7 @@ export class RegistryComponent implements OnInit {
       .subscribe((resp: any) => {
         if (resp.status) {
           this.isEdit = true;
+
           this.registry = resp.result[0];
           this.patchData(this.registry);
         }
@@ -422,7 +423,7 @@ export class RegistryComponent implements OnInit {
     let rawValue: any = data?.sms_reporting_reasons;
 
     // Step 1: Remove extra quotes and split into array
-    const reasonArray = rawValue.replace(/^"|"$/g, '').split(',');
+    const reasonArray = rawValue?.replace(/^"|"$/g, '').split(',');
 
     // Step 2: If your ng-select uses "name" for selection, set directly:
     this.registryForm.get('sms_reporting_reasons')?.setValue(reasonArray);
@@ -474,6 +475,8 @@ export class RegistryComponent implements OnInit {
           ? 7
           : !this.isValueNull(data?.risk_assessment)
           ? 8
+          : this.isEdit
+          ? 1
           : null,
 
       break_in_study:
@@ -625,9 +628,10 @@ export class RegistryComponent implements OnInit {
         valueToSend = control?.value ?? '';
 
         if (
-          valueToSend === undefined ||
-          valueToSend === '' ||
-          valueToSend === null
+          this.isEdit &&
+          (valueToSend === undefined ||
+            valueToSend === '' ||
+            valueToSend === null)
         ) {
           valueToSend = 'null'; // as string because FormData stores strings
         }
