@@ -15,6 +15,7 @@ import { CommentsComponent } from './comments/comments.component';
 import { StudentInfoComponent } from '../applications/students/student-info/student-info.component';
 import { CasesListComponent } from './cases-list/cases-list.component';
 import { SchedulerComponent } from './scheduler/scheduler.component';
+import { RegistryComponent } from './registry/registry.component';
 
 const routes: Routes = [
   {
@@ -40,6 +41,8 @@ const routes: Routes = [
           { path: 'enrollment', component: ReferrerComponent },
           { path: 'general-docs', component: DocsComponent },
           { path: 'verifier', component: VerifierComponent },
+          { path: 'registry', component: RegistryComponent },
+
           { path: 'view-all', component: ViewAllComponent },
           { path: 'comments', component: CommentsComponent },
         ],
@@ -57,6 +60,8 @@ const routes: Routes = [
           { path: 'enrollment', component: ReferrerComponent },
           { path: 'general-docs', component: DocsComponent },
           { path: 'verifier', component: VerifierComponent },
+          { path: 'registry', component: RegistryComponent },
+
           { path: 'view-all', component: ViewAllComponent },
         ],
       },

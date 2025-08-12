@@ -41,6 +41,7 @@ import { ComplianceCreatedInterviewComponent } from './scheduler/compliance-crea
 import { ComplianceSchedulerInterviewComponent } from './scheduler/compliance-scheduler-interview/compliance-scheduler-interview.component';
 import { ComplianceCompletedInterviewComponent } from './scheduler/compliance-completed-interview/compliance-completed-interview.component';
 import { AddDocumentDialogComponent } from './docs/add-document-dialog/add-document-dialog.component';
+import { RegistryComponent } from './registry/registry.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { AddDocumentDialogComponent } from './docs/add-document-dialog/add-docum
     DocsComponent,
     AddDocumentDialogComponent,
     VerifierComponent,
+    RegistryComponent,
     ViewAllComponent,
     CaseAddComponent,
     CaseEditComponent,
