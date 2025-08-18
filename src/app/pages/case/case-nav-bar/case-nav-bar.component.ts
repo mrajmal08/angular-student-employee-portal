@@ -32,7 +32,7 @@ export class CaseNavBarComponent implements OnInit {
     { value: 'enrollment', label: 'Enrolment' },
     { value: 'registry', label: 'Registry' },
     { value: 'view-all', label: 'View All' },
-    { value: 'comments', label: 'Comment' },
+    { value: 'comments', label: 'Comments' },
   ];
 
   constructor(
@@ -66,7 +66,7 @@ export class CaseNavBarComponent implements OnInit {
   }
 
   OnNavigate(link: any, event: MouseEvent): void {
-    this.selectedLink = link.value;
+    if (link.value !== 'comments') this.selectedLink = link.value;
     if (!this.caseId) {
       const index = this.links.findIndex((l) => l.value === link.value);
 
