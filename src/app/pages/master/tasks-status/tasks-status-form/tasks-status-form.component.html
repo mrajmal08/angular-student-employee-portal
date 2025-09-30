@@ -1,0 +1,55 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-header">
+        <span>{{!!this.dataForEdit.row?'Edit':'Add' }} Task Status</span>
+        <span class="position-absolute" style="right: 10px; cursor: pointer; color: white">
+          <i class="fa fa-times" (click)="closeForm()"></i>
+        </span>
+      </div>
+      <div class="card-body">
+
+        <form [formGroup]="taskStatusForm" (ngSubmit)="onSubmit()">
+
+          <div class="row mt-3">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="firstName">Name:<sup *ngIf="displayValidation">*</sup></label>
+                <input type="text" class="form-control" name="name" formControlName="name" alphaOnly />
+                <small class="form-text text-muted danger" *ngIf="
+                      taskStatusForm.get('name')?.errors?.['required'] &&
+                      (taskStatusForm.get('name')?.dirty || taskStatusForm.get('name')?.touched)">Please enter your
+                  name!</small>
+                <small class="form-text text-muted danger" *ngIf="
+                        taskStatusForm.get('name')?.errors?.['maxlength'] &&
+                        taskStatusForm.get('name')?.dirty">Maximum characters should be 25!</small>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="lastName">Description:<sup *ngIf="displayValidation">*</sup></label>
+                <input type="text" class="form-control" formControlName="description" id="description" />
+                <small class="form-text text-muted danger" *ngIf="
+                    taskStatusForm.get('description')?.errors?.['required'] &&
+                    (taskStatusForm.get('description')?.dirty || taskStatusForm.get('description')?.touched)
+                  ">Please enter your description!</small>
+                <small class="form-text text-muted danger" *ngIf="
+                    taskStatusForm.get('description')?.errors?.['maxlength'] &&
+                    taskStatusForm.get('description')?.dirty
+                  ">Maximum characters should be 25!</small>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <div class="form-buttons gap-2">
+          <button type="submit" class="btn btn-primary submit-button" [disabled]="!taskStatusForm.valid"
+            (click)="onSubmit()">Submit</button>
+          <button type="button" class="btn btn-secondary cancel-button" (click)="closeForm()">Cancel</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

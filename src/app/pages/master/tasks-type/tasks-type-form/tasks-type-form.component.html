@@ -1,0 +1,55 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-header">
+        <span>{{!!this.dataForEdit.row?'Edit':'Add' }} Task Type</span>
+        <span class="position-absolute" style="right: 10px; cursor: pointer; color: white">
+          <i class="fa fa-times" (click)="closeForm()"></i>
+        </span>
+      </div>
+      <div class="card-body">
+
+        <form [formGroup]="taskTypeForm" (ngSubmit)="onSubmit()">
+
+          <div class="row mt-3">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="firstName">Name:<sup *ngIf="displayValidation">*</sup></label>
+                <input type="text" class="form-control" name="name" formControlName="name" alphaOnly />
+                <small class="form-text text-muted danger" *ngIf="
+                      taskTypeForm.get('name')?.errors?.['required'] &&
+                      (taskTypeForm.get('name')?.dirty || taskTypeForm.get('name')?.touched)">Please enter your
+                  name!</small>
+                <small class="form-text text-muted danger" *ngIf="
+                        taskTypeForm.get('name')?.errors?.['maxlength'] &&
+                        taskTypeForm.get('name')?.dirty">Maximum characters should be 25!</small>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="lastName">Description:<sup *ngIf="displayValidation">*</sup></label>
+                <input type="text" class="form-control" formControlName="description" id="description" />
+                <small class="form-text text-muted danger" *ngIf="
+                    taskTypeForm.get('description')?.errors?.['required'] &&
+                    (taskTypeForm.get('description')?.dirty || taskTypeForm.get('description')?.touched)
+                  ">Please enter your description!</small>
+                <small class="form-text text-muted danger" *ngIf="
+                    taskTypeForm.get('description')?.errors?.['maxlength'] &&
+                    taskTypeForm.get('description')?.dirty
+                  ">Maximum characters should be 25!</small>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <div class="form-buttons gap-2">
+          <button type="submit" class="btn btn-primary submit-button" [disabled]="!taskTypeForm.valid"
+            (click)="onSubmit()">Submit</button>
+          <button type="button" class="btn btn-secondary cancel-button" (click)="closeForm()">Cancel</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

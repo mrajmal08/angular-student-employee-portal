@@ -1,0 +1,119 @@
+<div class="d-flex mt-3 mb-3 justify-content-end">
+  <button type="button" class="btn btn-secondary add-button" (click)="addNewTaskStatus()">+ Add New Task Status</button>
+</div>
+
+<form class="form w-100" style="margin: 20px 0px;" [formGroup]="filterForm" (ngSubmit)="onApplyFilters()"
+  autocomplete="off" novalidate>
+
+  <div class="form-content search-filter-block position-relative ">
+    <strong class="sub-title search-session-title">Search Task Status</strong>
+
+    <!-- Toggle Button (Top Right) -->
+    <!-- <button class="btn plus-btn position-absolute"
+      style="max-width: 42px; top: 42px; right: 20px; min-width: unset; background-color: #05a853; border: #05a853;"
+      (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic"
+      [class.btn-dark]="!isCollapsed" [class.btn-primary]="isCollapsed" type="button">
+      <i class="bi bi-plus" *ngIf="isCollapsed"></i>
+      <i class="bi bi-dash" *ngIf="!isCollapsed"></i>
+    </button> -->
+
+    <div class="position-absolute d-flex" style="top: 42px; right: 20px;">
+      <button type="submit" class="btn btn-primary mx-1 filter-button" (click)="onApplyFilters()"
+        [disabled]="!filterForm.controls['name'].value">
+        Filter
+      </button>
+
+      <button type="button" class="btn btn-outline-secondary mx-1 reset-button" (click)="onResetFilters()"
+        [disabled]="!filterForm.controls['name'].value">
+        Reset
+      </button>
+    </div>
+
+
+    <div class="row">
+      <div class="field-block w-100">
+        <div class="col-12" style="color: #808382;">
+          <div class="row" style="padding-right: 100px;">
+
+
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" formControlName="name" />
+              </div>
+            </div>
+
+          </div>
+
+
+          <!-- Filter & Reset Buttons (Centered) -->
+          <!-- <div class="d-flex justify-content-center mt-3">
+            <button type="submit" class="btn btn-primary mx-2" style="background-color: #05a853; border: #05a853;"
+              (click)="onApplyFilters()" [disabled]="!filterForm.controls['name'].value">Filter</button>
+            <button type="button" class="btn btn-default mx-2" (click)="onResetFilters()"
+              [disabled]="!filterForm.controls['name'].value">Reset</button>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+
+<div class="d-flex justify-content-between align-items-center mb-2">
+  <div>
+    <label for="perPageSelect" class="me-2" style="padding-bottom: 10px; color: #000000;">Show</label>
+    <select id="perPageSelect" class="form-select me-2" style="width: auto; display: inline-block;"
+      (change)="updatePerPage($event)">
+      <option *ngFor="let option of perPageOptions" [value]="option" [selected]="option === page.perPage">{{ option }}
+      </option>
+    </select>
+    <label for="perPageSelect" class="me-2" style="padding-bottom: 10px; color: #000000;">entries</label>
+  </div>
+  <!-- <div>
+    <span>Page {{ page.page }} of {{ getTotalPages() }}</span>
+  </div> -->
+</div>
+<ngx-datatable class="bootstrap custom-table" [rows]="rows" [columns]="columns" [columnMode]="'force'"
+  [headerHeight]="30" [footerHeight]="30" [rowHeight]="'auto'" [scrollbarH]="true" [limit]="page.perPage"
+  [count]="page.total" [offset]="page.page - 1" [externalPaging]="true" (page)="setPage($event)">
+
+  <ngx-datatable-column *ngFor="let col of columns" [name]="col.name" [prop]="col.prop" [sortable]="false">
+    <ng-template ngx-datatable-header-template let-column="column">
+      <div class="mgx-header" style="font-weight:900; ">{{ column.name }}</div>
+    </ng-template>
+
+    <ng-template ngx-datatable-cell-template let-value="value" let-row="row" let-column="column">
+
+      <div class="text-center" [title]="value">{{ value }}</div>
+      <div *ngIf="column.name === 'Created By'">
+        <small>{{ row.created_at | date: 'short' }}</small>
+      </div>
+      <div *ngIf="column.name === 'Updated By'">
+        <small>{{ row.updated_at | date: 'short' }}</small>
+      </div>
+
+    </ng-template>
+
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Action" [width]="150">
+    <ng-template ngx-datatable-header-template>
+      <div class="mgx-header text-center">Action</div>
+    </ng-template>
+
+    <ng-template ngx-datatable-cell-template let-row="row">
+      <div class="d-flex justify-content-center gap-2">
+        <input type="checkbox" style="cursor: pointer; margin-right: 12px;" (change)="onCheckboxChange($event, row)"
+          (click)="$event.stopPropagation()" />
+
+        <i class="bi bi-pen" style="margin-left: 0; cursor: pointer; margin-right: 10px;"
+          (click)="editTaskStatus(row)"></i>
+
+        <i class="bi bi-x-lg text-danger" style="font-weight: bold; cursor: pointer;"
+          (click)="onDeleteTaskStatus(row)"></i>
+      </div>
+    </ng-template>
+  </ngx-datatable-column>
+
+</ngx-datatable>

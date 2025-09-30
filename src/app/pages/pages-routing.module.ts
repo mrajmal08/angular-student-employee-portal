@@ -57,6 +57,28 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'tasks-status',
+        loadChildren: () =>
+          import('./master/tasks-status/tasks-status.module').then(
+            (m) => m.TasksStatusModule
+          ),
+      },
+      {
+        path: 'tasks-type',
+        loadChildren: () =>
+          import('./master/tasks-type/tasks-type.module').then(
+            (m) => m.TasksTypeModule
+          ),
+      },
+      {
+        path: 'tasks-priority',
+        loadChildren: () =>
+          import('./master/tasks-priority/tasks-priority.module').then(
+            (m) => m.TasksPriorityModule
+          ),
+      },
+
+      {
         path: 'departments',
         loadChildren: () =>
           import('./master/departments/departments.module').then(
