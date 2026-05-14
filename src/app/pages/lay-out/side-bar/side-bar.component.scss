@@ -1,106 +1,167 @@
-/* General navbar styles */
-.navbar {
-  background-color: #4b4b4b; /* Dark gray */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  // padding: 0.5rem 1rem;
-  height: 30px;
+:host {
+  display: block;
+  height: 100%;
 }
 
-/* Logo Styling */
-.navbar-brand img {
-  max-height: 40px;
+.sidebar-shell {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 26px 18px 24px;
+  background: linear-gradient(180deg, #161c24 0%, #1f2937 100%);
+  color: #cbd5e1;
+  overflow-y: auto;
 }
 
-/* Navbar links */
-.nav-link {
-  color: white !important;
-  font-size: 16px;
-  padding: 10px 15px;
-  transition: background-color 0.3s ease-in-out;
+.brand-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+  margin-bottom: 28px;
 }
 
-.nav-link:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 5px;
+.brand-mark {
+  width: 112px;
+  height: 112px;
+  border-radius: 28px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.2);
 }
 
-/* Dropdown menu */
-.dropdown-menu {
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-  border-top: 2px solid #05a853;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  min-width: 220px;
-  color: white;
-  // margin-top: -5px;
+.brand-mark img {
+  width: 78px;
+  height: auto;
 }
 
-.dropdown-item {
-  color: #8a8686;
-  font-size: 12px;
-  padding: 5px 15px;
+.brand-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.dropdown-item:hover {
-  background-color: #f1f1f1;
-}
-
-/* Right-side icons */
-.navbar-nav.ms-auto .nav-link {
-  padding: 5px 10px;
-}
-
-/* Admin profile dropdown */
-.navbar-nav .dropdown-menu-end {
-  right: 0;
-  left: auto;
-}
-
-/* Admin icon */
-.navbar-nav .bi-person-circle {
+.brand-title {
   font-size: 20px;
-  margin-right: 5px;
+  font-weight: 700;
+  color: #f8fafc;
 }
 
-/* Notifications icon */
-.navbar-nav .bi-bell {
+.brand-copy small {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.nav-caption {
+  margin: 10px 12px 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+.dashboard-link,
+.section-toggle,
+.nav-item-link {
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s ease;
+}
+
+.dashboard-link,
+.section-toggle {
+  width: 100%;
+  border: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: transparent;
+}
+
+.dashboard-link-copy,
+.section-toggle-copy {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.dashboard-link .bi,
+.section-toggle .bi {
   font-size: 18px;
-  color: white;
 }
 
-.custom-divider {
-  height: 1px;
-  width: 90%;
-  background-color: #ddd; /* Light gray */
-  margin: 5px auto; /* Center align */
+.dashboard-link:hover,
+.dashboard-link.active,
+.section-toggle:hover,
+.section-toggle.active {
+  background: rgba(148, 163, 184, 0.12);
+  color: #ffffff;
 }
 
-/* Responsive styles */
+.section-arrow {
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.section-items {
+  margin: 0 4px 4px 18px;
+  padding-left: 16px;
+  border-left: 1px solid rgba(148, 163, 184, 0.18);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nav-item-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 14px;
+  color: #cbd5e1;
+}
+
+.nav-item-link:hover {
+  background: rgba(148, 163, 184, 0.1);
+  color: #ffffff;
+}
+
+.nav-item-link.active {
+  background: #0f766e;
+  color: #ffffff;
+}
+
+.item-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.85;
+}
+
 @media (max-width: 992px) {
-  .navbar-nav {
-    text-align: center;
+  .sidebar-shell {
+    height: auto;
+    padding-bottom: 18px;
   }
 
-  .dropdown-menu {
-    text-align: left;
-  }
-}
-
-
-@media (max-width: 992px) {
-  .navbar-nav {
-    flex-direction: column;
-    width: 100%;
-  }
-  .navbar-collapse {
-    background: #4b4b4b;
-    padding: 10px;
-  }
-  .navbar-nav .nav-item {
-    text-align: left;
-  }
-  .dropdown-menu {
-    width: 100%;
+  .brand-mark {
+    width: 88px;
+    height: 88px;
   }
 }

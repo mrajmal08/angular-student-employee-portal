@@ -1,0 +1,167 @@
+.search-user-title {
+  color: #00b5e9;
+  position: absolute;
+  top: 0;
+  left: 73px;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 0 10px;
+  font-size: 16px;
+  font: 400 1rem / 19px "Poppins", Arial, Helvetica, sans-serif;
+  text-transform: capitalize;
+  background: #fff;
+  position: absolute;
+  padding: 0 15px;
+  color: #00b5e9;
+}
+
+.plus-btn {
+  top: 10px;
+  right: 15px;
+}
+
+.form-content {
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 5px;
+  position: relative;
+}
+
+.mat-date-picker-custom input {
+  width: 100%;
+}
+
+button.btn-primary,
+button.btn-default {
+  min-width: 110px;
+}
+.clickable-text {
+  color: #2e7d32;
+  cursor: pointer;
+  text-align: center;
+  // text-decoration: underline;
+}
+
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  background-color: #ccc;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider.blue {
+  background-color: #2196f3; /* Blue when on */
+}
+
+input:checked + .slider.blue:before {
+  transform: translateX(20px);
+}
+
+
+
+.filter-button {
+  background-color: #05a853;
+  color: #ffffff;
+  border: #05a853;
+  width: 110px;
+  margin-right: 20px !important;
+
+
+}
+
+.filter-button:hover {
+  background-color: #08783e;
+  border: #08783e;
+}
+
+.filter-button:disabled {
+  background-color: #8f8f8f;
+  border-color:#8f8f8f ;
+  color: #5a4e4e !important;
+  margin-right: 20px !important;
+ }
+
+.reset-button {
+  background-color:#00b5e9;
+  color: #ffffff;
+  border: #00b5e9;
+  width: 110px;
+}
+
+.reset-button:hover {
+  background-color: #0681a2;
+  border: #0681a2;
+}
+
+.reset-button:disabled {
+  background-color: #8f8f8f;
+  border-color:#8f8f8f ;
+  color: #5a4e4e !important
+ }
+
+
+.add-button {
+  background-color: #05a853;
+  color: #ffffff;
+  border: #05a853;
+}
+
+.add-button:hover {
+  background-color: #08783e;
+  border: #08783e;
+}
+
+
+.custom-btn {
+  background-color: #4b4b4b; /* Default black */
+  border: 1px solid #4b4b4b;
+  color: white; /* Optional: make icon/text white */
+}
+
+.custom-btn:hover {
+  background-color: #05a853; /* Green on hover */
+  border-color: #05a853;
+}
+
+
+:host ::ng-deep .btn {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+::ng-deep .ng-select.ng-select-single .ng-select-container {
+  max-height: 30px !important;
+  min-height: 12px ;
+  padding-top: 4px;
+}

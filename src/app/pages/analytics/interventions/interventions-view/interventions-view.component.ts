@@ -1,0 +1,366 @@
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
+import { ApiClientService } from 'shared/services/api-client.service';
+import { User } from 'shared/models/user-model';
+import { getUKFormatedDate } from 'shared/helpers/common-helper';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from 'shared/dialogs/confirm-dialog/confirm-dialog.component';
+import { ToastrService } from 'ngx-toastr';
+import { Department } from 'shared/models/department-model';
+import { Designation } from 'shared/models/designation-model';
+import { NgSelectComponent } from '@ng-select/ng-select';
+
+@Component({
+  selector: 'app-interventions-view',
+  templateUrl: './interventions-view.component.html',
+  styleUrls: ['./interventions-view.component.scss'],
+  animations: [
+    trigger('collapseAnimation', [
+      state(
+        'collapsed',
+        style({
+          height: '0',
+          overflow: 'hidden',
+          opacity: '0',
+          margin: '0',
+        })
+      ),
+      state(
+        'expanded',
+        style({
+          height: '*',
+          opacity: '1',
+          margin: '*',
+        })
+      ),
+      transition('collapsed <=> expanded', [animate('300ms ease-out')]),
+    ]),
+  ],
+})
+export class InterventionsViewComponent implements OnInit {
+  @ViewChild('roleSelect', { read: ElementRef }) roleSelectRef!: ElementRef;
+  @ViewChild('departmentSelect', { read: ElementRef })
+  departmentSelectRef!: ElementRef;
+  @ViewChild('designationSelect', { read: ElementRef })
+  designationSelectRef!: ElementRef;
+
+  page = {
+    perPage: 10,
+    page: 1,
+    total: 100,
+  };
+  perPageOptions = [10, 25, 50, 100];
+
+  isCollapsed = true;
+  filterForm!: FormGroup;
+
+  name: string = '';
+  email: string = '';
+  phone_no: string = '';
+  role_id?: string = undefined;
+  department_id?: string = undefined;
+  designation_id?: string = undefined;
+  roles: any[] = [];
+  departments: Department[] = [];
+  designations: Designation[] = [];
+
+  columns = [
+    { name: 'User ID', prop: 'id' },
+    { name: 'User Name', prop: 'name' },
+    { name: 'User Email', prop: 'email' },
+    { name: 'Phone No', prop: 'phone_no' },
+    { name: 'DOB', prop: 'date_of_birth' },
+    { name: 'Role', prop: 'role.name' },
+    { name: 'Designation', prop: 'designation.name' },
+    { name: 'Department', prop: 'department.name' },
+    // { name: 'Created At', prop: 'created_at' },
+    { name: 'Status', prop: 'status' },
+    { name: 'Created By', prop: 'created_by' },
+    { name: 'Updated By', prop: 'updated_by' },
+  ];
+
+  rows: User[] = [];
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private apiClient: ApiClientService,
+    private dialog: MatDialog,
+    private toastr: ToastrService
+  ) {
+    this.buildForm();
+  }
+
+  ngOnInit(): void {
+    this.filterForm.controls['name'].valueChanges.subscribe((value) => {
+      if (value === '') {
+        this.name = '';
+        // this.clearFilterValues();
+        // this.getUsers();
+      }
+    });
+
+    this.filterForm.controls['email'].valueChanges.subscribe((value) => {
+      if (value === '') {
+        this.email = '';
+
+        // this.clearFilterValues();
+        // this.getUsers();
+      }
+    });
+    this.filterForm.controls['phone_no'].valueChanges.subscribe((value) => {
+      if (value === '') {
+        this.phone_no = '';
+        // this.clearFilterValues();
+        // this.getUsers();
+      }
+    });
+    this.getUsers();
+    this.getRoles();
+    this.getDepartments();
+    this.getDesignations();
+  }
+
+  getRoles() {
+    this.apiClient.get('roles', {}).subscribe((resp: any) => {
+      this.roles = resp.result.map((dep: any) => ({
+        id: dep.id,
+        name: dep.name,
+      }));
+    });
+  }
+
+  getDepartments() {
+    this.apiClient.get('departments', {}).subscribe((resp: any) => {
+      this.departments = resp.result.map((dep: any) => ({
+        id: dep.id,
+        name: dep.name,
+      }));
+
+      console.log('Departments:', this.departments);
+    });
+  }
+  getDesignations() {
+    this.apiClient.get('designations', {}).subscribe((resp: any) => {
+      this.designations = resp.result.map((dep: any) => ({
+        id: dep.id,
+        name: dep.name,
+      }));
+
+      console.log('designations:', this.designations);
+    });
+  }
+
+  getUsers(search: string = '') {
+    this.apiClient
+      .get('users', {
+        pagination: 1,
+        page: this.page.page,
+        per_page: this.page.perPage,
+        name: this.name,
+        email: this.email,
+        phone_no: this.phone_no,
+        ...(this.role_id && { role_id: this.role_id }),
+        ...(this.department_id && { department_id: this.department_id }),
+        ...(this.designation_id && { designation_id: this.designation_id }),
+      })
+      .subscribe((resp: any) => {
+        this.page.total = resp.result.total;
+        this.rows = resp.result.data.map(
+          (row: { created_at: string; updated_at: string }) => ({
+            ...row,
+            // created_at: getUKFormatedDate(row.created_at),
+          })
+        );
+      });
+  }
+
+  onApplyFilters() {
+    if (!!this.filterForm.controls['name'].value) {
+      this.name = this.filterForm.controls['name'].value;
+      // this.email = '';
+      // this.phone_no = '';
+    } else if (!!this.filterForm.controls['email'].value) {
+      this.email = this.filterForm.controls['email'].value;
+      // this.name = '';
+      // this.phone_no = '';
+    } else if (!!this.filterForm.controls['phone_no'].value) {
+      this.phone_no = this.filterForm.controls['phone_no'].value;
+      // this.name = '';
+      // this.email = '';
+    }
+    this.getUsers();
+  }
+
+  clearFilterValues() {
+    this.name = '';
+    this.email = '';
+    this.phone_no = '';
+  }
+
+  buildForm() {
+    this.filterForm = this.fb.group({
+      name: [''],
+      email: [''],
+      phone_no: [''],
+      roles: [null],
+      departments: [null],
+      designations: [null],
+    });
+  }
+
+  setPage(pageInfo: any) {
+    this.page.page = pageInfo.offset + 1;
+  }
+
+  updatePerPage(event: any) {
+    this.page.perPage = event.target.value;
+  }
+
+  getTotalPages(): number {
+    return Math.ceil(this.page.total / this.page.perPage);
+  }
+
+  onSelectFilters(): void {}
+
+  resetForm() {}
+
+  onResetFilters() {
+    this.clearFilterValues();
+    this.filterForm.controls['name'].setValue(null);
+    this.filterForm.controls['email'].setValue(null);
+    this.filterForm.controls['phone_no'].setValue(null);
+    this.filterForm.controls['roles'].reset();
+    this.filterForm.controls['departments'].reset();
+    this.filterForm.controls['designations'].reset();
+
+    this.role_id = undefined;
+    this.department_id = undefined;
+    this.designation_id = undefined;
+    this.getUsers();
+  }
+
+  onAgentNameClick(agentId: any) {
+    this.router.navigateByUrl(`/users/${agentId}`);
+  }
+
+  addNewAgent() {
+    this.router.navigateByUrl(`/users/add`);
+  }
+
+  editUser(row: any): void {
+    console.log('Edit Users:', row);
+    this.router.navigateByUrl(`/users/edit/${row.id}`, { state: { row } });
+    // Implement edit logic (e.g., open a modal, navigate to edit page)
+  }
+
+  onDeleteUser(row: any): void {
+    this.showAlert(
+      'warning',
+      'Delete User?',
+      'Do you really want to delete this user.',
+      row.id
+    );
+  }
+
+  showAlert(type: string, title: string, message: string, id: number) {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '400px',
+      panelClass: 'custom-dialog-container',
+      backdropClass: 'custom-dialog-backdrop',
+      position: { top: '50%', left: '50%' },
+      data: { type: type, title: title, message: message },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.deleteUser(id);
+      }
+    });
+  }
+
+  deleteUser(id: number) {
+    this.apiClient
+      .get(`user/delete/${id}`)
+      .toPromise()
+      .then((resp) => {
+        this.toastr.success('User Deleted successfully!', 'Success');
+        this.getUsers();
+      })
+      .catch((err) => {
+        this.toastr.error(err.error.message, 'Error');
+      });
+  }
+
+  onStatusToggle(row: any) {
+    row.status = row.status === 1 ? 0 : 1;
+    this.updateUserStatus(row);
+  }
+
+  updateUserStatus(user: User) {
+    this.apiClient
+      .post(`user/update?id=${user.id}&status=${user.status}`)
+      .subscribe((resp: any) => {
+        if (resp.status) {
+          this.toastr.success(resp.message, 'Success');
+        } else {
+          this.toastr.error(resp.message, 'Error');
+        }
+      });
+  }
+
+  onCheckboxChange(event: Event, row: any) {
+    console.log('Event and row', event, row);
+  }
+
+  onRoleChange(selected: any) {
+    this.role_id = selected.id.toString();
+    // console.log('Selected department ID:', selectedId);
+    setTimeout(() => {
+      const input: HTMLInputElement | null =
+        this.roleSelectRef.nativeElement.querySelector('input');
+      if (input) {
+        input.blur();
+      }
+    }, 0);
+  }
+
+  onDepartmentChange(selected: any) {
+    this.department_id = selected.id.toString();
+    setTimeout(() => {
+      const input: HTMLInputElement | null =
+        this.departmentSelectRef.nativeElement.querySelector('input');
+      if (input) {
+        input.blur();
+      }
+    }, 0);
+  }
+  onDesignationChange(selected: any) {
+    this.designation_id = selected.id.toString();
+    setTimeout(() => {
+      const input: HTMLInputElement | null =
+        this.designationSelectRef.nativeElement.querySelector('input');
+      if (input) {
+        input.blur();
+      }
+    }, 0);
+  }
+
+  isDisabled() {
+    return (
+      !this.filterForm.controls['name'].value &&
+      !this.filterForm.controls['email'].value &&
+      !this.filterForm.controls['phone_no'].value &&
+      !this.role_id &&
+      !this.department_id &&
+      !this.designation_id
+    );
+  }
+}

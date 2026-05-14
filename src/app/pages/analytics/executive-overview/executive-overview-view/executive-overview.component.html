@@ -1,0 +1,212 @@
+<div class="executive-overview-page">
+  <div class="page-heading">
+    <div>
+      <h1>Executive Overview</h1>
+      <p>Student Outcomes / Compliance Performance</p>
+    </div>
+  </div>
+
+  <section class="filter-bar">
+    <div class="filter-pill" *ngFor="let filter of filters">
+      <span class="filter-label">{{ filter.label }}:</span>
+      <span class="filter-value">{{ filter.value }}</span>
+    </div>
+  </section>
+
+  <section class="summary-grid">
+    <article
+      class="summary-card"
+      *ngFor="let card of summaryCards"
+      [ngClass]="card.tone"
+    >
+      <p class="summary-card__label">{{ card.label }}</p>
+      <h2>{{ card.value }}</h2>
+      <p class="summary-card__threshold">Threshold {{ card.threshold }}</p>
+      <p class="summary-card__detail">{{ card.detail }}</p>
+    </article>
+  </section>
+
+  <section class="alert-banner">
+    <strong>Alert:</strong> Level 6 Business continuation is 81.2%, which is
+    below threshold; Graduate Outcomes response rate is also weak at 61.8%.
+  </section>
+
+  <section class="content-grid content-grid--top">
+    <article class="dashboard-panel">
+      <div class="panel-header">
+        <h3>5-year trend by metric</h3>
+      </div>
+
+      <div class="trend-chart">
+        <svg
+          [attr.viewBox]="'0 0 ' + chartWidth + ' ' + chartHeight"
+          preserveAspectRatio="xMidYMid meet"
+        >
+          <g class="grid-lines">
+            <line
+              [attr.x1]="chartPadding.left"
+              [attr.x2]="chartWidth - chartPadding.right"
+              [attr.y1]="chartPadding.top"
+              [attr.y2]="chartPadding.top"
+            ></line>
+            <line
+              [attr.x1]="chartPadding.left"
+              [attr.x2]="chartWidth - chartPadding.right"
+              [attr.y1]="getY(80)"
+              [attr.y2]="getY(80)"
+            ></line>
+            <line
+              [attr.x1]="chartPadding.left"
+              [attr.x2]="chartWidth - chartPadding.right"
+              [attr.y1]="getY(60)"
+              [attr.y2]="getY(60)"
+            ></line>
+            <line
+              [attr.x1]="chartPadding.left"
+              [attr.x2]="chartWidth - chartPadding.right"
+              [attr.y1]="chartHeight - chartPadding.bottom"
+              [attr.y2]="chartHeight - chartPadding.bottom"
+            ></line>
+          </g>
+
+          <g class="axis-labels">
+            <text
+              *ngFor="let tick of trendTicks"
+              [attr.x]="chartPadding.left - 8"
+              [attr.y]="getY(tick) + 4"
+              text-anchor="end"
+            >
+              {{ tick }}
+            </text>
+          </g>
+
+          <g class="x-axis">
+            <text
+              *ngFor="let year of trendYears; let index = index"
+              [attr.x]="getX(index)"
+              [attr.y]="chartHeight - 8"
+              text-anchor="middle"
+            >
+              {{ year }}
+            </text>
+          </g>
+
+          <g class="series-group" *ngFor="let series of trendSeries">
+            <polyline
+              [attr.points]="getTrendPoints(series.values)"
+              [attr.stroke]="series.color"
+            ></polyline>
+            <circle
+              *ngFor="let value of series.values; let pointIndex = index"
+              [attr.cx]="getX(pointIndex)"
+              [attr.cy]="getY(value)"
+              [attr.fill]="series.color"
+              r="3.5"
+            ></circle>
+          </g>
+        </svg>
+
+        <div class="chart-legend">
+          <div class="legend-item" *ngFor="let series of trendSeries">
+            <span
+              class="legend-swatch"
+              [style.backgroundColor]="series.color"
+            ></span>
+            <span>{{ series.name }}</span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="dashboard-panel">
+      <div class="panel-header">
+        <h3>Cohort summary</h3>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Cohort</th>
+              <th>Denom.</th>
+              <th>Numer.</th>
+              <th>Rate</th>
+              <th>Threshold</th>
+              <th>Gap</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of cohortSummary">
+              <td>{{ row.cohort }}</td>
+              <td>{{ row.denominator }}</td>
+              <td>{{ row.numerator }}</td>
+              <td>{{ row.rate }}</td>
+              <td>{{ row.threshold }}</td>
+              <td>{{ row.gap }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </section>
+
+  <section class="content-grid content-grid--bottom">
+    <article class="dashboard-panel">
+      <div class="panel-header">
+        <h3>Top risk drivers</h3>
+      </div>
+
+      <ul class="risk-list">
+        <li *ngFor="let driver of riskDrivers">{{ driver }}</li>
+      </ul>
+    </article>
+
+    <article class="dashboard-panel">
+      <div class="panel-header">
+        <h3>Student group risk snapshot</h3>
+      </div>
+
+      <div class="snapshot-chart">
+        <div class="snapshot-row" *ngFor="let item of studentGroupRiskSnapshot">
+          <span class="snapshot-row__label">{{ item.label }}</span>
+          <div class="snapshot-row__bar-track">
+            <div
+              class="snapshot-row__bar-fill"
+              [style.width]="getSnapshotWidth(item.value)"
+            ></div>
+          </div>
+          <span class="snapshot-row__value">{{ item.value }}</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="dashboard-panel">
+      <div class="panel-header">
+        <h3>Open actions and data warnings</h3>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Ref</th>
+              <th>Owner</th>
+              <th>Due</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let action of openActions">
+              <td>{{ action.ref }}</td>
+              <td>{{ action.owner }}</td>
+              <td>{{ action.due }}</td>
+              <td>
+                <span class="status-chip">{{ action.status }}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </section>
+</div>

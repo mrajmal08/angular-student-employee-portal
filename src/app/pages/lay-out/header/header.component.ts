@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { ApiClientService } from 'shared/services/api-client.service';
 import { ConfirmDialogComponent } from 'shared/dialogs/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { title } from 'process';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
@@ -14,6 +13,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class HeaderComponent {
   open = false;
   searchForm: FormGroup;
+  userName = this.apiClient.loginInfo?.result.name || 'Admin';
 
   constructor(
     private apiClient: ApiClientService,
@@ -48,8 +48,6 @@ export class HeaderComponent {
       this.closeDropdown();
     }
   }
-
-  userName = this.apiClient.loginInfo?.result.name; // Replace with actual authentication logic
 
   logout() {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {

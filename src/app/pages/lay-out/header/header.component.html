@@ -1,16 +1,15 @@
-<div class="header-container">
-  <div class="image-container">
-    <img src="assets/images/logo/logo.svg" alt="Logo" class="dash-logo">
-  </div>
-  <div class="action-container">
+<header class="topbar">
+  <div class="topbar-actions">
     <div class="search-container">
-      <div class="search-box">
-        <!-- <span class="search-icon">🔍</span> -->
-        <i class="search-icon bi bi-search"></i>
-
-        <input type="text" placeholder="Search Patient/Case" (focus)="open = true" />
-        <!-- <span class="dropdown-icon" (click)="toggleDropdown()">▼</span> -->
-        <i class="bi bi-chevron-down"></i>
+      <div class="search-box" (click)="open = true">
+        <i class="bi bi-search search-icon"></i>
+        <input
+          type="text"
+          placeholder="Search Patient/Case"
+          readonly
+          (focus)="open = true"
+        />
+        <i class="bi bi-chevron-down search-arrow" [class.search-arrow-open]="open"></i>
       </div>
 
       <div class="dropdown-form" *ngIf="open">
@@ -19,81 +18,73 @@
             <label>Patient Name</label>
             <input type="text" formControlName="patientName" />
           </div>
+
           <div class="form-group">
             <label>Case ID</label>
             <input type="text" formControlName="caseId" />
           </div>
-          <button type="submit">Search</button>
+
+          <button type="submit" class="search-submit">Search</button>
         </form>
       </div>
     </div>
 
+    <button class="icon-button info-button" type="button" aria-label="Information">
+      <i class="bi bi-info-circle-fill"></i>
+    </button>
 
+    <button class="icon-button" type="button" aria-label="Messages">
+      <i class="bi bi-envelope-fill"></i>
+    </button>
 
-    <div class="d-inline-block me-4 user-name">
-      <!-- <span class="bi bi-info-circle-fill" id="userMenu" aria-expanded="false" role="button"></span> -->
-      <i class="bi bi-info-circle-fill" style="color: #00b5e9;"></i>
+    <button class="icon-button" type="button" aria-label="Notifications">
+      <i class="bi bi-bell-fill"></i>
+    </button>
 
-      <img src="assets/images/student.jpg" class="profile-img me-2" alt="Profile Picture">
-      <span class="profile-name">{{ userName }}</span>
-    </div>
-
-    <span class="bi bi-envelope-fill user-name me-4"></span>
-    <span class="bi bi-bell-fill user-name me-4"></span>
-    <!-- <span class="bi bi-power user-name me-4" (click)="logout()"></span> -->
     <div class="dropdown">
-      <span class="bi bi-list-task" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false" role="button"></span>
+      <button
+        class="profile-trigger"
+        type="button"
+        id="userMenu"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        <img src="assets/images/student.jpg" class="profile-img" alt="Profile Picture" />
 
+        <span class="profile-copy">
+          <small>Welcome</small>
+          <span>{{ userName || 'Admin' }}</span>
+        </span>
 
-      <!-- <ul class="dropdown-menu " style="cursor: pointer;">
-        <li><a class="dropdown-item">Setting</a></li>
-        <li><a class="dropdown-item">Profile</a></li>
-        <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
-      </ul> -->
-
-      <ul class="dropdown-menu " style="cursor: pointer;">
-        <li><a class="dropdown-item">Setting</a></li>
-        <li>
-          <div class="custom-divider"></div>
-
-        </li>
-        <li><a class="dropdown-item">Profile</a></li>
-        <li>
-          <div class="custom-divider"></div>
-        </li>
-        <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
-      </ul>
-
-
-      <!-- <ul class="dropdown-menu" aria-labelledby="patientsDropdown">
-        <li><a class="dropdown-item" [routerLink]="['/users/list']">Users</a></li>
-        <li>
-          <div class="custom-divider"></div>
-
-        </li>
-        <li><a class="dropdown-item" [routerLink]="['/courses/list']">Courses</a></li>
-        <li>
-          <div class="custom-divider"></div>
-        </li>
-        <li><a class="dropdown-item" [routerLink]="['/status/list']">Status</a></li>
-      </ul>
-    </div> -->
-
-      <!-- <div class="dropdown">
-      <button class="btn btn-outline-secondary dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown"
-        aria-expanded="false">
-        <i class="bi bi-power"></i>
+        <i class="bi bi-chevron-down"></i>
       </button>
 
-      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-        <li><a class="dropdown-item" href="#">Profile</a></li>
-        <li><a class="dropdown-item" href="#" (click)="logout()">Logout</a></li>
+      <ul class="dropdown-menu dropdown-menu-end">
+        <li><a class="dropdown-item">Setting</a></li>
+        <li><div class="custom-divider"></div></li>
+        <li><a class="dropdown-item">Profile</a></li>
+        <li><div class="custom-divider"></div></li>
+        <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
       </ul>
-    </div> -->
+    </div>
 
+    <div class="dropdown">
+      <button
+        class="icon-button"
+        type="button"
+        id="quickMenu"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+        aria-label="Quick menu"
+      >
+        <i class="bi bi-list"></i>
+      </button>
 
-
-
-
+      <ul class="dropdown-menu dropdown-menu-end">
+        <li><a class="dropdown-item" [routerLink]="['/dashboard']">Dashboard</a></li>
+        <li><div class="custom-divider"></div></li>
+        <li><a class="dropdown-item" [routerLink]="['/reports/student-report']">Reports</a></li>
+      </ul>
     </div>
   </div>
+</header>

@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-lay-out',
@@ -7,12 +6,4 @@ import { Router } from '@angular/router';
   styleUrls: ['./lay-out.component.scss']
 })
 export class LayOutComponent {
-
-  userName = "Guest"; // Replace with actual authentication logic
-
-  logout() {
-    console.log("Logout clicked");
-    // Implement logout logic here
-  }
-
 }

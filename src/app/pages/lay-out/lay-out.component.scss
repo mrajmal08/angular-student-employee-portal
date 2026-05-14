@@ -1,5 +1,45 @@
-:host{
-  height: 100%;
+:host {
+  display: block;
   width: 100%;
+  min-height: 100vh;
+}
 
+.layout-shell {
+  display: flex;
+  min-height: 100vh;
+  background: #eef1f5;
+}
+
+.layout-sidebar {
+  width: 290px;
+  min-width: 290px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  align-self: flex-start;
+}
+
+.layout-main {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.layout-content {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 992px) {
+  .layout-shell {
+    flex-direction: column;
+  }
+
+  .layout-sidebar {
+    width: 100%;
+    min-width: 100%;
+    height: auto;
+    position: relative;
+  }
 }
