@@ -1,1 +1,99 @@
-<h1>Split Indicators</h1>
+<div class="split-indicators-page">
+  <div class="page-heading">
+    <h1>Split Indicators</h1>
+    <p>B3 &amp; Student Outcomes / Compliance Performance</p>
+  </div>
+
+  <section class="filter-bar">
+    <div class="filter-pill" *ngFor="let filter of filters">
+      <span>{{ filter.label }}:</span>
+      <strong>{{ filter.value }}</strong>
+    </div>
+  </section>
+
+  <section class="summary-strip">
+    <span class="summary-strip__item">
+      <strong>Measure:</strong>
+      Continuation
+    </span>
+    <span class="summary-strip__item summary-strip__item--accent">
+      <strong>Split:</strong>
+      Ethnicity
+    </span>
+    <span class="summary-strip__item summary-strip__item--muted">
+      <strong>Comparator:</strong>
+      Provider overall 84.6%
+    </span>
+  </section>
+
+  <section class="dashboard-grid">
+    <article class="dashboard-panel">
+      <div class="panel-header">
+        <h2>Risk gap by student group</h2>
+      </div>
+
+      <div class="group-chart">
+        <div class="group-chart__rows">
+          <div class="group-row" *ngFor="let group of studentGroups">
+            <span class="group-row__label">{{ group.label }}</span>
+
+            <div class="group-row__plot">
+              <div
+                class="group-row__bar"
+                [style.width]="getGapBarWidth(group.value)"
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="group-chart__axis">
+          <span *ngFor="let tick of gapAxisTicks">{{ tick }}</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="dashboard-panel">
+      <div class="panel-header">
+        <h2>Detailed comparison table</h2>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Group</th>
+              <th>Denom.</th>
+              <th>Numer.</th>
+              <th>Rate</th>
+              <th>Provider</th>
+              <th>Gap</th>
+              <th>Note</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let row of comparisonRows">
+              <td>{{ row.group }}</td>
+              <td>{{ row.denominator }}</td>
+              <td>{{ row.numerator }}</td>
+              <td>{{ row.rate }}</td>
+              <td>{{ row.provider }}</td>
+              <td>{{ row.gap }}</td>
+              <td>{{ row.note }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </section>
+
+  <section class="logic-panel">
+    <div class="panel-header">
+      <h2>Display logic used on this page</h2>
+    </div>
+
+    <ul class="logic-list">
+      <li *ngFor="let item of displayLogic">{{ item }}</li>
+    </ul>
+  </section>
+</div>

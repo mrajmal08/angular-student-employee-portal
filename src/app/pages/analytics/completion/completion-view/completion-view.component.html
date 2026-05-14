@@ -1,1 +1,270 @@
-<h1>Completion</h1>
+<div class="completion-page">
+  <div class="page-heading">
+    <h1>Completion</h1>
+    <p>B3 &amp; Student Outcomes / Compliance Performance</p>
+  </div>
+
+  <section class="filter-bar">
+    <div class="filter-pill" *ngFor="let filter of filters">
+      <span class="filter-label">{{ filter.label }}:</span>
+      <span class="filter-value">{{ filter.value }}</span>
+    </div>
+  </section>
+
+  <section class="summary-grid">
+    <article
+      class="summary-card"
+      *ngFor="let card of summaryCards"
+      [ngClass]="card.tone"
+    >
+      <span class="summary-card__badge">{{ card.label }}</span>
+      <h2>{{ card.value }}</h2>
+      <p>{{ card.detail }}</p>
+    </article>
+  </section>
+
+  <section class="content-grid content-grid--top">
+    <article class="dashboard-panel">
+      <div class="panel-header">
+        <h3>Completion pipeline</h3>
+      </div>
+
+      <div class="chart-frame chart-frame--pipeline">
+        <svg
+          [attr.viewBox]="'0 0 ' + pipelineChartWidth + ' ' + pipelineChartHeight"
+          preserveAspectRatio="xMidYMid meet"
+        >
+          <g class="grid-lines">
+            <line
+              *ngFor="let tick of pipelineTicks"
+              [attr.x1]="pipelineChartPadding.left"
+              [attr.x2]="pipelineChartWidth - pipelineChartPadding.right"
+              [attr.y1]="getPipelineTickY(tick)"
+              [attr.y2]="getPipelineTickY(tick)"
+            ></line>
+          </g>
+
+          <g class="axis-labels axis-labels--y">
+            <text
+              *ngFor="let tick of pipelineTicks"
+              [attr.x]="pipelineChartPadding.left - 8"
+              [attr.y]="getPipelineTickY(tick) + 4"
+              text-anchor="end"
+            >
+              {{ tick }}
+            </text>
+          </g>
+
+          <g class="axis-lines">
+            <line
+              [attr.x1]="pipelineChartPadding.left"
+              [attr.x2]="pipelineChartPadding.left"
+              [attr.y1]="pipelineChartPadding.top"
+              [attr.y2]="pipelineChartHeight - pipelineChartPadding.bottom"
+            ></line>
+            <line
+              [attr.x1]="pipelineChartPadding.left"
+              [attr.x2]="pipelineChartWidth - pipelineChartPadding.right"
+              [attr.y1]="pipelineChartHeight - pipelineChartPadding.bottom"
+              [attr.y2]="pipelineChartHeight - pipelineChartPadding.bottom"
+            ></line>
+          </g>
+
+          <g class="bar-group">
+            <g *ngFor="let item of pipelineItems; let index = index">
+              <rect
+                class="pipeline-bar"
+                [attr.x]="getPipelineBarX(index)"
+                [attr.y]="getPipelineBarY(item.value)"
+                [attr.width]="getPipelineBarWidth()"
+                [attr.height]="getPipelineBarHeight(item.value)"
+              ></rect>
+              <text
+                class="axis-labels axis-labels--x"
+                [attr.x]="getPipelineBarX(index) + getPipelineBarWidth() / 2"
+                [attr.y]="pipelineChartHeight - 10"
+                text-anchor="end"
+                [attr.transform]="'rotate(-24 ' + (getPipelineBarX(index) + getPipelineBarWidth() / 2) + ' ' + (pipelineChartHeight - 10) + ')'"
+              >
+                {{ item.label }}
+              </text>
+            </g>
+          </g>
+        </svg>
+      </div>
+    </article>
+
+    <article class="dashboard-panel">
+      <div class="panel-header">
+        <h3>Completion trend</h3>
+      </div>
+
+      <div class="chart-frame chart-frame--trend">
+        <svg
+          [attr.viewBox]="'0 0 ' + trendChartWidth + ' ' + trendChartHeight"
+          preserveAspectRatio="xMidYMid meet"
+        >
+          <g class="grid-lines">
+            <line
+              *ngFor="let tick of trendTicks"
+              [attr.x1]="trendChartPadding.left"
+              [attr.x2]="trendChartWidth - trendChartPadding.right"
+              [attr.y1]="getTrendY(tick)"
+              [attr.y2]="getTrendY(tick)"
+            ></line>
+          </g>
+
+          <g class="axis-lines">
+            <line
+              [attr.x1]="trendChartPadding.left"
+              [attr.x2]="trendChartPadding.left"
+              [attr.y1]="trendChartPadding.top"
+              [attr.y2]="trendChartHeight - trendChartPadding.bottom"
+            ></line>
+            <line
+              [attr.x1]="trendChartPadding.left"
+              [attr.x2]="trendChartWidth - trendChartPadding.right"
+              [attr.y1]="trendChartHeight - trendChartPadding.bottom"
+              [attr.y2]="trendChartHeight - trendChartPadding.bottom"
+            ></line>
+          </g>
+
+          <g class="axis-labels axis-labels--y">
+            <text
+              *ngFor="let tick of trendTicks"
+              [attr.x]="trendChartPadding.left - 8"
+              [attr.y]="getTrendY(tick) + 4"
+              text-anchor="end"
+            >
+              {{ tick }}
+            </text>
+          </g>
+
+          <polyline class="trend-line" [attr.points]="getTrendPoints()"></polyline>
+
+          <g class="trend-point-group">
+            <circle
+              *ngFor="let value of trendValues; let index = index"
+              [attr.cx]="getTrendX(index)"
+              [attr.cy]="getTrendY(value)"
+              r="4"
+            ></circle>
+          </g>
+
+          <g class="axis-labels axis-labels--x">
+            <text
+              *ngFor="let year of trendYears; let index = index"
+              [attr.x]="getTrendX(index)"
+              [attr.y]="trendChartHeight - 10"
+              text-anchor="middle"
+            >
+              {{ year }}
+            </text>
+          </g>
+        </svg>
+
+        <div class="chart-legend">
+          <span class="legend-dot"></span>
+          <span>Completion</span>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <section class="content-grid content-grid--bottom">
+    <article class="dashboard-panel">
+      <div class="panel-header">
+        <h3>Withdrawal reasons</h3>
+      </div>
+
+      <div class="chart-frame chart-frame--withdrawal">
+        <svg
+          [attr.viewBox]="'0 0 ' + withdrawalChartWidth + ' ' + withdrawalChartHeight"
+          preserveAspectRatio="xMidYMid meet"
+        >
+          <g class="grid-lines">
+            <line
+              *ngFor="let tick of withdrawalTicks"
+              [attr.x1]="withdrawalChartPadding.left"
+              [attr.x2]="withdrawalChartWidth - withdrawalChartPadding.right"
+              [attr.y1]="getWithdrawalTickY(tick)"
+              [attr.y2]="getWithdrawalTickY(tick)"
+            ></line>
+          </g>
+
+          <g class="axis-lines">
+            <line
+              [attr.x1]="withdrawalChartPadding.left"
+              [attr.x2]="withdrawalChartPadding.left"
+              [attr.y1]="withdrawalChartPadding.top"
+              [attr.y2]="withdrawalChartHeight - withdrawalChartPadding.bottom"
+            ></line>
+            <line
+              [attr.x1]="withdrawalChartPadding.left"
+              [attr.x2]="withdrawalChartWidth - withdrawalChartPadding.right"
+              [attr.y1]="withdrawalChartHeight - withdrawalChartPadding.bottom"
+              [attr.y2]="withdrawalChartHeight - withdrawalChartPadding.bottom"
+            ></line>
+          </g>
+
+          <g class="axis-labels axis-labels--y">
+            <text
+              *ngFor="let tick of withdrawalTicks"
+              [attr.x]="withdrawalChartPadding.left - 7"
+              [attr.y]="getWithdrawalTickY(tick) + 4"
+              text-anchor="end"
+            >
+              {{ tick }}
+            </text>
+          </g>
+
+          <g *ngFor="let item of withdrawalReasons; let index = index">
+            <rect
+              class="withdrawal-bar"
+              [attr.x]="getWithdrawalBarX(index)"
+              [attr.y]="getWithdrawalBarY(item.value)"
+              [attr.width]="getWithdrawalBarWidth()"
+              [attr.height]="getWithdrawalBarHeight(item.value)"
+            ></rect>
+            <text
+              class="axis-labels axis-labels--x"
+              [attr.x]="getWithdrawalBarX(index) + getWithdrawalBarWidth() / 2"
+              [attr.y]="withdrawalChartHeight - 10"
+              text-anchor="end"
+              [attr.transform]="'rotate(-24 ' + (getWithdrawalBarX(index) + getWithdrawalBarWidth() / 2) + ' ' + (withdrawalChartHeight - 10) + ')'"
+            >
+              {{ item.label }}
+            </text>
+          </g>
+        </svg>
+      </div>
+    </article>
+
+    <article class="dashboard-panel dashboard-panel--table">
+      <div class="panel-header">
+        <h3>Completion detail by outcome</h3>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Outcome type</th>
+              <th>Count</th>
+              <th>Share</th>
+              <th>Primary owner</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of detailRows">
+              <td>{{ row.outcomeType }}</td>
+              <td>{{ row.count }}</td>
+              <td>{{ row.share }}</td>
+              <td>{{ row.primaryOwner }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </section>
+</div>

@@ -1,184 +1,78 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
-import { ApiClientService } from 'shared/services/api-client.service';
-import { getUKFormatedDate } from 'shared/helpers/common-helper';
-import { ConfirmDialogComponent } from 'shared/dialogs/confirm-dialog/confirm-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
-import { ToastrService } from 'ngx-toastr';
-import { Status } from 'shared/models/status-model';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-split-indicators-view',
   templateUrl: './split-indicators-view.component.html',
   styleUrls: ['./split-indicators-view.component.scss'],
-  animations: [
-    trigger('collapseAnimation', [
-      state(
-        'collapsed',
-        style({
-          height: '0',
-          overflow: 'hidden',
-          opacity: '0',
-          margin: '0',
-        })
-      ),
-      state(
-        'expanded',
-        style({
-          height: '*',
-          opacity: '1',
-          margin: '*',
-        })
-      ),
-      transition('collapsed <=> expanded', [animate('300ms ease-out')]),
-    ]),
-  ],
 })
-export class SplitIndicatorsViewComponent implements OnInit {
-  page = {
-    perPage: 10,
-    page: 1,
-    total: 0,
-  };
-  perPageOptions = [10, 25, 50, 100];
-
-  // isCollapsed = true;      veriable for collapsed animation for filters (Unused currently)
-  filterForm!: FormGroup;
-
-  columns = [
-    { name: 'Status ID', prop: 'id' },
-    { name: 'Status Name', prop: 'name' },
-    { name: 'Status Description', prop: 'description' },
-    // { name: 'Created At', prop: 'created_at' },
-    { name: 'Created By', prop: 'created_by' },
-    { name: 'Updated By', prop: 'updated_by' },
+export class SplitIndicatorsViewComponent {
+  readonly filters = [
+    { label: 'Academic Year', value: '2025/26' },
+    { label: 'Mode', value: 'All' },
+    { label: 'Level', value: 'All' },
+    { label: 'Faculty', value: 'All' },
+    { label: 'Partner', value: 'All' },
+    { label: 'Characteristic', value: 'All' },
   ];
 
-  rows: Status[] = [];
-  constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private apiClient: ApiClientService,
-    private toastr: ToastrService,
-    private dialog: MatDialog
-  ) {
-    this.buildForm();
-  }
+  readonly studentGroups = [
+    { label: 'No known disability', value: 2.1 },
+    { label: 'White students', value: 1.1 },
+    { label: 'Mature 21+', value: 2.2 },
+    { label: 'Disabled students', value: 4.1 },
+    { label: 'Black students', value: 6.3 },
+  ];
 
-  ngOnInit(): void {
-    this.filterForm.controls['name'].valueChanges.subscribe((value) => {
-      if (value === '') {
-        this.getStatuses(value);
-      }
-    });
-    this.getStatuses();
-  }
+  readonly gapAxisTicks = [0, 2, 4, 6, 8];
+  readonly gapAxisMax = 8;
 
-  getStatuses(search: string = '') {
-    this.apiClient
-      .get('status', {
-        pagination: 1,
-        page: this.page.page,
-        per_page: this.page.perPage,
-        name: search ? search : '',
-      })
-      .subscribe((resp: any) => {
-        this.page.total = resp.result.total;
-        this.rows = resp.result.data.map(
-          (row: { created_at: string; updated_at: string }) => ({
-            ...row,
-            // created_at: getUKFormatedDate(row.created_at),
-          })
-        );
-      });
-  }
+  readonly comparisonRows = [
+    {
+      group: 'Asian students',
+      denominator: 164,
+      numerator: 141,
+      rate: '86.0%',
+      provider: '84.6%',
+      gap: '+1.4 pts',
+      note: 'Stable',
+    },
+    {
+      group: 'Black students',
+      denominator: 92,
+      numerator: 72,
+      rate: '78.4%',
+      provider: '84.6%',
+      gap: '-6.2 pts',
+      note: 'Caution',
+    },
+    {
+      group: 'Mixed ethnicity',
+      denominator: 44,
+      numerator: 37,
+      rate: '84.1%',
+      provider: '84.6%',
+      gap: '-0.5 pts',
+      note: 'Small N',
+    },
+    {
+      group: 'White students',
+      denominator: 318,
+      numerator: 273,
+      rate: '85.8%',
+      provider: '84.6%',
+      gap: '+1.2 pts',
+      note: 'Stable',
+    },
+  ];
 
-  buildForm() {
-    this.filterForm = this.fb.group({
-      name: [''],
-      description: [''],
-    });
-  }
+  readonly displayLogic = [
+    'Suppression applies below denominator 20; caution applies below denominator 50.',
+    'Users can switch the measure between continuation, completion and progression.',
+    'Gap is always shown against provider aggregate for the same filtered cohort.',
+    'Small groups can still appear in table view but receive a caution flag.',
+  ];
 
-  setPage(pageInfo: any) {
-    this.page.page = pageInfo.offset + 1;
-    this.getStatuses();
-  }
-
-  updatePerPage(event: any) {
-    this.page.perPage = event.target.value;
-    this.getStatuses();
-  }
-
-  getTotalPages(): number {
-    return Math.ceil(this.page.total / this.page.perPage);
-  }
-
-  onResetFilters() {
-    this.filterForm.controls['name'].setValue(null);
-    this.getStatuses();
-  }
-
-  onApplyFilters() {
-    this.getStatuses(this.filterForm.controls['name'].value);
-  }
-
-  addNewStatus() {
-    this.router.navigateByUrl(`/status/add`);
-  }
-
-  editStatus(row: any): void {
-    console.log('Edit Status:', row);
-    this.router.navigateByUrl(`/status/edit/${row.id}`, { state: { row } });
-  }
-
-  onDeleteStatus(row: any): void {
-    this.showAlert(
-      'warning',
-      'Delete Status?',
-      'Do you really want to delete this status.',
-      row.id
-    );
-  }
-
-  deleteStatus(id: number) {
-    this.apiClient
-      .get(`status/delete/${id}`)
-      .toPromise()
-      .then((resp) => {
-        this.toastr.success('Status Deleted successfully!', 'Success');
-        this.getStatuses();
-      })
-      .catch((err) => {
-        this.toastr.error(err.error.message, 'Error');
-      });
-  }
-
-  showAlert(type: string, title: string, message: string, id: number) {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '400px',
-      panelClass: 'custom-dialog-container',
-      backdropClass: 'custom-dialog-backdrop',
-      position: { top: '50%', left: '50%' },
-      data: { type: type, title: title, message: message },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.deleteStatus(id);
-      }
-    });
-  }
-
-  onCheckboxChange(event: Event, row: any) {
-    console.log('Event and row', event, row);
+  getGapBarWidth(value: number): string {
+    return `${(value / this.gapAxisMax) * 100}%`;
   }
 }

@@ -1,185 +1,145 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
-import { ApiClientService } from 'shared/services/api-client.service';
-import { getUKFormatedDate } from 'shared/helpers/common-helper';
-import { ToastrService } from 'ngx-toastr';
-import { ConfirmDialogComponent } from 'shared/dialogs/confirm-dialog/confirm-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
-import { Department } from 'shared/models/department-model';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-continuation-view',
   templateUrl: './continuation-view.component.html',
   styleUrls: ['./continuation-view.component.scss'],
-  animations: [
-    trigger('collapseAnimation', [
-      state(
-        'collapsed',
-        style({
-          height: '0',
-          overflow: 'hidden',
-          opacity: '0',
-          margin: '0',
-        })
-      ),
-      state(
-        'expanded',
-        style({
-          height: '*',
-          opacity: '1',
-          margin: '*',
-        })
-      ),
-      transition('collapsed <=> expanded', [animate('300ms ease-out')]),
-    ]),
-  ],
 })
-export class ContinuationViewComponent implements OnInit {
-  page = {
-    perPage: 10,
-    page: 1,
-    total: 0,
-  };
-  perPageOptions = [10, 25, 50, 100];
-
-  // isCollapsed = true;      veriable for collapsed animation for filters (Unused currently)
-  filterForm!: FormGroup;
-
-  columns = [
-    { name: 'Department ID', prop: 'id' },
-    { name: 'Department Name', prop: 'name' },
-    { name: 'Department Description', prop: 'description' },
-
-    // { name: 'Created At', prop: 'created_at' },
-    { name: 'Created By', prop: 'created_by' },
-    { name: 'Updated By', prop: 'updated_by' },
+export class ContinuationViewComponent {
+  readonly filters = [
+    { label: 'Academic Year', value: '2025/26' },
+    { label: 'Mode', value: 'All' },
+    { label: 'Level', value: 'All' },
+    { label: 'Faculty', value: 'All' },
+    { label: 'Partner', value: 'All' },
+    { label: 'Characteristic', value: 'All' },
   ];
 
-  rows: Department[] = [];
-  constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private apiClient: ApiClientService,
-    private toastr: ToastrService,
-    private dialog: MatDialog
-  ) {
-    this.buildForm();
-  }
+  readonly metricCards = [
+    {
+      label: 'Rate',
+      value: '84.6%',
+      detail: 'Denominator 720',
+      tone: 'rate',
+    },
+    {
+      label: 'Threshold',
+      value: '87.0%',
+      detail: 'By mode + level',
+      tone: 'threshold',
+    },
+    {
+      label: 'Gap',
+      value: '-2.4 pts',
+      detail: 'Worse than prior year by 1.5 pts',
+      tone: 'gap',
+    },
+    {
+      label: 'At-risk list',
+      value: '120',
+      detail: '92 active + 28 interrupted',
+      tone: 'risk',
+    },
+  ];
 
-  ngOnInit(): void {
-    this.filterForm.controls['name'].valueChanges.subscribe((value) => {
-      if (value === '') {
-        this.getDepartments();
-      }
-    });
-    this.getDepartments();
-  }
+  readonly trendYears = ['2021/22', '2022/23', '2023/24', '2024/25', '2025/26'];
+  readonly trendValues = [90.4, 89.6, 88.1, 86.2, 84.6];
+  readonly trendTicks = [40, 60, 80, 100];
+  readonly chartWidth = 470;
+  readonly chartHeight = 205;
+  readonly chartPadding = { top: 18, right: 28, bottom: 34, left: 34 };
 
-  getDepartments(search: string = '') {
-    this.apiClient
-      .get('departments', {
-        pagination: 1,
-        page: this.page.page,
-        per_page: this.page.perPage,
-        name: search ? search : '',
-      })
-      .subscribe((resp: any) => {
-        this.page.total = resp.result.total;
-        this.rows = resp.result.data.map(
-          (row: { created_at: string; updated_at: string }) => ({
-            ...row,
-            // created_at: getUKFormatedDate(row.created_at),
-          })
-        );
-      });
-  }
+  readonly continuationByCourse = [
+    { label: 'Engineering', value: 87 },
+    { label: 'Hospitality', value: 79 },
+    { label: 'Health & Social Care', value: 88 },
+    { label: 'Computing', value: 83 },
+    { label: 'Business Management', value: 80 },
+  ];
+  readonly courseAxisTicks = [70, 75, 80, 85, 90, 95];
+  readonly courseAxisMin = 70;
+  readonly courseAxisMax = 95;
 
-  buildForm() {
-    this.filterForm = this.fb.group({
-      name: [''],
-      // ssn4: ['', [Validators.minLength(4), Validators.maxLength(4)]],
-    });
-  }
+  readonly riskDrivers = [
+    { label: '<50%', count: 18 },
+    { label: '50-59%', count: 42 },
+    { label: '60-69%', count: 82 },
+    { label: '70-79%', count: 96 },
+    { label: '80%+', count: 401 },
+  ];
 
-  setPage(pageInfo: any) {
-    this.page.page = pageInfo.offset + 1;
-    this.getDepartments();
-  }
+  readonly atRiskStudents = [
+    {
+      studentId: 'ST24018',
+      course: 'BSc Business',
+      cohort: '2025/26',
+      status: 'Active',
+      attendance: '61%',
+      reason: 'Attendance < 70%',
+      owner: 'J. Khan',
+    },
+    {
+      studentId: 'ST25107',
+      course: 'BA Hospitality',
+      cohort: '2025/26',
+      status: 'Interrupted',
+      attendance: '54%',
+      reason: 'Repeated non-attendance',
+      owner: 'S. Patel',
+    },
+    {
+      studentId: 'ST23991',
+      course: 'BSc Computing',
+      cohort: '2024/25',
+      status: 'Active',
+      attendance: '68%',
+      reason: '3 missed submissions',
+      owner: 'A. Lewis',
+    },
+  ];
 
-  updatePerPage(event: any) {
-    this.page.perPage = event.target.value;
-    this.getDepartments();
-  }
+  getTrendX(index: number): number {
+    const availableWidth =
+      this.chartWidth - this.chartPadding.left - this.chartPadding.right;
 
-  getTotalPages(): number {
-    return Math.ceil(this.page.total / this.page.perPage);
-  }
+    if (this.trendYears.length === 1) {
+      return this.chartPadding.left + availableWidth / 2;
+    }
 
-  onResetFilters() {
-    this.filterForm.controls['name'].setValue(null);
-    this.getDepartments();
-  }
-  onApplyFilters() {
-    this.getDepartments(this.filterForm.controls['name'].value);
-  }
-
-  addNewDepartment() {
-    this.router.navigateByUrl(`/departments/add`);
-  }
-
-  editDepartment(row: any): void {
-    this.router.navigateByUrl(`/departments/edit/${row.id}`, {
-      state: { row },
-    });
-  }
-
-  onDeleteDepartment(row: any): void {
-    this.showAlert(
-      'warning',
-      'Delete Department?',
-      'Do you really want to delete this department.',
-      row.id
+    return (
+      this.chartPadding.left +
+      (availableWidth / (this.trendYears.length - 1)) * index
     );
   }
 
-  showAlert(type: string, title: string, message: string, id: number) {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '400px',
-      panelClass: 'custom-dialog-container',
-      backdropClass: 'custom-dialog-backdrop',
-      position: { top: '50%', left: '50%' },
-      data: { type: type, title: title, message: message },
-    });
+  getTrendY(value: number): number {
+    const min = 40;
+    const max = 100;
+    const availableHeight =
+      this.chartHeight - this.chartPadding.top - this.chartPadding.bottom;
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.deleteDepartment(id);
-      }
-    });
+    return (
+      this.chartPadding.top +
+      ((max - value) / (max - min)) * availableHeight
+    );
   }
 
-  deleteDepartment(id: number) {
-    this.apiClient
-      .get(`department/delete/${id}`)
-      .toPromise()
-      .then((resp) => {
-        this.toastr.success('Department Deleted successfully!', 'Success');
-        this.getDepartments();
-      })
-      .catch((err) => {
-        this.toastr.error(err.error.message, 'Error');
-      });
+  getTrendPoints(): string {
+    return this.trendValues
+      .map((value, index) => `${this.getTrendX(index)},${this.getTrendY(value)}`)
+      .join(' ');
   }
 
-  onCheckboxChange(event: Event, row: any) {
-    console.log('Event and row', event, row);
+  getCourseBarWidth(value: number): string {
+    const range = this.courseAxisMax - this.courseAxisMin;
+    const scaledValue = ((value - this.courseAxisMin) / range) * 100;
+
+    return `${Math.max(scaledValue, 0)}%`;
+  }
+
+  getRiskBarHeight(count: number): string {
+    const maxCount = Math.max(...this.riskDrivers.map((item) => item.count));
+
+    return `${(count / maxCount) * 100}%`;
   }
 }

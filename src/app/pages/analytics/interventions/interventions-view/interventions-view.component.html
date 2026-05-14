@@ -1,1 +1,81 @@
-<h1>Interventions</h1>
+<div class="interventions-page">
+  <div class="page-heading">
+    <h1>Interventions</h1>
+    <p>B3 &amp; Student Outcomes / Compliance Performance</p>
+  </div>
+
+  <section class="filter-bar">
+    <div class="filter-pill" *ngFor="let filter of filters">
+      <span>{{ filter.label }}:</span>
+      <strong>{{ filter.value }}</strong>
+    </div>
+  </section>
+
+  <section class="summary-grid">
+    <article
+      class="summary-card"
+      *ngFor="let card of summaryCards"
+      [ngClass]="card.tone"
+    >
+      <span class="summary-card__badge">{{ card.label }}</span>
+      <h2>{{ card.value }}</h2>
+      <p>{{ card.detail }}</p>
+    </article>
+  </section>
+
+  <section class="dashboard-panel">
+    <div class="panel-header">
+      <h3>Interventions and actions register</h3>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Action ID</th>
+            <th>Metric area</th>
+            <th>Action</th>
+            <th>Owner</th>
+            <th>Due date</th>
+            <th>Status</th>
+            <th>Evidence</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of registerRows">
+            <td>{{ row.actionId }}</td>
+            <td>{{ row.metricArea }}</td>
+            <td class="action-cell">{{ row.action }}</td>
+            <td>{{ row.owner }}</td>
+            <td>{{ row.dueDate }}</td>
+            <td>{{ row.status }}</td>
+            <td>
+              <button type="button" class="evidence-link">
+                {{ row.evidence }}
+              </button>
+            </td>
+          </tr>
+          <tr class="table-filler" aria-hidden="true">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="dashboard-panel behaviour-panel">
+    <div class="panel-header">
+      <h3>How this page behaves</h3>
+    </div>
+
+    <ul class="behaviour-list">
+      <li *ngFor="let note of behaviourNotes">{{ note }}</li>
+    </ul>
+  </section>
+</div>

@@ -1,1 +1,77 @@
-<h1>Methodology</h1>
+<div class="methodology-page">
+  <div class="page-heading">
+    <h1>Methodology</h1>
+    <p>B3 &amp; Student Outcomes / Compliance Performance</p>
+  </div>
+
+  <section class="filter-bar" aria-label="Methodology filters">
+    <div class="filter-pill" *ngFor="let filter of filters">
+      <span>{{ filter.label }}:</span>
+      <strong>{{ filter.value }}</strong>
+    </div>
+  </section>
+
+  <section class="content-grid content-grid--top">
+    <article class="dashboard-panel">
+      <div class="panel-header">
+        <h2>Logic and definitions</h2>
+      </div>
+
+      <ul class="logic-list">
+        <li *ngFor="let item of logicDefinitions">{{ item }}</li>
+      </ul>
+    </article>
+
+    <article class="dashboard-panel">
+      <div class="panel-header">
+        <h2>Version control and assumptions</h2>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of versionRows">
+              <td>{{ row.field }}</td>
+              <td>{{ row.value }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </section>
+
+  <section class="content-grid">
+    <article class="dashboard-panel dashboard-panel--full">
+      <div class="panel-header">
+        <h2>Core fields used across the module</h2>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Meaning</th>
+              <th>Source</th>
+              <th>Used in</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of coreFieldRows">
+              <td>{{ row.field }}</td>
+              <td>{{ row.meaning }}</td>
+              <td>{{ row.source }}</td>
+              <td>{{ row.usedIn }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </section>
+</div>

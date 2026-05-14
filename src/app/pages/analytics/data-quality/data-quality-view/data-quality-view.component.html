@@ -1,1 +1,123 @@
-<h1>Data Quality</h1>
+<div class="data-quality-page">
+  <div class="page-heading">
+    <h1>Data Quality</h1>
+    <p>B3 &amp; Student Outcomes / Compliance Performance</p>
+  </div>
+
+  <section class="filter-bar">
+    <div class="filter-pill" *ngFor="let filter of filters">
+      <span class="filter-label">{{ filter.label }}:</span>
+      <span class="filter-value">{{ filter.value }}</span>
+    </div>
+  </section>
+
+  <section class="summary-grid">
+    <article
+      class="summary-card"
+      *ngFor="let card of summaryCards"
+      [ngClass]="card.tone"
+    >
+      <span class="summary-card__badge">{{ card.label }}</span>
+      <h2>{{ card.value }}</h2>
+      <p>{{ card.detail }}</p>
+    </article>
+  </section>
+
+  <section class="content-grid">
+    <article class="dashboard-panel">
+      <div class="panel-header">
+        <h3>Field completeness</h3>
+      </div>
+
+      <div class="bar-chart">
+        <div class="bar-chart__y-axis">
+          <span *ngFor="let tick of chartTicks">{{ tick }}</span>
+        </div>
+
+        <div class="bar-chart__plot">
+          <div class="bar-chart__gridline bar-chart__gridline--top"></div>
+          <div class="bar-chart__gridline bar-chart__gridline--middle"></div>
+          <div class="bar-chart__gridline bar-chart__gridline--bottom"></div>
+
+          <div class="bar-chart__bars">
+            <div class="bar-chart__item" *ngFor="let item of fieldCompleteness">
+              <div class="bar-chart__column">
+                <div
+                  class="bar-chart__fill"
+                  [style.height]="getBarHeight(item.value)"
+                  [attr.aria-label]="item.label + ' ' + item.value + '%'"
+                ></div>
+              </div>
+              <span class="bar-chart__label">{{ item.label }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="dashboard-panel">
+      <div class="panel-header">
+        <h3>Source refresh status</h3>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Source feed</th>
+              <th>Last run</th>
+              <th>Status</th>
+              <th>Note</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of sourceRefreshStatus">
+              <td>{{ row.sourceFeed }}</td>
+              <td>{{ row.lastRun }}</td>
+              <td>
+                <span class="status-chip" [ngClass]="row.tone">{{ row.status }}</span>
+              </td>
+              <td>{{ row.note }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </section>
+
+  <section class="dashboard-panel dashboard-panel--full">
+    <div class="panel-header">
+      <h3>Issue log and reconciliation exceptions</h3>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Issue ID</th>
+            <th>Source</th>
+            <th>Issue type</th>
+            <th>Severity</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of issueLog">
+            <td>{{ row.issueId }}</td>
+            <td>{{ row.source }}</td>
+            <td>{{ row.issueType }}</td>
+            <td>{{ row.severity }}</td>
+            <td>{{ row.status }}</td>
+          </tr>
+          <tr class="table-row-placeholder">
+            <td>&nbsp;</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>

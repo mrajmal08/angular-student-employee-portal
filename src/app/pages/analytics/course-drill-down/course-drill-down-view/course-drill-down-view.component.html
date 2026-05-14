@@ -1,1 +1,239 @@
-<h1>Course Drill-Down</h1>
+<div class="course-drill-down-page">
+  <div class="page-heading">
+    <h1>Course Drill-down</h1>
+    <p>B3 &amp; Student Outcomes / Compliance Performance</p>
+  </div>
+
+  <section class="filter-bar">
+    <div class="filter-pill" *ngFor="let filter of filters">
+      <span class="filter-label">{{ filter.label }}:</span>
+      <span class="filter-value">{{ filter.value }}</span>
+    </div>
+  </section>
+
+  <section class="programme-card">
+    <h2>Programme profile: BSc Business Management</h2>
+
+    <div class="programme-badges">
+      <div class="programme-badge" *ngFor="let badge of programmeBadges">
+        <span class="programme-badge__label">{{ badge.label }}:</span>
+        <span class="programme-badge__value">{{ badge.value }}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-grid content-grid--charts">
+    <article class="dashboard-panel">
+      <div class="panel-header">
+        <h3>Metric trend for this programme</h3>
+      </div>
+
+      <div class="chart-frame chart-frame--trend">
+        <svg
+          [attr.viewBox]="'0 0 ' + trendChartWidth + ' ' + trendChartHeight"
+          preserveAspectRatio="xMidYMid meet"
+        >
+          <g class="grid-lines">
+            <line
+              *ngFor="let tick of trendTicks"
+              [attr.x1]="trendChartPadding.left"
+              [attr.x2]="trendChartWidth - trendChartPadding.right"
+              [attr.y1]="getTrendY(tick)"
+              [attr.y2]="getTrendY(tick)"
+            ></line>
+          </g>
+
+          <g class="axis-lines">
+            <line
+              [attr.x1]="trendChartPadding.left"
+              [attr.x2]="trendChartPadding.left"
+              [attr.y1]="trendChartPadding.top"
+              [attr.y2]="trendChartHeight - trendChartPadding.bottom"
+            ></line>
+            <line
+              [attr.x1]="trendChartPadding.left"
+              [attr.x2]="trendChartWidth - trendChartPadding.right"
+              [attr.y1]="trendChartHeight - trendChartPadding.bottom"
+              [attr.y2]="trendChartHeight - trendChartPadding.bottom"
+            ></line>
+          </g>
+
+          <g class="axis-labels axis-labels--y">
+            <text
+              *ngFor="let tick of trendTicks"
+              [attr.x]="trendChartPadding.left - 8"
+              [attr.y]="getTrendY(tick) + 4"
+              text-anchor="end"
+            >
+              {{ tick }}
+            </text>
+          </g>
+
+          <g class="series-group" *ngFor="let series of trendSeries">
+            <polyline
+              class="trend-line"
+              [attr.points]="getTrendPoints(series.values)"
+              [attr.stroke]="series.color"
+            ></polyline>
+            <circle
+              *ngFor="let value of series.values; let index = index"
+              [attr.cx]="getTrendX(index)"
+              [attr.cy]="getTrendY(value)"
+              [attr.fill]="series.color"
+              r="4"
+            ></circle>
+          </g>
+
+          <g class="axis-labels axis-labels--x">
+            <text
+              *ngFor="let year of trendYears; let index = index"
+              [attr.x]="getTrendX(index)"
+              [attr.y]="trendChartHeight - 12"
+              text-anchor="middle"
+            >
+              {{ year }}
+            </text>
+          </g>
+        </svg>
+
+        <div class="chart-legend">
+          <div class="legend-item" *ngFor="let series of trendSeries">
+            <span
+              class="legend-swatch"
+              [style.backgroundColor]="series.color"
+            ></span>
+            <span>{{ series.label }}</span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="dashboard-panel">
+      <div class="panel-header">
+        <h3>Programme risk composition</h3>
+      </div>
+
+      <div class="chart-frame chart-frame--risk">
+        <svg
+          [attr.viewBox]="'0 0 ' + riskChartWidth + ' ' + riskChartHeight"
+          preserveAspectRatio="xMidYMid meet"
+        >
+          <g class="grid-lines">
+            <line
+              *ngFor="let tick of riskTicks"
+              [attr.x1]="riskChartPadding.left"
+              [attr.x2]="riskChartWidth - riskChartPadding.right"
+              [attr.y1]="getRiskTickY(tick)"
+              [attr.y2]="getRiskTickY(tick)"
+            ></line>
+          </g>
+
+          <g class="axis-lines">
+            <line
+              [attr.x1]="riskChartPadding.left"
+              [attr.x2]="riskChartPadding.left"
+              [attr.y1]="riskChartPadding.top"
+              [attr.y2]="riskChartHeight - riskChartPadding.bottom"
+            ></line>
+            <line
+              [attr.x1]="riskChartPadding.left"
+              [attr.x2]="riskChartWidth - riskChartPadding.right"
+              [attr.y1]="riskChartHeight - riskChartPadding.bottom"
+              [attr.y2]="riskChartHeight - riskChartPadding.bottom"
+            ></line>
+          </g>
+
+          <g class="axis-labels axis-labels--y">
+            <text
+              *ngFor="let tick of riskTicks"
+              [attr.x]="riskChartPadding.left - 8"
+              [attr.y]="getRiskTickY(tick) + 4"
+              text-anchor="end"
+            >
+              {{ tick }}
+            </text>
+          </g>
+
+          <g *ngFor="let item of riskComposition; let index = index">
+            <rect
+              class="risk-bar"
+              [attr.x]="getRiskBarX(index)"
+              [attr.y]="getRiskBarY(item.value)"
+              [attr.width]="getRiskBarWidth()"
+              [attr.height]="getRiskBarHeight(item.value)"
+            ></rect>
+            <text
+              class="axis-labels axis-labels--x axis-labels--x-rotated"
+              [attr.x]="getRiskBarX(index) + getRiskBarWidth() / 2"
+              [attr.y]="riskChartHeight - 12"
+              text-anchor="end"
+              [attr.transform]="'rotate(-18 ' + (getRiskBarX(index) + getRiskBarWidth() / 2) + ' ' + (riskChartHeight - 12) + ')'"
+            >
+              {{ item.label }}
+            </text>
+          </g>
+        </svg>
+      </div>
+    </article>
+  </section>
+
+  <section class="content-grid content-grid--tables">
+    <article class="dashboard-panel dashboard-panel--table">
+      <div class="panel-header">
+        <h3>Related student list</h3>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Student ID</th>
+              <th>Stage</th>
+              <th>Attendance</th>
+              <th>Primary issue</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of relatedStudents">
+              <td>{{ row.studentId }}</td>
+              <td>{{ row.stage }}</td>
+              <td>{{ row.attendance }}</td>
+              <td>{{ row.primaryIssue }}</td>
+              <td>{{ row.status }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="dashboard-panel dashboard-panel--table">
+      <div class="panel-header">
+        <h3>Linked actions for programme owner</h3>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Action</th>
+              <th>Owner</th>
+              <th>Due</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of linkedActions">
+              <td>{{ row.action }}</td>
+              <td>{{ row.owner }}</td>
+              <td>{{ row.due }}</td>
+              <td>
+                <span class="status-chip">{{ row.status }}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </section>
+</div>

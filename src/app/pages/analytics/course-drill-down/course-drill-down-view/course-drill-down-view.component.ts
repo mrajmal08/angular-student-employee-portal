@@ -1,186 +1,178 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
-import { ApiClientService } from 'shared/services/api-client.service';
-import { getUKFormatedDate } from 'shared/helpers/common-helper';
-import { ToastrService } from 'ngx-toastr';
-import { ConfirmDialogComponent } from 'shared/dialogs/confirm-dialog/confirm-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
-import { Session } from 'shared/models/session-model';
-import { TaskStatus } from 'shared/models/taskStatus-model';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-course-drill-down-view',
   templateUrl: './course-drill-down-view.component.html',
   styleUrls: ['./course-drill-down-view.component.scss'],
-  animations: [
-    trigger('collapseAnimation', [
-      state(
-        'collapsed',
-        style({
-          height: '0',
-          overflow: 'hidden',
-          opacity: '0',
-          margin: '0',
-        })
-      ),
-      state(
-        'expanded',
-        style({
-          height: '*',
-          opacity: '1',
-          margin: '*',
-        })
-      ),
-      transition('collapsed <=> expanded', [animate('300ms ease-out')]),
-    ]),
-  ],
 })
-export class CourseDrillDownViewComponent implements OnInit {
-  page = {
-    perPage: 10,
-    page: 1,
-    total: 0,
-  };
-  perPageOptions = [10, 25, 50, 100];
-
-  // isCollapsed = true;      veriable for collapsed animation for filters (Unused currently)
-  filterForm!: FormGroup;
-
-  columns = [
-    { name: 'Task Priority ID', prop: 'id' },
-    { name: 'Task Priority Name', prop: 'name' },
-    { name: 'Description', prop: 'description' },
-
-    // { name: 'Created At', prop: 'created_at' },
-    { name: 'Created By', prop: 'created_by' },
-    { name: 'Updated By', prop: 'updated_by' },
+export class CourseDrillDownViewComponent {
+  readonly filters = [
+    { label: 'Academic Year', value: '2025/26' },
+    { label: 'Mode', value: 'All' },
+    { label: 'Level', value: 'All' },
+    { label: 'Faculty', value: 'All' },
+    { label: 'Partner', value: 'All' },
+    { label: 'Characteristic', value: 'All' },
   ];
 
-  rows: TaskStatus[] = [];
-  constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private apiClient: ApiClientService,
-    private toastr: ToastrService,
-    private dialog: MatDialog
-  ) {
-    this.buildForm();
-  }
+  readonly programmeBadges = [
+    { label: 'Mode', value: 'Full-time' },
+    { label: 'Level', value: 'First degree' },
+    { label: 'Partner', value: 'Direct delivery' },
+    { label: 'Students in scope', value: '184' },
+    { label: 'Continuation', value: '81.2%' },
+    { label: 'Completion', value: '76.9%' },
+    { label: 'Progression', value: '68.1%' },
+  ];
 
-  ngOnInit(): void {
-    this.filterForm.controls['name'].valueChanges.subscribe((value) => {
-      if (value === '') {
-        this.getTaskPriorities();
-      }
-    });
-    this.getTaskPriorities();
-  }
+  readonly trendYears = ['2021/22', '2022/23', '2023/24', '2024/25', '2025/26'];
+  readonly trendTicks = [40, 60, 80];
+  readonly trendSeries = [
+    {
+      label: 'Continuation',
+      color: '#3c76f3',
+      values: [86, 84, 83, 82, 80],
+    },
+    {
+      label: 'Completion',
+      color: '#2fb36e',
+      values: [79, 78, 77, 76, 75],
+    },
+    {
+      label: 'Progression',
+      color: '#e48926',
+      values: [71, 70, 69, 68, 68],
+    },
+  ];
 
-  getTaskPriorities(search: string = '') {
-    this.apiClient
-      .get('task_priority', {
-        pagination: 1,
-        page: this.page.page,
-        per_page: this.page.perPage,
-        name: search ? search : '',
-      })
-      .subscribe((resp: any) => {
-        this.page.total = resp.result.total;
-        this.rows = resp.result.data.map(
-          (row: { created_at: string; updated_at: string }) => ({
-            ...row,
-            // created_at: getUKFormatedDate(row.created_at),
-          })
-        );
-      });
-  }
+  readonly trendChartWidth = 420;
+  readonly trendChartHeight = 220;
+  readonly trendChartPadding = {
+    top: 20,
+    right: 18,
+    bottom: 42,
+    left: 44,
+  };
 
-  buildForm() {
-    this.filterForm = this.fb.group({
-      name: [''],
-      // ssn4: ['', [Validators.minLength(4), Validators.maxLength(4)]],
-    });
-  }
+  readonly riskComposition = [
+    { label: 'attendance', value: 43 },
+    { label: 'assessment', value: 29 },
+    { label: 'engagement', value: 18 },
+    { label: 'personal withdrawal', value: 9 },
+    { label: 'unknown', value: 6 },
+  ];
 
-  setPage(pageInfo: any) {
-    this.page.page = pageInfo.offset + 1;
-    this.getTaskPriorities();
-  }
+  readonly riskChartWidth = 420;
+  readonly riskChartHeight = 220;
+  readonly riskChartPadding = {
+    top: 16,
+    right: 18,
+    bottom: 62,
+    left: 44,
+  };
+  readonly riskTicks = [0, 10, 20, 30, 40];
 
-  updatePerPage(event: any) {
-    this.page.perPage = event.target.value;
-    this.getTaskPriorities();
-  }
+  readonly relatedStudents = [
+    {
+      studentId: 'ST24018',
+      stage: 'Year 1',
+      attendance: '61%',
+      primaryIssue: 'Missed 5 classes + no tutorial',
+      status: 'Open',
+    },
+    {
+      studentId: 'ST24122',
+      stage: 'Year 2',
+      attendance: '67%',
+      primaryIssue: '2 failed modules',
+      status: 'Open',
+    },
+  ];
 
-  getTotalPages(): number {
-    return Math.ceil(this.page.total / this.page.perPage);
-  }
+  readonly linkedActions = [
+    {
+      action: 'Business Yr1 attendance recovery plan',
+      owner: 'Dean Business',
+      due: '14 Feb 2026',
+      status: 'Active',
+    },
+    {
+      action: 'Resolve 19 unresolved board outcomes',
+      owner: 'Registry',
+      due: '10 Feb 2026',
+      status: 'Active',
+    },
+  ];
 
-  onResetFilters() {
-    this.filterForm.controls['name'].setValue(null);
-    this.getTaskPriorities();
-  }
-  onApplyFilters() {
-    this.getTaskPriorities(this.filterForm.controls['name'].value);
-  }
+  getTrendX(index: number): number {
+    const usableWidth =
+      this.trendChartWidth -
+      this.trendChartPadding.left -
+      this.trendChartPadding.right;
 
-  addNewTaskPriority() {
-    this.router.navigateByUrl(`/tasks-priority/add`);
-  }
+    if (this.trendYears.length === 1) {
+      return this.trendChartPadding.left + usableWidth / 2;
+    }
 
-  editTaskPriority(row: any): void {
-    this.router.navigateByUrl(`/tasks-priority/edit/${row.id}`, {
-      state: { row },
-    });
-  }
-
-  onDeleteTaskPriority(row: any): void {
-    this.showAlert(
-      'warning',
-      'Delete Task Priority?',
-      'Do you really want to delete this Task Priority.',
-      row.id
+    return (
+      this.trendChartPadding.left +
+      (usableWidth / (this.trendYears.length - 1)) * index
     );
   }
 
-  showAlert(type: string, title: string, message: string, id: number) {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '400px',
-      panelClass: 'custom-dialog-container',
-      backdropClass: 'custom-dialog-backdrop',
-      position: { top: '50%', left: '50%' },
-      data: { type: type, title: title, message: message },
-    });
+  getTrendY(value: number): number {
+    const chartFloor = this.trendChartHeight - this.trendChartPadding.bottom;
+    const usableHeight =
+      chartFloor - this.trendChartPadding.top;
+    const minValue = 40;
+    const maxValue = 90;
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.deleteTaskPriority(id);
-      }
-    });
+    return (
+      chartFloor - ((value - minValue) / (maxValue - minValue)) * usableHeight
+    );
   }
 
-  deleteTaskPriority(id: number) {
-    this.apiClient
-      .post(`task_priority/delete/${id}`)
-      .toPromise()
-      .then((resp) => {
-        this.toastr.success('Task Priority Deleted successfully!', 'Success');
-        this.getTaskPriorities();
-      })
-      .catch((err) => {
-        this.toastr.error(err.error.message, 'Error');
-      });
+  getTrendPoints(values: number[]): string {
+    return values
+      .map((value, index) => `${this.getTrendX(index)},${this.getTrendY(value)}`)
+      .join(' ');
   }
 
-  onCheckboxChange(event: Event, row: any) {
-    console.log('Event and row', event, row);
+  getRiskTickY(tick: number): number {
+    const chartFloor = this.riskChartHeight - this.riskChartPadding.bottom;
+    const usableHeight = chartFloor - this.riskChartPadding.top;
+    const maxValue = 45;
+
+    return chartFloor - (tick / maxValue) * usableHeight;
+  }
+
+  getRiskBarWidth(): number {
+    const usableWidth =
+      this.riskChartWidth -
+      this.riskChartPadding.left -
+      this.riskChartPadding.right;
+
+    return (usableWidth / this.riskComposition.length) * 0.72;
+  }
+
+  getRiskBarX(index: number): number {
+    const usableWidth =
+      this.riskChartWidth -
+      this.riskChartPadding.left -
+      this.riskChartPadding.right;
+    const slotWidth = usableWidth / this.riskComposition.length;
+    const barWidth = this.getRiskBarWidth();
+
+    return this.riskChartPadding.left + slotWidth * index + (slotWidth - barWidth) / 2;
+  }
+
+  getRiskBarY(value: number): number {
+    return this.getRiskTickY(value);
+  }
+
+  getRiskBarHeight(value: number): number {
+    const chartFloor = this.riskChartHeight - this.riskChartPadding.bottom;
+
+    return chartFloor - this.getRiskBarY(value);
   }
 }

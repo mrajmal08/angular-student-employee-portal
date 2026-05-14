@@ -1,183 +1,204 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
-import { ApiClientService } from 'shared/services/api-client.service';
-import { getUKFormatedDate } from 'shared/helpers/common-helper';
-import { ToastrService } from 'ngx-toastr';
-import { ConfirmDialogComponent } from 'shared/dialogs/confirm-dialog/confirm-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
-import { Session } from 'shared/models/session-model';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-progression-view',
   templateUrl: './progression-view.component.html',
   styleUrls: ['./progression-view.component.scss'],
-  animations: [
-    trigger('collapseAnimation', [
-      state(
-        'collapsed',
-        style({
-          height: '0',
-          overflow: 'hidden',
-          opacity: '0',
-          margin: '0',
-        })
-      ),
-      state(
-        'expanded',
-        style({
-          height: '*',
-          opacity: '1',
-          margin: '*',
-        })
-      ),
-      transition('collapsed <=> expanded', [animate('300ms ease-out')]),
-    ]),
-  ],
 })
-export class ProgressionViewComponent implements OnInit {
-  page = {
-    perPage: 10,
-    page: 1,
-    total: 0,
-  };
-  perPageOptions = [10, 25, 50, 100];
+export class ProgressionViewComponent {
+  readonly reportDate = '31 Jan 2026';
+  readonly reportRules = 'Rules v2.4';
 
-  // isCollapsed = true;      veriable for collapsed animation for filters (Unused currently)
-  filterForm!: FormGroup;
-
-  columns = [
-    { name: 'Session ID', prop: 'id' },
-    { name: 'Session Name', prop: 'name' },
-    { name: 'Description', prop: 'description' },
-
-    // { name: 'Created At', prop: 'created_at' },
-    { name: 'Created By', prop: 'created_by' },
-    { name: 'Updated By', prop: 'updated_by' },
+  readonly filters = [
+    { label: 'Academic Year', value: '2025/26' },
+    { label: 'Mode', value: 'All' },
+    { label: 'Level', value: 'All' },
+    { label: 'Faculty', value: 'All' },
+    { label: 'Partner', value: 'All' },
+    { label: 'Characteristic', value: 'All' },
   ];
 
-  rows: Session[] = [];
-  constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private apiClient: ApiClientService,
-    private toastr: ToastrService,
-    private dialog: MatDialog
-  ) {
-    this.buildForm();
+  readonly summaryCards = [
+    {
+      label: 'Positive outcome',
+      value: '72.4%',
+      detail: '379 positive / 523 known',
+      tone: 'positive',
+    },
+    {
+      label: 'Threshold',
+      value: '72.0%',
+      detail: 'Internal management benchmark',
+      tone: 'threshold',
+    },
+    {
+      label: 'Response rate',
+      value: '61.8%',
+      detail: '481 responded / 778 eligible',
+      tone: 'response-rate',
+    },
+    {
+      label: 'Contactability',
+      value: '78.7%',
+      detail: '612 contactable / 778 eligible',
+      tone: 'contactability',
+    },
+  ];
+
+  readonly funnelStages = [
+    { label: 'Eligible', value: 670 },
+    { label: 'Contactable', value: 612 },
+    { label: 'Responded', value: 481 },
+    { label: 'Positive', value: 379 },
+  ];
+
+  readonly trendYears = ['2021/22', '2022/23', '2023/24', '2024/25', '2025/26'];
+  readonly trendTicks = [40, 60, 80, 100];
+  readonly trendMin = 40;
+  readonly trendMax = 100;
+  readonly trendChartWidth = 430;
+  readonly trendChartHeight = 190;
+  readonly trendChartPadding = { top: 18, right: 18, bottom: 34, left: 34 };
+  readonly trendSeries = [
+    {
+      label: 'Progression',
+      colorClass: 'progression',
+      values: [73.2, 72.8, 72.0, 71.2, 72.4],
+    },
+    {
+      label: 'Response rate',
+      colorClass: 'response',
+      values: [69.6, 69.0, 66.2, 64.8, 61.8],
+    },
+  ];
+
+  readonly outcomeBreakdown = [
+    { label: 'Professional employment', value: 262 },
+    { label: 'Further study', value: 86 },
+    { label: 'Other positive', value: 31 },
+    { label: 'Caring', value: 38 },
+    { label: 'Unknown', value: 52 },
+    { label: 'Not known', value: 201 },
+  ];
+  readonly breakdownTicks = [0, 100, 200, 300];
+  readonly breakdownChartWidth = 320;
+  readonly breakdownChartHeight = 180;
+  readonly breakdownChartPadding = { top: 16, right: 12, bottom: 58, left: 34 };
+  readonly breakdownMaxValue = 300;
+
+  readonly detailRows = [
+    {
+      outcomeCategory: 'Professional employment',
+      count: 262,
+      share: '39.1%',
+      cohort: '2025 qualifiers',
+    },
+    {
+      outcomeCategory: 'Further study',
+      count: 86,
+      share: '12.8%',
+      cohort: '2025 qualifiers',
+    },
+    {
+      outcomeCategory: 'Other positive',
+      count: 31,
+      share: '4.6%',
+      cohort: '2025 qualifiers',
+    },
+  ];
+
+  getFunnelWidth(value: number): string {
+    const maxValue = this.funnelStages[0]?.value ?? 1;
+    const width = 32 + (value / maxValue) * 50;
+
+    return `${width}%`;
   }
 
-  ngOnInit(): void {
-    this.filterForm.controls['name'].valueChanges.subscribe((value) => {
-      if (value === '') {
-        this.getSessions();
-      }
-    });
-    this.getSessions();
-  }
+  getTrendX(index: number): number {
+    const usableWidth =
+      this.trendChartWidth -
+      this.trendChartPadding.left -
+      this.trendChartPadding.right;
 
-  getSessions(search: string = '') {
-    this.apiClient
-      .get('sessions', {
-        pagination: 1,
-        page: this.page.page,
-        per_page: this.page.perPage,
-        name: search ? search : '',
-      })
-      .subscribe((resp: any) => {
-        this.page.total = resp.result.total;
-        this.rows = resp.result.data.map(
-          (row: { created_at: string; updated_at: string }) => ({
-            ...row,
-            // created_at: getUKFormatedDate(row.created_at),
-          })
-        );
-      });
-  }
+    if (this.trendYears.length === 1) {
+      return this.trendChartPadding.left + usableWidth / 2;
+    }
 
-  buildForm() {
-    this.filterForm = this.fb.group({
-      name: [''],
-      // ssn4: ['', [Validators.minLength(4), Validators.maxLength(4)]],
-    });
-  }
-
-  setPage(pageInfo: any) {
-    this.page.page = pageInfo.offset + 1;
-    this.getSessions();
-  }
-
-  updatePerPage(event: any) {
-    this.page.perPage = event.target.value;
-    this.getSessions();
-  }
-
-  getTotalPages(): number {
-    return Math.ceil(this.page.total / this.page.perPage);
-  }
-
-  onResetFilters() {
-    this.filterForm.controls['name'].setValue(null);
-    this.getSessions();
-  }
-  onApplyFilters() {
-    this.getSessions(this.filterForm.controls['name'].value);
-  }
-
-  addNewSession() {
-    this.router.navigateByUrl(`/sessions/add`);
-  }
-
-  editSession(row: any): void {
-    this.router.navigateByUrl(`/sessions/edit/${row.id}`, { state: { row } });
-  }
-
-  onDeleteSession(row: any): void {
-    this.showAlert(
-      'warning',
-      'Delete Session?',
-      'Do you really want to delete this session.',
-      row.id
+    return (
+      this.trendChartPadding.left +
+      (usableWidth / (this.trendYears.length - 1)) * index
     );
   }
 
-  showAlert(type: string, title: string, message: string, id: number) {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '400px',
-      panelClass: 'custom-dialog-container',
-      backdropClass: 'custom-dialog-backdrop',
-      position: { top: '50%', left: '50%' },
-      data: { type: type, title: title, message: message },
-    });
+  getTrendY(value: number): number {
+    const usableHeight =
+      this.trendChartHeight -
+      this.trendChartPadding.top -
+      this.trendChartPadding.bottom;
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.deleteSession(id);
-      }
-    });
+    return (
+      this.trendChartPadding.top +
+      ((this.trendMax - value) / (this.trendMax - this.trendMin)) * usableHeight
+    );
   }
 
-  deleteSession(id: number) {
-    this.apiClient
-      .get(`session/delete/${id}`)
-      .toPromise()
-      .then((resp) => {
-        this.toastr.success('Session Deleted successfully!', 'Success');
-        this.getSessions();
-      })
-      .catch((err) => {
-        this.toastr.error(err.error.message, 'Error');
-      });
+  getTrendPoints(values: number[]): string {
+    return values
+      .map((value, index) => `${this.getTrendX(index)},${this.getTrendY(value)}`)
+      .join(' ');
   }
 
-  onCheckboxChange(event: Event, row: any) {
-    console.log('Event and row', event, row);
+  getBreakdownBarWidth(): number {
+    const usableWidth =
+      this.breakdownChartWidth -
+      this.breakdownChartPadding.left -
+      this.breakdownChartPadding.right;
+
+    return usableWidth / this.outcomeBreakdown.length - 12;
+  }
+
+  getBreakdownBarX(index: number): number {
+    const usableWidth =
+      this.breakdownChartWidth -
+      this.breakdownChartPadding.left -
+      this.breakdownChartPadding.right;
+    const step = usableWidth / this.outcomeBreakdown.length;
+
+    return this.breakdownChartPadding.left + index * step + 6;
+  }
+
+  getBreakdownBarY(value: number): number {
+    const usableHeight =
+      this.breakdownChartHeight -
+      this.breakdownChartPadding.top -
+      this.breakdownChartPadding.bottom;
+
+    return (
+      this.breakdownChartHeight -
+      this.breakdownChartPadding.bottom -
+      (value / this.breakdownMaxValue) * usableHeight
+    );
+  }
+
+  getBreakdownBarHeight(value: number): number {
+    const usableHeight =
+      this.breakdownChartHeight -
+      this.breakdownChartPadding.top -
+      this.breakdownChartPadding.bottom;
+
+    return (value / this.breakdownMaxValue) * usableHeight;
+  }
+
+  getBreakdownTickY(value: number): number {
+    const usableHeight =
+      this.breakdownChartHeight -
+      this.breakdownChartPadding.top -
+      this.breakdownChartPadding.bottom;
+
+    return (
+      this.breakdownChartHeight -
+      this.breakdownChartPadding.bottom -
+      (value / this.breakdownMaxValue) * usableHeight
+    );
   }
 }

@@ -1,1 +1,181 @@
-<h1>continuation</h1>
+<div class="continuation-page">
+  <div class="page-heading">
+    <h1>Continuation</h1>
+    <p>B3 &amp; Student Outcomes / Compliance Performance</p>
+  </div>
+
+  <section class="filter-bar">
+    <div class="filter-pill" *ngFor="let filter of filters">
+      <span>{{ filter.label }}:</span>
+      <strong>{{ filter.value }}</strong>
+    </div>
+  </section>
+
+  <section class="summary-grid">
+    <article
+      class="summary-card"
+      *ngFor="let card of metricCards"
+      [ngClass]="card.tone"
+    >
+      <span class="summary-card__badge">{{ card.label }}</span>
+      <h2>{{ card.value }}</h2>
+      <p>{{ card.detail }}</p>
+    </article>
+  </section>
+
+  <section class="content-grid content-grid--top">
+    <article class="dashboard-panel">
+      <div class="panel-header">
+        <h3>Continuation trend</h3>
+      </div>
+
+      <div class="trend-chart">
+        <svg
+          [attr.viewBox]="'0 0 ' + chartWidth + ' ' + chartHeight"
+          preserveAspectRatio="xMidYMid meet"
+        >
+          <g class="grid-lines">
+            <line
+              *ngFor="let tick of trendTicks"
+              [attr.x1]="chartPadding.left"
+              [attr.x2]="chartWidth - chartPadding.right"
+              [attr.y1]="getTrendY(tick)"
+              [attr.y2]="getTrendY(tick)"
+            ></line>
+          </g>
+
+          <g class="axis-labels axis-labels--y">
+            <text
+              *ngFor="let tick of trendTicks"
+              [attr.x]="chartPadding.left - 10"
+              [attr.y]="getTrendY(tick) + 4"
+              text-anchor="end"
+            >
+              {{ tick }}
+            </text>
+          </g>
+
+          <g class="trend-line-group">
+            <polyline
+              class="trend-line"
+              [attr.points]="getTrendPoints()"
+            ></polyline>
+
+            <circle
+              *ngFor="let value of trendValues; let index = index"
+              [attr.cx]="getTrendX(index)"
+              [attr.cy]="getTrendY(value)"
+              r="5"
+            ></circle>
+          </g>
+
+          <g class="axis-labels axis-labels--x">
+            <text
+              *ngFor="let year of trendYears; let index = index"
+              [attr.x]="getTrendX(index)"
+              [attr.y]="chartHeight - 10"
+              text-anchor="middle"
+            >
+              {{ year }}
+            </text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="chart-legend">
+        <span class="legend-dot"></span>
+        <span>continuation</span>
+      </div>
+    </article>
+
+    <article class="dashboard-panel">
+      <div class="panel-header">
+        <h3>Continuation by course</h3>
+      </div>
+
+      <div class="course-chart">
+        <div class="course-chart__rows">
+          <div class="course-row" *ngFor="let item of continuationByCourse">
+            <span class="course-row__label">{{ item.label }}</span>
+            <div class="course-row__plot">
+              <div
+                class="course-row__bar"
+                [style.width]="getCourseBarWidth(item.value)"
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="course-chart__axis">
+          <span *ngFor="let tick of courseAxisTicks">{{ tick }}</span>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <section class="content-grid content-grid--bottom">
+    <article class="dashboard-panel">
+      <div class="panel-header">
+        <h3>At-risk drivers</h3>
+      </div>
+
+      <div class="risk-chart">
+        <div class="risk-chart__plot">
+          <div class="risk-chart__grid-line" *ngFor="let tick of [0, 100, 200, 300, 400]">
+            <span>{{ tick }}</span>
+          </div>
+
+          <div class="risk-chart__bars">
+            <div class="risk-bar" *ngFor="let driver of riskDrivers">
+              <div
+                class="risk-bar__column"
+                [style.height]="getRiskBarHeight(driver.count)"
+              ></div>
+              <span class="risk-bar__label">{{ driver.label }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="dashboard-panel">
+      <div class="panel-header">
+        <h3>At-risk student list</h3>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Student ID</th>
+              <th>Course</th>
+              <th>Cohort</th>
+              <th>Status</th>
+              <th>Attendance</th>
+              <th>Risk reason</th>
+              <th>Owner</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let student of atRiskStudents">
+              <td>{{ student.studentId }}</td>
+              <td>{{ student.course }}</td>
+              <td>{{ student.cohort }}</td>
+              <td>
+                <span
+                  class="status-pill"
+                  [ngClass]="student.status.toLowerCase()"
+                >
+                  {{ student.status }}
+                </span>
+              </td>
+              <td>{{ student.attendance }}</td>
+              <td>{{ student.reason }}</td>
+              <td>{{ student.owner }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </section>
+</div>
